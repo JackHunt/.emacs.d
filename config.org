@@ -1,0 +1,359 @@
+#+TITLE: Emacs Config
+#+AUTHOR: Jack Hunt
+#+EMAIL: jackmileshunt@gmail.com
+
+* Global settings.
+Set up MELPA and =package=.
+#+BEGIN_SRC emacs-lisp
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(package-refresh-contents)
+(package-initialize)
+#+END_SRC
+
+Require =use-package=.
+#+BEGIN_SRC emacs-lisp
+(package-install 'use-package)
+(eval-when-compile
+    (require 'use-package))
+#+END_SRC
+
+Set Emacs to use Spaces instead of Tabs and set width.
+#+BEGIN_SRC emacs-lisp
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2)
+#+END_SRC
+
+Always compile and use the latest package versions.
+#+BEGIN_SRC emacs-lisp
+(use-package auto-compile
+    :ensure t
+    :config (auto-compile-on-load-mode))
+(setq load-prefer-newer t)
+#+END_SRC
+
+Set user information.
+#+BEGIN_SRC emacs-lisp
+(setq user-full-name "Jack Miles Hunt"
+      user-mail-address "jackmileshunt@gmail.com")
+#+END_SRC
+
+Disable menu and scroll bar.
+#+BEGIN_SRC emacs-lisp
+  (tool-bar-mode 0)
+  (menu-bar-mode 0)
+  (when window-system
+      (scroll-bar-mode -1))
+#+END_SRC
+
+Enable current line highlighting.
+#+BEGIN_SRC emacs-lisp
+(when window-system
+    (global-hl-line-mode))
+#+END_SRC
+
+Enable indication when exceeding 80 characters.
+#+BEGIN_SRC emacs-lisp
+(require 'whitespace)
+(setq-default
+    whitespace-line-column 80
+    whitespace-style '(face lines-tail))
+;;(add-hook 'prog-mode-hook #'whitespace-mode)
+;;(add-hook 'text-mode-hook #'whitespace-mode)
+(global-whitespace-mode)
+#+END_SRC
+
+Install and set theme.
+#+BEGIN_SRC emacs-lisp
+(use-package atom-one-dark-theme
+    :ensure t)
+(load-theme 'atom-one-dark t)
+
+;; make the fringe stand out from the background
+(setq solarized-distinct-fringe-background t)
+
+;; Don't change the font for some headings and titles
+(setq solarized-use-variable-pitch nil)
+
+;; make the modeline high contrast
+(setq solarized-high-contrast-mode-line t)
+
+;; Use less bolding
+(setq solarized-use-less-bold t)
+
+;; Use more italics
+(setq solarized-use-more-italic t)
+
+;; Use less colors for indicators such as git:gutter, flycheck and similar
+;;(setq solarized-emphasize-indicators nil)
+
+;; Don't change size of org-mode headlines (but keep other size-changes)
+;;(setq solarized-scale-org-headlines nil)
+
+;; Avoid all font-size changes
+(setq solarized-height-minus-1 1.0)
+(setq solarized-height-plus-1 1.0)
+(setq solarized-height-plus-2 1.0)
+(setq solarized-height-plus-3 1.0)
+(setq solarized-height-plus-4 1.0)
+#+END_SRC
+
+Highlight changes.
+#+BEGIN_SRC emacs-lisp
+(use-package diff-hl
+    :ensure t)
+#+END_SRC
+
+Set auto scroll for compilation buffer.
+#+BEGIN_SRC emacs-lisp
+  (setq compilation-scroll-output t)
+#+END_SRC
+
+Fix =#= key on a Mac.
+#+BEGIN_SRC emacs-lisp
+(if (eq system-type 'darwin)
+    (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
+)
+#+END_SRC
+* Org Mode
+Use alternative bullet display for =org=.
+#+BEGIN_SRC emacs-lisp
+(use-package org-bullets
+    :ensure t
+    :init
+    (add-hook 'org-mode-hook #'org-bullets-mode))
+(setq org-ellipsis "⤵")
+#+END_SRC
+
+Add =flyspell= hook.
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-mode-hook 'flyspell-mode)
+#+END_SRC
+
+Configure source code blocks.
+#+BEGIN_SRC emacs-lisp
+(setq org-src-fontify-natively t)
+(setq org-src-tab-acts-natively t)
+(setq org-src-window-setup 'current-window)
+#+END_SRC
+
+Fix quotations when exporting.
+#+BEGIN_SRC emacs-lisp
+(setq org-export-with-smart-quotes t)
+#+END_SRC
+
+** Archiving.
+Function to archive tasks marked =DONE=.
+#+BEGIN_SRC emacs-lisp
+(defun org-archive-done-tasks ()
+    (interactive)
+    (org-map-entries 'org-archive-subtree "/DONE" 'file))
+
+#+END_SRC
+
+* Helm
+Install =helm= if required and require =helm-config=.
+#+BEGIN_SRC emacs-lisp
+(use-package helm
+    :ensure t)
+(require 'helm-config)
+#+END_SRC
+
+Set =helm= key bindings.
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "M-x") #'helm-M-x)
+(global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
+(global-set-key (kbd "C-x C-f") #'helm-find-files)
+#+END_SRC
+
+Enable =helm-mode=.
+#+BEGIN_SRC emacs-lisp
+(helm-mode 1)
+#+END_SRC
+* Company Mode
+Install =company= if required.
+#+BEGIN_SRC emacs-lisp
+(use-package company
+    :ensure t)
+#+END_SRC
+
+Enable =company-mode= for all buffers.
+#+BEGIN_SRC emacs-lisp
+(add-hook 'after-init-hook 'global-company-mode)
+#+END_SRC
+* Flyspell.
+Install =flyspell= if required.
+#+BEGIN_SRC emacs-lisp
+(use-package flyspell
+    :ensure t)
+#+END_SRC
+
+Add hooks for text and programming modes.
+#+BEGIN_SRC emacs-lisp
+(dolist (hook '(text-mode-hook))
+    (add-hook hook (lambda () (flyspell-mode 1))))
+#+END_SRC
+
+* Flycheck
+Install =flycheck= if required and use globally.
+#+BEGIN_SRC emacs-lisp
+(use-package flycheck
+    :ensure t
+    :init (global-flycheck-mode))
+#+END_SRC
+* AucTeX
+Install =auctex= if required.
+#+BEGIN_SRC emacs-lisp
+(use-package auctex
+    :defer t
+    :ensure t)
+#+END_SRC
+
+Some basic =auctex= settings for automatic parsing.
+#+BEGIN_SRC emacs-lisp
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+#+END_SRC
+
+Add various =auctex= hooks.
+#+BEGIN_SRC emacs-lisp
+(add-hook 'LaTeX-mode-hook 'visual-line-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'flycheck-mode)
+(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+#+END_SRC
+
+Add =reftex= and output settings.
+#+BEGIN_SRC emacs-lisp
+(setq reftex-plug-into-AUCTeX t)
+(setq TeX-PDF-mode t)
+#+END_SRC
+* Magit(Git Interface)
+Install =magit= if required.
+#+BEGIN_SRC emacs-lisp
+(use-package magit
+    :ensure t)
+#+END_SRC
+
+Turn on =flyspell= for =magit=.
+#+BEGIN_SRC emacs-lisp
+(add-hook 'git-commit-mode-hook 'turn-on-flyspell)
+#+END_SRC
+
+* Language Settings.
+** Haskell.
+Install =haskell-mode= if required.
+#+BEGIN_SRC emacs-lisp
+(use-package haskell-mode
+    :ensure t)
+#+END_SRC
+
+Set up Haskell Function documentation and indentation.
+#+BEGIN_SRC emacs-lisp
+(add-hook 'haskell-mode-hook
+            (lambda ()
+              (haskell-doc-mode)
+              (turn-on-haskell-indent)))
+#+END_SRC
+
+Install =company-ghc= if required and add to =company-backends=.
+#+BEGIN_SRC emacs-lisp
+(use-package company-ghc
+    :ensure t)
+(add-to-list 'company-backends 'company-ghc)
+#+END_SRC
+
+Add =flycheck= hook.
+#+BEGIN_SRC emacs-lisp
+(add-hook 'haskell-mode-hook 'flycheck-mode)
+#+END_SRC
+** Python
+Install =elpy= if required and enable.
+#+BEGIN_SRC emacs-lisp
+;;(use-package elpy
+;;    :ensure t)
+;;(elpy-enable)
+#+END_SRC
+
+Add hook for =flycheck=.
+#+BEGIN_SRC emacs-lisp
+;;(add-hook 'elpy-mode-hook 'flycheck-mode)
+#+END_SRC
+
+Install =py-autopep8= is required for PEP8 formatting.
+#+BEGIN_SRC emacs-lisp
+;;(use-package py-autopep8
+;;    :ensure t)
+#+END_SRC
+
+Automatically format PEP8 on save and limit line len.
+#+BEGIN_SRC emacs-lisp
+;;(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+;;(setq py-autopep8-options '("--max-line-length=80"))
+#+END_SRC
+
+Install =company-jedi= for Python autocompletion.
+#+BEGIN_SRC emacs-lisp
+;(use-package company-jedi
+;    :ensure t)
+#+END_SRC
+
+Install =anaconda-mode=.
+#+BEGIN_SRC emacs-lisp
+(use-package anaconda-mode
+    :ensure t)
+(add-hook 'python-mode-hook 'anaconda-mode)
+#+END_SRC
+
+Install =company-anaconda=.
+#+BEGIN_SRC emacs-lisp
+(use-package company-anaconda
+    :ensure t)
+#+END_SRC
+
+Add =company-jedi= hooks and completion.
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'company-backends 'company-jedi)
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
+#+END_SRC
+** C/C++
+Add hooks for =flycheck= C and C++ mode.
+#+BEGIN_SRC emacs-lisp
+(add-hook 'c-mode-hook 
+    (lambda () (setq flycheck-clang-language-standard "C11")))
+
+(add-hook 'c++-mode-hook 
+    (lambda () (setq flycheck-clang-language-standard "c++11")))
+#+END_SRC
+
+*** CUDA
+Install =cuda-mode= if required.
+#+BEGIN_SRC emacs-lisp
+(use-package cuda-mode
+    :ensure t)
+#+END_SRC
+
+Add =flycheck= hook for CUDA.
+#+BEGIN_SRC emacs-lisp
+(add-hook 'cuda-mode-hook 
+    (lambda () (setq flycheck-clang-language-standard "c++11")))
+#+END_SRC
+** Org Mode Integration.
+Require =inf-haskell= and =ob-sh=.
+#+BEGIN_SRC emacs-lisp
+(require 'inf-haskell)
+(require 'ob-sh)
+#+END_SRC
+
+Enable =babel= language evaluation in =org=.
+#+BEGIN_SRC emacs-lisp
+(org-babel-do-load-languages
+    'org-babel-load-languages
+        '((emacs-lisp . t)
+          (haskell . t) ;; Needs lhs2tex
+          (python . t)
+          (sh . t)
+          (latex . t)))
+#+END_SRC
