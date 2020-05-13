@@ -344,7 +344,7 @@ Add =flycheck= hook for CUDA.
 Require =inf-haskell= and =ob-sh=.
 #+BEGIN_SRC emacs-lisp
 (require 'inf-haskell)
-(require 'ob-sh)
+(require 'ob-shell)
 #+END_SRC
 
 Enable =babel= language evaluation in =org=.
