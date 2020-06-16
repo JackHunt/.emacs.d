@@ -116,6 +116,24 @@ Fix =#= key on a Mac.
 )
 #+END_SRC
 
+* Flyspell.
+Install =flyspell= if required.
+#+BEGIN_SRC emacs-lisp
+(use-package flyspell
+    :ensure t)
+#+END_SRC
+
+Add hooks for text and programming modes.
+#+BEGIN_SRC emacs-lisp
+(dolist (hook '(text-mode-hook))
+    (add-hook hook (lambda () (flyspell-mode 1))))
+#+END_SRC
+
+Set dictionary.
+#+BEGIN_SRC emacs-lisp
+(setq ispell-dictionary "british")
+#+END_SRC
+
 * Org Mode
 Use alternative bullet display for =org=.
 #+BEGIN_SRC emacs-lisp
@@ -182,24 +200,6 @@ Install =company= if required.
 Enable =company-mode= for all buffers.
 #+BEGIN_SRC emacs-lisp
 (add-hook 'after-init-hook 'global-company-mode)
-#+END_SRC
-
-* Flyspell.
-Install =flyspell= if required.
-#+BEGIN_SRC emacs-lisp
-(use-package flyspell
-    :ensure t)
-#+END_SRC
-
-Add hooks for text and programming modes.
-#+BEGIN_SRC emacs-lisp
-(dolist (hook '(text-mode-hook))
-    (add-hook hook (lambda () (flyspell-mode 1))))
-#+END_SRC
-
-Set dictionary.
-#+BEGIN_SRC emacs-lisp
-(setq ispell-dictionary "british")
 #+END_SRC
 
 * Flycheck
