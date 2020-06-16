@@ -21,7 +21,7 @@ Require =use-package=.
 Set Emacs to use Spaces instead of Tabs and set width.
 #+BEGIN_SRC emacs-lisp
 (setq-default indent-tabs-mode nil)
-(setq-default tab-width 2)
+(setq-default tab-width 4)
 #+END_SRC
 
 Always compile and use the latest package versions.
