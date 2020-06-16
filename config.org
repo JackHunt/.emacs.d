@@ -161,7 +161,6 @@ Fix quotations when exporting.
 (setq org-export-with-smart-quotes t)
 #+END_SRC
 
-** Archiving.
 Function to archive tasks marked =DONE=.
 #+BEGIN_SRC emacs-lisp
 (defun org-archive-done-tasks ()
