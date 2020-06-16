@@ -18,7 +18,7 @@ Require =use-package=.
     (require 'use-package))
 #+END_SRC
 
-Set Emacs to use Spaces instead of Tabs and set width.
+Use Spaces instead of Tabs and set width.
 #+BEGIN_SRC emacs-lisp
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
@@ -115,6 +115,7 @@ Fix =#= key on a Mac.
     (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
 )
 #+END_SRC
+
 * Org Mode
 Use alternative bullet display for =org=.
 #+BEGIN_SRC emacs-lisp
@@ -170,6 +171,7 @@ Enable =helm-mode=.
 #+BEGIN_SRC emacs-lisp
 (helm-mode 1)
 #+END_SRC
+
 * Company Mode
 Install =company= if required.
 #+BEGIN_SRC emacs-lisp
@@ -181,6 +183,7 @@ Enable =company-mode= for all buffers.
 #+BEGIN_SRC emacs-lisp
 (add-hook 'after-init-hook 'global-company-mode)
 #+END_SRC
+
 * Flyspell.
 Install =flyspell= if required.
 #+BEGIN_SRC emacs-lisp
@@ -194,6 +197,11 @@ Add hooks for text and programming modes.
     (add-hook hook (lambda () (flyspell-mode 1))))
 #+END_SRC
 
+Set dictionary.
+#+BEGIN_SRC emacs-lisp
+(setq ispell-dictionary "british")
+#+END_SRC
+
 * Flycheck
 Install =flycheck= if required and use globally.
 #+BEGIN_SRC emacs-lisp
@@ -201,6 +209,7 @@ Install =flycheck= if required and use globally.
     :ensure t
     :init (global-flycheck-mode))
 #+END_SRC
+
 * AucTeX
 Install =auctex= if required.
 #+BEGIN_SRC emacs-lisp
