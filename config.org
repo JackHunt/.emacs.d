@@ -178,6 +178,11 @@ Install =helm= if required and require =helm-config=.
 (require 'helm-config)
 #+END_SRC
 
+Open =helm= inside the current window.
+#+BEGIN_SRC emacs-lisp
+(setq helm-split-window-in-side-p t)
+#+END_SRC
+
 Set =helm= key bindings.
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "M-x") #'helm-M-x)
