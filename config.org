@@ -381,6 +381,6 @@ Enable =babel= language evaluation in =org=.
         '((emacs-lisp . t)
           (haskell . t) ;; Needs lhs2tex
           (python . t)
-          (sh . t)
+          (shell . t)
           (latex . t)))
 #+END_SRC
