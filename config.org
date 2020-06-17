@@ -105,12 +105,6 @@ Install and set theme.
 (setq solarized-height-plus-4 1.0)
 #+END_SRC
 
-Highlight changes.
-#+BEGIN_SRC emacs-lisp
-(use-package diff-hl
-    :ensure t)
-#+END_SRC
-
 Set auto scroll for compilation buffer.
 #+BEGIN_SRC emacs-lisp
   (setq compilation-scroll-output t)
@@ -244,11 +238,24 @@ Add =reftex= and output settings.
 (setq reftex-plug-into-AUCTeX t)
 (setq TeX-PDF-mode t)
 #+END_SRC
-* Magit(Git Interface)
+* Magit
 Install =magit= if required.
 #+BEGIN_SRC emacs-lisp
 (use-package magit
     :ensure t)
+#+END_SRC
+
+* Diff-hl
+Ensure it's used.
+#+BEGIN_SRC emacs-lisp
+(use-package diff-hl
+    :ensure t)
+#+END_SRC
+
+Add Magit hooks.
+#+BEGIN_SRC emacs-lisp
+(add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+(add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
 #+END_SRC
 
 Turn on =flyspell= for =magit=.
