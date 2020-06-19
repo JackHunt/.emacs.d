@@ -4,3 +4,4 @@ elpa/
 melpa/
 transient/
 config.el
+.custom.el~
