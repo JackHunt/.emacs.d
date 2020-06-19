@@ -270,7 +270,7 @@ Turn on =flyspell= for =magit=.
 
 * Key Quiz
 Require and install =key-quiz=.
-#+BEGIN_SRC
+#+BEGIN_SRC emacs-lisp
 (use-package key-quiz
     :ensure t)
 #+END_SRC
