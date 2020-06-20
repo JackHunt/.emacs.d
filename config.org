@@ -211,6 +211,18 @@ Enable =helm-mode=.
 (helm-mode 1)
 #+END_SRC
 
+* CEDET (Collection of Emacs Development Environment Tools)
+Enable =CEDET= semantic mode.
+#+BEGIN_SRC emacs-lisp
+(require 'semantic)
+
+(global-semanticdb-minor-mode 1)
+(global-semantic-idle-scheduler-mode 1)
+
+(semantic-mode 1)
+(semantic-enable)
+#+END_SRC
+
 * Company Mode
 Install =company= if required.
 #+BEGIN_SRC emacs-lisp
