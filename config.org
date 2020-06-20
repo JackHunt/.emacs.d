@@ -230,6 +230,15 @@ Install =company= if required.
     :ensure t)
 #+END_SRC
 
+Add =CEDET= semantic and =yasnippet= backends.
+#+BEGIN_SRC emacs-lisp
+(defun company-semantic-setup ()
+  "Configure company-backends for company-semantic and company-yasnippet."
+  (delete 'company-irony company-backends)
+  (push '(company-semantic :with company-yasnippet) company-backends)
+  )
+#+END_SRC
+
 Enable =company-mode= for all buffers.
 #+BEGIN_SRC emacs-lisp
 (add-hook 'after-init-hook 'global-company-mode)
