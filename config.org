@@ -212,6 +212,11 @@ Enable =helm-mode=.
 #+END_SRC
 
 * CEDET (Collection of Emacs Development Environment Tools)
+Require =CEDET=.
+#+BEGIN_SRC emacs-lisp
+(require 'cedet-global)
+#+END_SRC
+
 Enable =CEDET= semantic mode.
 #+BEGIN_SRC emacs-lisp
 (require 'semantic)
