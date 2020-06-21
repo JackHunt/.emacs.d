@@ -200,9 +200,8 @@ Enable =babel= language evaluation in =org=.
           (latex . t)))
 #+END_SRC
 
-Require =inf-haskell= and =ob-sh=.
+Require =ob-sh=.
 #+BEGIN_SRC emacs-lisp
-(require 'inf-haskell)
 (require 'ob-shell)
 #+END_SRC
 
@@ -285,21 +284,26 @@ Enable globally.
 #+END_SRC
 
 ** Company Mode
-Install =company= if required.
+Install =company= if required and enable for all buffers.
 #+BEGIN_SRC emacs-lisp
 (use-package company
-    :ensure t)
+    :ensure t
+    :config
+        (progn
+        (add-hook 'after-init-hook 'global-company-mode)
+        (global-set-key (kbd "M-/") 'company-complete-common-or-cycle)
+        (setq company-idle-delay 0)))
 #+END_SRC
 
 Add =CEDET= semantic and =yasnippet= backends.
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'company-backends 'company-semantic)
+;(add-to-list 'company-backends 'company-semantic)
 (add-to-list 'company-backends 'company-yasnippet)
 #+END_SRC
 
 Enable =company-mode= for all buffers.
 #+BEGIN_SRC emacs-lisp
-(add-hook 'after-init-hook 'global-company-mode)
+;(add-hook 'after-init-hook 'global-company-mode)
 #+END_SRC
 
 ** Flycheck
@@ -398,6 +402,11 @@ Add =flycheck= hook.
 (add-hook 'haskell-mode-hook 'flycheck-mode)
 #+END_SRC
 
+Require =inf-haskell= for =org=.
+#+BEGIN_SRC emacs-lisp
+(require 'inf-haskell)
+#+END_SRC
+
 * Python
 Install =elpy= if required and enable.
 #+BEGIN_SRC emacs-lisp
@@ -425,8 +434,8 @@ Automatically format PEP8 on save and limit line len.
 
 Install =company-jedi= for Python autocompletion.
 #+BEGIN_SRC emacs-lisp
-;(use-package company-jedi
-;    :ensure t)
+;;(use-package company-jedi
+;;    :ensure t)
 #+END_SRC
 
 Install =anaconda-mode=.
@@ -450,7 +459,7 @@ Add =company-jedi= hooks and completion.
 #+END_SRC
 
 * C/C++
-** Syntax Checking
+** Flyspell Hooks
 Add hooks for =flycheck= C and C++ mode.
 #+BEGIN_SRC emacs-lisp
 (add-hook 'c-mode-hook 
@@ -460,13 +469,67 @@ Add hooks for =flycheck= C and C++ mode.
     (lambda () (setq flycheck-clang-language-standard "c++11")))
 #+END_SRC
 
-** Code Indexing
-Install =company-c-headers=.
+** Irony Mode
+Install =irony=.
 #+BEGIN_SRC emacs-lisp
-(use-package company-c-headers
+(use-package irony
     :ensure t)
+#+END_SRC
 
-(add-to-list 'company-backends 'company-c-headers)
+Install Irony server if not found.
+#+BEGIN_SRC emacs-lisp
+(unless (irony--find-server-executable) (call-interactively #'irony-install-server))
+#+END_SRC
+
+Setup hooks.
+#+BEGIN_SRC emacs-lisp
+(add-hook 'c++-mode-hook 'irony-mode)
+(add-hook 'c-mode-hook 'irony-mode)
+
+(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+#+END_SRC
+
+Set databases.
+#+BEGIN_SRC emacs-lisp
+(setq-default irony-cdb-compilation-databases '(irony-cdb-libclang
+                                                irony-cdb-clang-complete))
+#+END_SRC
+
+Set =irony= as a =company= backend.
+#+BEGIN_SRC emacs-lisp
+(req-package company-irony
+    :require company irony
+    :config
+    (progn
+        (eval-after-load 'company '(add-to-list 'company-backends 'company-irony))))
+#+END_SRC
+
+Add =flycheck= hook.
+#+BEGIN_SRC emacs-lisp
+(req-package flycheck-irony
+    :require flycheck irony
+    :config
+    (progn
+        (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))))
+#+END_SRC
+
+Add =eldoc= hook.
+#+BEGIN_SRC emacs-lisp
+(req-package irony-eldoc
+    :require eldoc irony
+    :config
+    (progn
+        (add-hook 'irony-mode-hook #'irony-eldoc)))
+#+END_SRC
+
+Windows specific setup.
+#+BEGIN_SRC emacs-lisp
+(when (boundp 'w32-pipe-read-delay)
+    (setq w32-pipe-read-delay 0))
+
+;; Set the buffer size to 64K on Windows (from the original 4K)
+(when (boundp 'w32-pipe-buffer-size)
+    (setq irony-server-w32-pipe-buffer-size (* 64 1024)))
 #+END_SRC
 
 * CUDA
