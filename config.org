@@ -225,7 +225,6 @@ Enable =CEDET= semantic mode.
 (global-semantic-idle-scheduler-mode 1)
 
 (semantic-mode 1)
-(semantic-enable)
 #+END_SRC
 
 * Company Mode
