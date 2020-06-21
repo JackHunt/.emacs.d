@@ -2,7 +2,8 @@
 #+AUTHOR: Jack Hunt
 #+EMAIL: jackmileshunt@gmail.com
 
-* Global settings.
+* Global settings
+** Packaging
 Don't write out to =init.el=.
 #+BEGIN_SRC emacs-lisp
 (setq-default custom-file (expand-file-name ".custom.el" user-emacs-directory))
@@ -39,6 +40,7 @@ Always compile and use the latest package versions.
 (setq load-prefer-newer t)
 #+END_SRC
 
+** UI
 Set user information.
 #+BEGIN_SRC emacs-lisp
 (setq user-full-name "Jack Miles Hunt"
@@ -110,6 +112,7 @@ Set auto scroll for compilation buffer.
   (setq compilation-scroll-output t)
 #+END_SRC
 
+** Key Bindings.
 Fix =#= key on a Mac.
 #+BEGIN_SRC emacs-lisp
 (if (eq system-type 'darwin)
@@ -133,7 +136,8 @@ Disable arrow keys.
 (global-unset-key (kbd "<M-down>"))
 #+END_SRC
 
-* Flyspell.
+* Language Agnostic Packages
+** Flyspell.
 Install =flyspell= if required.
 #+BEGIN_SRC emacs-lisp
 (use-package flyspell
@@ -151,7 +155,7 @@ Set dictionary.
 (setq ispell-dictionary "british")
 #+END_SRC
 
-* Org Mode
+** Org Mode
 Use alternative bullet display for =org=.
 #+BEGIN_SRC emacs-lisp
 (use-package org-bullets
@@ -183,10 +187,26 @@ Function to archive tasks marked =DONE=.
 (defun org-archive-done-tasks ()
     (interactive)
     (org-map-entries 'org-archive-subtree "/DONE" 'file))
-
 #+END_SRC
 
-* Helm
+Enable =babel= language evaluation in =org=.
+#+BEGIN_SRC emacs-lisp
+(org-babel-do-load-languages
+    'org-babel-load-languages
+        '((emacs-lisp . t)
+          (haskell . t) ;; Needs lhs2tex
+          (python . t)
+          (shell . t)
+          (latex . t)))
+#+END_SRC
+
+Require =inf-haskell= and =ob-sh=.
+#+BEGIN_SRC emacs-lisp
+(require 'inf-haskell)
+(require 'ob-shell)
+#+END_SRC
+
+** Helm
 Install =helm= if required and require =helm-config=.
 #+BEGIN_SRC emacs-lisp
 (use-package helm
@@ -211,7 +231,7 @@ Enable =helm-mode=.
 (helm-mode 1)
 #+END_SRC
 
-* CEDET (Collection of Emacs Development Environment Tools)
+** CEDET (Collection of Emacs Development Environment Tools)
 Require =CEDET=.
 #+BEGIN_SRC emacs-lisp
 (require 'cedet-global)
@@ -249,7 +269,7 @@ Example =cc-mode-projects.el=.
 					     "sys_include2"))
 #+END_SRC
 
-* Yasnippet
+** Yasnippet
 Install =yasnippet= and =yasnippet-snippets=.
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
@@ -264,7 +284,7 @@ Enable globally.
 (yas-global-mode 1)
 #+END_SRC
 
-* Company Mode
+** Company Mode
 Install =company= if required.
 #+BEGIN_SRC emacs-lisp
 (use-package company
@@ -282,7 +302,7 @@ Enable =company-mode= for all buffers.
 (add-hook 'after-init-hook 'global-company-mode)
 #+END_SRC
 
-* Flycheck
+** Flycheck
 Install =flycheck= if required and use globally.
 #+BEGIN_SRC emacs-lisp
 (use-package flycheck
@@ -290,7 +310,39 @@ Install =flycheck= if required and use globally.
     :init (global-flycheck-mode))
 #+END_SRC
 
-* AucTeX
+** Magit
+Install =magit= if required.
+#+BEGIN_SRC emacs-lisp
+(use-package magit
+    :ensure t)
+#+END_SRC
+
+** Diff-hl
+Ensure it's used.
+#+BEGIN_SRC emacs-lisp
+(use-package diff-hl
+    :ensure t)
+#+END_SRC
+
+Add Magit hooks.
+#+BEGIN_SRC emacs-lisp
+(add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+(add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+#+END_SRC
+
+Turn on =flyspell= for =magit=.
+#+BEGIN_SRC emacs-lisp
+(add-hook 'git-commit-mode-hook 'turn-on-flyspell)
+#+END_SRC
+
+** Key Quiz
+Require and install =key-quiz=.
+#+BEGIN_SRC emacs-lisp
+(use-package key-quiz
+    :ensure t)
+#+END_SRC
+
+* LaTeX
 Install =auctex= if required.
 #+BEGIN_SRC emacs-lisp
 (use-package auctex
@@ -318,40 +370,8 @@ Add =reftex= and output settings.
 (setq reftex-plug-into-AUCTeX t)
 (setq TeX-PDF-mode t)
 #+END_SRC
-* Magit
-Install =magit= if required.
-#+BEGIN_SRC emacs-lisp
-(use-package magit
-    :ensure t)
-#+END_SRC
 
-* Diff-hl
-Ensure it's used.
-#+BEGIN_SRC emacs-lisp
-(use-package diff-hl
-    :ensure t)
-#+END_SRC
-
-Add Magit hooks.
-#+BEGIN_SRC emacs-lisp
-(add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-(add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-#+END_SRC
-
-Turn on =flyspell= for =magit=.
-#+BEGIN_SRC emacs-lisp
-(add-hook 'git-commit-mode-hook 'turn-on-flyspell)
-#+END_SRC
-
-* Key Quiz
-Require and install =key-quiz=.
-#+BEGIN_SRC emacs-lisp
-(use-package key-quiz
-    :ensure t)
-#+END_SRC
-
-* Language Settings.
-** Haskell.
+* Haskell.
 Install =haskell-mode= if required.
 #+BEGIN_SRC emacs-lisp
 (use-package haskell-mode
@@ -377,7 +397,8 @@ Add =flycheck= hook.
 #+BEGIN_SRC emacs-lisp
 (add-hook 'haskell-mode-hook 'flycheck-mode)
 #+END_SRC
-** Python
+
+* Python
 Install =elpy= if required and enable.
 #+BEGIN_SRC emacs-lisp
 ;;(use-package elpy
@@ -437,7 +458,7 @@ Add hooks for =flycheck= C and C++ mode.
     (lambda () (setq flycheck-clang-language-standard "c++11")))
 #+END_SRC
 
-*** CUDA
+* CUDA
 Install =cuda-mode= if required.
 #+BEGIN_SRC emacs-lisp
 (use-package cuda-mode
@@ -448,21 +469,4 @@ Add =flycheck= hook for CUDA.
 #+BEGIN_SRC emacs-lisp
 (add-hook 'cuda-mode-hook 
     (lambda () (setq flycheck-clang-language-standard "c++11")))
-#+END_SRC
-** Org Mode Integration.
-Require =inf-haskell= and =ob-sh=.
-#+BEGIN_SRC emacs-lisp
-(require 'inf-haskell)
-(require 'ob-shell)
-#+END_SRC
-
-Enable =babel= language evaluation in =org=.
-#+BEGIN_SRC emacs-lisp
-(org-babel-do-load-languages
-    'org-babel-load-languages
-        '((emacs-lisp . t)
-          (haskell . t) ;; Needs lhs2tex
-          (python . t)
-          (shell . t)
-          (latex . t)))
 #+END_SRC
