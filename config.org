@@ -234,9 +234,10 @@ Install =company= if required.
     :ensure t)
 #+END_SRC
 
-Add =CEDET= semantic backend.
+Add =CEDET= semantic and =yasnippet= backends.
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'company-backends 'company-semantic)
+(add-to-list 'company-backends 'company-yasnippet)
 #+END_SRC
 
 Enable =company-mode= for all buffers.
