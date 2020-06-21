@@ -6,3 +6,5 @@ transient/
 config.el
 .custom.el~
 ede-projects.el
+irony/
+projectile-bookmarks.eld
