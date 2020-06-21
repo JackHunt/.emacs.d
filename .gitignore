@@ -5,3 +5,4 @@ melpa/
 transient/
 config.el
 .custom.el~
+ede-projects.el
