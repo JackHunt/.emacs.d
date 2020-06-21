@@ -227,6 +227,13 @@ Enable =CEDET= semantic mode.
 (semantic-mode 1)
 #+END_SRC
 
+* Yasnippet
+Install =yasnippet=.
+#+BEGIN_SRC emacs-lisp
+(use-package yasnippet
+    :ensure t)
+#+END_SRC
+
 * Company Mode
 Install =company= if required.
 #+BEGIN_SRC emacs-lisp
