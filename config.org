@@ -339,6 +339,15 @@ Turn on =flyspell= for =magit=.
 (add-hook 'git-commit-mode-hook 'turn-on-flyspell)
 #+END_SRC
 
+** Projectile.
+Install =projectile= and globally enable.
+#+BEGIN_SRC emacs-lisp
+(use-package projectile
+    :ensure t)
+
+(projectile-global-mode)
+#+END_SRC
+
 ** Key Quiz
 Require and install =key-quiz=.
 #+BEGIN_SRC emacs-lisp
