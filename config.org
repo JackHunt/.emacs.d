@@ -497,8 +497,8 @@ Set databases.
 
 Set =irony= as a =company= backend.
 #+BEGIN_SRC emacs-lisp
-(req-package company-irony
-    :require company irony
+(use-package company-irony
+    :ensure t
     :config
     (progn
         (eval-after-load 'company '(add-to-list 'company-backends 'company-irony))))
@@ -506,8 +506,8 @@ Set =irony= as a =company= backend.
 
 Add =flycheck= hook.
 #+BEGIN_SRC emacs-lisp
-(req-package flycheck-irony
-    :require flycheck irony
+(use-package flycheck-irony
+    :ensure t
     :config
     (progn
         (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))))
@@ -515,8 +515,8 @@ Add =flycheck= hook.
 
 Add =eldoc= hook.
 #+BEGIN_SRC emacs-lisp
-(req-package irony-eldoc
-    :require eldoc irony
+(use-package irony-eldoc
+    :ensure t
     :config
     (progn
         (add-hook 'irony-mode-hook #'irony-eldoc)))
@@ -531,6 +531,9 @@ Windows specific setup.
 (when (boundp 'w32-pipe-buffer-size)
     (setq irony-server-w32-pipe-buffer-size (* 64 1024)))
 #+END_SRC
+
+** RTags
+TODO
 
 * CUDA
 Install =cuda-mode= if required.
