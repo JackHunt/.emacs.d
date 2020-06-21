@@ -448,7 +448,9 @@ Add =company-jedi= hooks and completion.
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)
 #+END_SRC
-** C/C++
+
+* C/C++
+** Syntax Checking
 Add hooks for =flycheck= C and C++ mode.
 #+BEGIN_SRC emacs-lisp
 (add-hook 'c-mode-hook 
@@ -456,6 +458,15 @@ Add hooks for =flycheck= C and C++ mode.
 
 (add-hook 'c++-mode-hook 
     (lambda () (setq flycheck-clang-language-standard "c++11")))
+#+END_SRC
+
+** Code Indexing
+Install =company-c-headers=.
+#+BEGIN_SRC emacs-lisp
+(use-package company-c-headers
+    :ensure t)
+
+(add-to-list 'company-backends 'company-c-headers)
 #+END_SRC
 
 * CUDA
