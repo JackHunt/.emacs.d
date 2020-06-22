@@ -136,6 +136,18 @@ Disable arrow keys.
 (global-unset-key (kbd "<M-down>"))
 #+END_SRC
 
+* Non Programming Packages
+** ERC
+Require =erc=.
+#+BEGIN_SRC emacs-lisp
+(require 'erc)
+#+END_SRC
+
+Load authentication details.
+#+BEGIN_SRC emacs-lisp
+(load (expand-file-name ".erc-auth" user-emacs-directory)))
+#+END_SRC
+
 * Language Agnostic Packages
 ** Flyspell.
 Install =flyspell= if required.
