@@ -145,7 +145,7 @@ Require =erc=.
 
 Load authentication details.
 #+BEGIN_SRC emacs-lisp
-(load (expand-file-name ".erc-auth" user-emacs-directory)))
+(load (expand-file-name ".erc-auth" user-emacs-directory))
 #+END_SRC
 
 * Language Agnostic Packages
