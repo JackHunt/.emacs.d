@@ -148,11 +148,16 @@ Load authentication details.
 (load (expand-file-name ".erc-auth" user-emacs-directory))
 #+END_SRC
 
-Add key command to connect to freenode.
+Add key command to connect to Freenode.
 #+BEGIN_SRC emacs-lisp
 (global-set-key "\C-cef" (lambda () (interactive)
                                 (erc :server "irc.freenode.net" :port "6667"
                                      :nick "VisionIncision")))
+#+END_SRC
+
+Autojoin channels when connecting to Freenode.
+#+BEGIN_SRC emacs-lisp
+(setq erc-autojoin-channels-alist '(("freenode.net" "#haskell")))
 #+END_SRC
 
 * Language Agnostic Packages
