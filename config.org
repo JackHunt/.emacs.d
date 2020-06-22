@@ -148,6 +148,13 @@ Load authentication details.
 (load (expand-file-name ".erc-auth" user-emacs-directory))
 #+END_SRC
 
+Add key command to connect to freenode.
+#+BEGIN_SRC emacs-lisp
+(global-set-key "\C-cef" (lambda () (interactive)
+                                (erc :server "irc.freenode.net" :port "6667"
+                                     :nick "VisionIncision")))
+#+END_SRC
+
 * Language Agnostic Packages
 ** Flyspell.
 Install =flyspell= if required.
