@@ -151,8 +151,9 @@ Load authentication details.
 Add key command to connect to Freenode.
 #+BEGIN_SRC emacs-lisp
 (global-set-key "\C-cef" (lambda () (interactive)
-                                (erc :server "irc.freenode.net" :port "6667"
-                                     :nick "VisionIncision")))
+                                (erc 
+				    :server "irc.freenode.net" 
+				    :port "6667")))
 #+END_SRC
 
 Autojoin channels when connecting to Freenode.
