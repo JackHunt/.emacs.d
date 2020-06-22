@@ -158,7 +158,7 @@ Add key command to connect to Freenode.
 
 Autojoin channels when connecting to Freenode.
 #+BEGIN_SRC emacs-lisp
-(setq erc-autojoin-channels-alist '(("freenode.net" "#haskell")))
+(setq erc-autojoin-channels-alist '(("freenode.net" "#haskell" "##electronics")))
 #+END_SRC
 
 Aesthetic changes.
