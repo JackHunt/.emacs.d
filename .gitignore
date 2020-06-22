@@ -8,3 +8,4 @@ config.el
 ede-projects.el
 irony/
 projectile-bookmarks.eld
+.erc-auth
