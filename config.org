@@ -112,6 +112,14 @@ Set auto scroll for compilation buffer.
   (setq compilation-scroll-output t)
 #+END_SRC
 
+Use =smart-mode-line=.
+#+BEGIN_SRC emacs-lisp
+(use-package smart-mode-line
+    :ensure t)
+    
+(sml/setup)
+#+END_SRC
+
 ** Key Bindings.
 Fix =#= key on a Mac.
 #+BEGIN_SRC emacs-lisp
