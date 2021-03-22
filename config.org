@@ -390,6 +390,11 @@ Add =flycheck= hook.
 (add-hook 'haskell-mode-hook 'flycheck-mode)
 #+END_SRC
 
+Use =stack-ghci=.
+#+BEGIN_SRC
+(setq haskell-process-type 'stack-ghci)
+#+END_SRC
+
 Require =inf-haskell= for =org=.
 #+BEGIN_SRC emacs-lisp
 (require 'inf-haskell)
