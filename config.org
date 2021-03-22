@@ -365,6 +365,11 @@ Install =haskell-mode= if required.
     :ensure t)
 #+END_SRC
 
+Keybinding for =stack build=.
+#+BEGIN_SRC emacs-lisp
+(define-key haskell-mode-map [f5] (lambda () (interactive) (compile "stack build --fast")))
+#+END_SRC
+
 Set up Haskell Function documentation and indentation.
 #+BEGIN_SRC emacs-lisp
 (add-hook 'haskell-mode-hook
@@ -526,4 +531,11 @@ Add =flycheck= hook for CUDA.
 #+BEGIN_SRC emacs-lisp
 (add-hook 'cuda-mode-hook 
     (lambda () (setq flycheck-clang-language-standard "c++11")))
+#+END_SRC
+
+* YAML
+Use =yaml-mode=.
+#+BEGIN_SRC emacs-lisp
+(use-package yaml-mode
+    :ensure t)
 #+END_SRC
