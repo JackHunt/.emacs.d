@@ -459,7 +459,7 @@ Add hooks for =flycheck= C and C++ mode.
     (lambda () (setq flycheck-clang-language-standard "C11")))
 
 (add-hook 'c++-mode-hook 
-    (lambda () (setq flycheck-clang-language-standard "c++11")))
+    (lambda () (setq flycheck-clang-language-standard "c++17")))
 #+END_SRC
 
 ** Irony Mode
