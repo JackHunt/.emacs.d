@@ -535,7 +535,7 @@ Install =cuda-mode= if required.
 Add =flycheck= hook for CUDA.
 #+BEGIN_SRC emacs-lisp
 (add-hook 'cuda-mode-hook 
-    (lambda () (setq flycheck-clang-language-standard "c++11")))
+    (lambda () (setq flycheck-clang-language-standard "c++17")))
 #+END_SRC
 
 * YAML
