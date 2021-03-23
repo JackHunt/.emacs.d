@@ -2,6 +2,11 @@
 #+AUTHOR: Jack Hunt
 #+EMAIL: jackmileshunt@gmail.com
 
+Fix for emacs < 26.3
+#+BEGIN_SRC emacs-lisp
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+#+END_SRC
+
 * Global settings
 ** Packaging
 Don't write out to =init.el=.
@@ -71,6 +76,7 @@ Install and set theme.
 Set the window font to =fira-code=.
 #+BEGIN_SRC emacs-lisp
 (use-package fira-code-mode
+  :ensure t
   :config (global-fira-code-mode))
 
 (when (window-system)
@@ -284,6 +290,40 @@ Enable =company-mode= for all buffers.
 ;(add-hook 'after-init-hook 'global-company-mode)
 #+END_SRC
 
+** LSP (Language Server Protocol)
+Setup =lsp=.
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-mode
+    :ensure t
+    :commands (lsp lsp-execute-code-action)
+    :hook ((go-mode . lsp-deferred)
+           (lsp-mode . lsp-enable-which-key-integration)
+           (lsp-mode . lsp-diagnostics-modeline-mode))
+    :bind ("C-c C-c" . #'lsp-execute-code-action)
+    :custom
+    (lsp-print-performance t)
+    (lsp-log-io t)
+    (lsp-diagnostics-modeline-scope :project)
+    (lsp-file-watch-threshold 5000)
+    (lsp-enable-file-watchers nil))
+#+END_SRC
+
+Setup =lsp-ui=.
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-ui
+    :commands lsp-ui-mode
+    :hook
+    (lsp-mode . lsp-ui-mode))
+#+END_SRC
+
+Enable =company-lsp=.
+#+BEGIN_SRC emacs-lisp
+;(use-package company-lsp
+;    :ensure t
+;    :custom (company-lsp-enable-snippet t)
+;    :after (company lsp-mode))
+#+END_SRC
+
 ** Flycheck
 Install =flycheck= if required and use globally.
 #+BEGIN_SRC emacs-lisp
@@ -366,12 +406,26 @@ Add =reftex= and output settings.
 Install =haskell-mode= if required.
 #+BEGIN_SRC emacs-lisp
 (use-package haskell-mode
-    :ensure t)
+    :ensure t
+    :config
+        (let ((new-extensions '("QuantifiedConstraints"
+                                "DerivingVia"
+                                "BlockArguments"
+                                "DerivingStrategies"
+                                "StandaloneKindSignatures")))
+            (setq
+                 haskell-ghc-supported-extensions
+                 (append haskell-ghc-supported-extensions new-extensions)))
+
+    :bind
+        (("C-c a c" . haskell-cabal-visit-file)
+         ("C-c a i" . haskell-navigate-imports)
+         ("C-c a I" . haskell-navigate-imports-return)))
 #+END_SRC
 
 Keybinding for =stack build=.
 #+BEGIN_SRC emacs-lisp
-(define-key haskell-mode-map [f5] (lambda () (interactive) (compile "stack build --fast")))
+;(define-key haskell-mode-map [f5] (lambda () (interactive) (compile "stack build --fast")))
 #+END_SRC
 
 Set up Haskell Function documentation and indentation.
@@ -396,6 +450,14 @@ Add =flycheck= hook.
 Use =stack-ghci=.
 #+BEGIN_SRC
 (setq haskell-process-type 'stack-ghci)
+#+END_SRC
+
+Install =haskell-snippets=.
+#+BEGIN_SRC emacs-lisp
+(use-package haskell-snippets
+    :ensure t
+    :after (haskell-mode yasnippet)
+    :defer)
 #+END_SRC
 
 Require =inf-haskell= for =org=.
@@ -520,7 +582,7 @@ Windows specific setup.
 (when (boundp 'w32-pipe-read-delay)
     (setq w32-pipe-read-delay 0))
 
-;; Set the buffer size to 64K on Windows (from the original 4K)
+;Set the buffer size to 64K on Windows (from the original 4K)
 (when (boundp 'w32-pipe-buffer-size)
     (setq irony-server-w32-pipe-buffer-size (* 64 1024)))
 #+END_SRC
