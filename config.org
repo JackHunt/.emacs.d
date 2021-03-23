@@ -382,11 +382,10 @@ Set up Haskell Function documentation and indentation.
                 (turn-on-haskell-indent)))
 #+END_SRC
 
-Install =company-ghc= if required and add to =company-backends=.
-#+BEGIN_SRC emacs-lisp
-(use-package company-ghc
-    :ensure t)
-(add-to-list 'company-backends 'company-ghc)
+Install =lsp-haskell=.
+#+BEGIN_SRC
+(use-package lsp-haskell
+    :hook (haskell-mode . lsp))
 #+END_SRC
 
 Add =flycheck= hook.
