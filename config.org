@@ -2,13 +2,13 @@
 #+AUTHOR: Jack Hunt
 #+EMAIL: jackmileshunt@gmail.com
 
-Fix for emacs < 26.3
-#+BEGIN_SRC emacs-lisp
-  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-#+END_SRC
-
 * Global settings
 ** Packaging
+   Fix for emacs < 26.3
+   #+BEGIN_SRC emacs-lisp
+    (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+   #+END_SRC
+
    Don't write out to =init.el=.
    #+BEGIN_SRC emacs-lisp
      (setq-default custom-file (expand-file-name ".custom.el" user-emacs-directory))
@@ -41,8 +41,9 @@ Fix for emacs < 26.3
    #+BEGIN_SRC emacs-lisp
      (use-package auto-compile
        :ensure t
-       :config (auto-compile-on-load-mode))
-     (setq load-prefer-newer t)
+       :config
+       (auto-compile-on-load-mode))
+       (setq load-prefer-newer t)
    #+END_SRC
 
 ** UI
@@ -124,18 +125,12 @@ Fix for emacs < 26.3
    Install =flyspell= if required.
    #+BEGIN_SRC emacs-lisp
      (use-package flyspell
-       :ensure t)
-   #+END_SRC
-
-   Add hooks for text and programming modes.
-   #+BEGIN_SRC emacs-lisp
-     (dolist (hook '(text-mode-hook))
-       (add-hook hook (lambda () (flyspell-mode 1))))
-   #+END_SRC
-
-   Set dictionary.
-   #+BEGIN_SRC emacs-lisp
-     (setq ispell-dictionary "british")
+       :ensure t
+       :init
+       (dolist (hook '(text-mode-hook))
+         (add-hook hook (lambda () (flyspell-mode 1))))
+       :config
+       (setq ispell-dictionary "british"))
    #+END_SRC
 
 ** Org Mode
@@ -145,7 +140,8 @@ Fix for emacs < 26.3
        :ensure t
        :init
        (add-hook 'org-mode-hook #'org-bullets-mode))
-     (setq org-ellipsis "⤵")
+       :config
+       (setq org-ellipsis "⤵")
    #+END_SRC
 
    Add =flyspell= hook.
@@ -192,24 +188,13 @@ Fix for emacs < 26.3
    Install =helm= if required and require =helm-config=.
    #+BEGIN_SRC emacs-lisp
      (use-package helm
-       :ensure t)
-     (require 'helm-config)
-   #+END_SRC
+       :ensure t
+       :config
+       (setq helm-split-window-in-side-p t))
 
-   Open =helm= inside the current window.
-   #+BEGIN_SRC emacs-lisp
-     (setq helm-split-window-in-side-p t)
-   #+END_SRC
-
-   Set =helm= key bindings.
-   #+BEGIN_SRC emacs-lisp
      (global-set-key (kbd "M-x") #'helm-M-x)
      (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
      (global-set-key (kbd "C-x C-f") #'helm-find-files)
-   #+END_SRC
-
-   Enable =helm-mode=.
-   #+BEGIN_SRC emacs-lisp
      (helm-mode 1)
    #+END_SRC
 
@@ -255,15 +240,12 @@ Fix for emacs < 26.3
    Install =yasnippet= and =yasnippet-snippets=.
    #+BEGIN_SRC emacs-lisp
      (use-package yasnippet
-       :ensure t)
+       :ensure t
+       :config
+       (yas-global-mode 1))
 
      (use-package yasnippet-snippets
        :ensure t)
-   #+END_SRC
-
-   Enable globally.
-   #+BEGIN_SRC emacs-lisp
-     (yas-global-mode 1)
    #+END_SRC
 
 ** Company Mode
@@ -275,13 +257,9 @@ Fix for emacs < 26.3
        (progn
          (add-hook 'after-init-hook 'global-company-mode)
          (global-set-key (kbd "M-/") 'company-complete-common-or-cycle)
-         (setq company-idle-delay 0)))
-   #+END_SRC
-
-   Add =CEDET= semantic and =yasnippet= backends.
-   #+BEGIN_SRC emacs-lisp
-                                             ;(add-to-list 'company-backends 'company-semantic)
-     (add-to-list 'company-backends 'company-yasnippet)
+         (setq company-idle-delay 0)) 
+       (add-to-list 'company-backends 'company-yasnippet)
+       (add-to-list 'company-backends 'company-semantic))
    #+END_SRC
 
    Enable =company-mode= for all buffers.
@@ -328,7 +306,8 @@ Fix for emacs < 26.3
    #+BEGIN_SRC emacs-lisp
      (use-package flycheck
        :ensure t
-       :init (global-flycheck-mode))
+       :init
+       (global-flycheck-mode))
    #+END_SRC
 
 ** Magit
@@ -342,27 +321,20 @@ Fix for emacs < 26.3
    Ensure it's used.
    #+BEGIN_SRC emacs-lisp
      (use-package diff-hl
-       :ensure t)
-   #+END_SRC
-
-   Add Magit hooks.
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-     (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-   #+END_SRC
-
-   Turn on =flyspell= for =magit=.
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'git-commit-mode-hook 'turn-on-flyspell)
+       :ensure t
+       :config
+       (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+       (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+       (add-hook 'git-commit-mode-hook 'turn-on-flyspell))
    #+END_SRC
 
 ** Projectile.
    Install =projectile= and globally enable.
    #+BEGIN_SRC emacs-lisp
      (use-package projectile
-       :ensure t)
-
-     (projectile-global-mode)
+       :ensure t
+       :config
+       (projectile-global-mode))
    #+END_SRC
 
 ** Key Quiz
@@ -377,28 +349,17 @@ Fix for emacs < 26.3
   #+BEGIN_SRC emacs-lisp
     (use-package auctex
       :defer t
-      :ensure t)
-  #+END_SRC
-
-  Some basic =auctex= settings for automatic parsing.
-  #+BEGIN_SRC emacs-lisp
-    (setq TeX-auto-save t)
-    (setq TeX-parse-self t)
-  #+END_SRC
-
-  Add various =auctex= hooks.
-  #+BEGIN_SRC emacs-lisp
-    (add-hook 'LaTeX-mode-hook 'visual-line-mode)
-    (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-    (add-hook 'LaTeX-mode-hook 'flycheck-mode)
-    (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-    (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-  #+END_SRC
-
-  Add =reftex= and output settings.
-  #+BEGIN_SRC emacs-lisp
-    (setq reftex-plug-into-AUCTeX t)
-    (setq TeX-PDF-mode t)
+      :ensure t
+      :config
+      (setq TeX-auto-save t)
+      (setq TeX-parse-self t)
+      (add-hook 'LaTeX-mode-hook 'visual-line-mode)
+      (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+      (add-hook 'LaTeX-mode-hook 'flycheck-mode)
+      (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+      (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+      (setq reftex-plug-into-AUCTeX t)
+      (setq TeX-PDF-mode t))
   #+END_SRC
 
 * Haskell.
@@ -415,40 +376,28 @@ Fix for emacs < 26.3
         (setq
          haskell-ghc-supported-extensions
          (append haskell-ghc-supported-extensions new-extensions)))
-
+      (add-hook 'haskell-mode-hook
+                (lambda ()
+                  (haskell-doc-mode)
+                  (turn-on-haskell-indent)))
+      (add-hook 'haskell-mode-hook 'flycheck-mode)
       :bind
       (("C-c a c" . haskell-cabal-visit-file)
        ("C-c a i" . haskell-navigate-imports)
        ("C-c a I" . haskell-navigate-imports-return)))
   #+END_SRC
 
-  Keybinding for =stack build=.
-  #+BEGIN_SRC emacs-lisp
-                                            ;(define-key haskell-mode-map [f5] (lambda () (interactive) (compile "stack build --fast")))
-  #+END_SRC
-
-  Set up Haskell Function documentation and indentation.
-  #+BEGIN_SRC emacs-lisp
-    (add-hook 'haskell-mode-hook
-              (lambda ()
-                (haskell-doc-mode)
-                (turn-on-haskell-indent)))
-  #+END_SRC
-
   Install =lsp-haskell=.
   #+BEGIN_SRC
-(use-package lsp-haskell
-    :hook (haskell-mode . lsp))
-  #+END_SRC
-
-  Add =flycheck= hook.
-  #+BEGIN_SRC emacs-lisp
-    (add-hook 'haskell-mode-hook 'flycheck-mode)
+    (use-package lsp-haskell
+      :ensure t
+      :hook
+      (haskell-mode . lsp))
   #+END_SRC
 
   Use =stack-ghci=.
   #+BEGIN_SRC
-(setq haskell-process-type 'stack-ghci)
+    (setq haskell-process-type 'stack-ghci)
   #+END_SRC
 
   Install =haskell-snippets=.
@@ -468,38 +417,29 @@ Fix for emacs < 26.3
   Install =elpy= if required and enable.
   #+BEGIN_SRC emacs-lisp
     (use-package elpy
-      :ensure t)
-    (elpy-enable)
-  #+END_SRC
-
-  Add hook for =flycheck=.
-  #+BEGIN_SRC emacs-lisp
-    (add-hook 'elpy-mode-hook 'flycheck-mode)
+      :ensure t
+      :config
+      (add-hook 'elpy-mode-hook 'flycheck-mode)
+      (elpy-enable))
   #+END_SRC
 
   Install =py-autopep8= is required for PEP8 formatting.
   #+BEGIN_SRC emacs-lisp
     (use-package py-autopep8
-      :ensure t)
-  #+END_SRC
-
-  Automatically format PEP8 on save and limit line len.
-  #+BEGIN_SRC emacs-lisp
-    (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
-    (setq py-autopep8-options '("--max-line-length=80"))
+      :ensure t
+      :config
+      (setq py-autopep8-options '("--max-line-length=80"))
+      (add-hook 'python-mode-hook 'py-autopep8-enable-on-save))
   #+END_SRC
 
   Install =company-jedi= for Python autocompletion.
   #+BEGIN_SRC emacs-lisp
     (use-package company-jedi
-      :ensure t)
-  #+END_SRC
-
-  Add =company-jedi= hooks and completion.
-  #+BEGIN_SRC emacs-lisp
-    (add-to-list 'company-backends 'company-jedi)
-    (add-hook 'python-mode-hook 'jedi:setup)
-    (setq jedi:complete-on-dot t)
+      :ensure t
+      :config
+      (setq jedi:complete-on-dot t)
+      (add-to-list 'company-backends 'company-jedi)
+      (add-hook 'python-mode-hook 'jedi:setup))
   #+END_SRC
 
 * C/C++
@@ -517,50 +457,40 @@ Fix for emacs < 26.3
    Install =irony=.
    #+BEGIN_SRC emacs-lisp
      (use-package irony
-       :ensure t)
-   #+END_SRC
+       :ensure t
+       :init
+       (setq-default irony-cdb-compilation-databases '(irony-cdb-libclang
+                                                       irony-cdb-clang-complete))
 
-   Install Irony server if not found.
-   #+BEGIN_SRC emacs-lisp
-     (unless (irony--find-server-executable) (call-interactively #'irony-install-server))
-   #+END_SRC
-
-   Setup hooks.
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'c++-mode-hook 'irony-mode)
-     (add-hook 'c-mode-hook 'irony-mode)
-
-     (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-   #+END_SRC
-
-   Set databases.
-   #+BEGIN_SRC emacs-lisp
-     (setq-default irony-cdb-compilation-databases '(irony-cdb-libclang
-                                                     irony-cdb-clang-complete))
+       :config
+       (unless (irony--find-server-executable) (call-interactively #'irony-install-server))
+       (add-hook 'c++-mode-hook 'irony-mode)
+       (add-hook 'c-mode-hook 'irony-mode)
+       (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
    #+END_SRC
 
    Set =irony= as a =company= backend.
    #+BEGIN_SRC emacs-lisp
      (use-package company-irony
-       :ensure t)
-
-     (eval-after-load 'company '(add-to-list 'company-backends 'company-irony))
+       :ensure t
+       :config
+       (eval-after-load 'company '(add-to-list 'company-backends 'company-irony)))
    #+END_SRC
 
    Add =flycheck= hook.
    #+BEGIN_SRC emacs-lisp
      (use-package flycheck-irony
-       :ensure t)
-
-     (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+       :ensure t
+       :config
+       (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))
    #+END_SRC
 
    Add =eldoc= hook.
    #+BEGIN_SRC emacs-lisp
      (use-package irony-eldoc
-       :ensure t)
-
-     (add-hook 'irony-mode-hook #'irony-eldoc)
+       :ensure t
+       :config
+       (add-hook 'irony-mode-hook #'irony-eldoc))
    #+END_SRC
 
    Windows specific setup.
