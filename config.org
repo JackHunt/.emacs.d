@@ -3,8 +3,8 @@
 #+EMAIL: jackmileshunt@gmail.com
 #+TOC: headlines 2
 
-* Global Settings
-** Packaging
+* Base Emacs Settings
+** Configuration Parsing and Package Management
    Fix for emacs < 26.3
    #+BEGIN_SRC emacs-lisp
     (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
@@ -32,12 +32,6 @@
        (require 'use-package))
    #+END_SRC
 
-   Use Spaces instead of Tabs and set width.
-   #+BEGIN_SRC emacs-lisp
-     (setq-default indent-tabs-mode nil)
-     (setq-default tab-width 4)
-   #+END_SRC
-
    Always compile and use the latest package versions.
    #+BEGIN_SRC emacs-lisp
      (use-package auto-compile
@@ -47,7 +41,7 @@
        (setq load-prefer-newer t)
    #+END_SRC
 
-** UI
+** UI & Editing
    Set user information.
    #+BEGIN_SRC emacs-lisp
      (setq user-full-name "Jack Miles Hunt"
@@ -96,6 +90,18 @@
        :ensure t)
 
      (sml/setup)
+   #+END_SRC
+
+   Enable highlighting of matching brackets.
+   #+BEGIN_SRC emacs-lisp
+     (show-paren-mode 1)
+     (setq show-paren-style 'mixed)
+   #+END_SRC
+
+   Use Spaces instead of Tabs and set width.
+   #+BEGIN_SRC emacs-lisp
+     (setq-default indent-tabs-mode nil)
+     (setq-default tab-width 4)
    #+END_SRC
 
 ** Key Bindings.
@@ -506,7 +512,6 @@
 
 ** RTags
    TODO
-
 * YAML
   Use =yaml-mode=.
   #+BEGIN_SRC emacs-lisp
