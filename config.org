@@ -1,8 +1,9 @@
 #+TITLE: Emacs Config
 #+AUTHOR: Jack Hunt
 #+EMAIL: jackmileshunt@gmail.com
+#+TOC: headlines 2
 
-* Global settings
+* Global Settings
 ** Packaging
    Fix for emacs < 26.3
    #+BEGIN_SRC emacs-lisp
