@@ -496,19 +496,6 @@ Install =company-jedi= for Python autocompletion.
     :ensure t)
 #+END_SRC
 
-Install =anaconda-mode=.
-#+BEGIN_SRC emacs-lisp
-(use-package anaconda-mode
-    :ensure t)
-(add-hook 'python-mode-hook 'anaconda-mode)
-#+END_SRC
-
-Install =company-anaconda=.
-#+BEGIN_SRC emacs-lisp
-(use-package company-anaconda
-    :ensure t)
-#+END_SRC
-
 Add =company-jedi= hooks and completion.
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'company-backends 'company-jedi)
