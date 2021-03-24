@@ -94,8 +94,9 @@
 
    Enable highlighting of matching brackets.
    #+BEGIN_SRC emacs-lisp
-     (show-paren-mode 1)
      (setq show-paren-style 'mixed)
+     (setq show-paren-delay 0)
+     (show-paren-mode 1)
    #+END_SRC
 
    Use Spaces instead of Tabs and set width.
