@@ -577,19 +577,6 @@ Windows specific setup.
 ** RTags
 TODO
 
-* CUDA
-Install =cuda-mode= if required.
-#+BEGIN_SRC emacs-lisp
-(use-package cuda-mode
-    :ensure t)
-#+END_SRC
-
-Add =flycheck= hook for CUDA.
-#+BEGIN_SRC emacs-lisp
-(add-hook 'cuda-mode-hook 
-    (lambda () (setq flycheck-clang-language-standard "c++17")))
-#+END_SRC
-
 * YAML
 Use =yaml-mode=.
 #+BEGIN_SRC emacs-lisp
