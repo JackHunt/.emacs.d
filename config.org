@@ -1,13 +1,13 @@
 #+TITLE: Emacs Config
 #+AUTHOR: Jack Hunt
 #+EMAIL: jackmileshunt@gmail.com
-#+TOC: headlines 2
+#+TOC: headlines 3
 
 * Base Emacs Settings
 ** Configuration Parsing and Package Management
    Fix for emacs < 26.3
    #+BEGIN_SRC emacs-lisp
-    (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+     (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
    #+END_SRC
 
    Don't write out to =init.el=.
@@ -32,13 +32,13 @@
        (require 'use-package))
    #+END_SRC
 
-   Always compile and use the latest package versions.
+   Always compile and use the latest package versions with =auto-compile=.
    #+BEGIN_SRC emacs-lisp
      (use-package auto-compile
        :ensure t
        :config
        (auto-compile-on-load-mode))
-       (setq load-prefer-newer t)
+     (setq load-prefer-newer t)
    #+END_SRC
 
 ** UI & Editing
@@ -139,184 +139,240 @@
    #+end_src
 * Language Agnostic Packages
 ** Flyspell.
-   Install =flyspell= if required.
-   #+BEGIN_SRC emacs-lisp
-     (use-package flyspell
-       :ensure t
-       :init
-       (dolist (hook '(text-mode-hook))
-         (add-hook hook (lambda () (flyspell-mode 1))))
-       :config
-       (setq ispell-dictionary "british"))
-   #+END_SRC
+*** Setup
+    Setup =flyspell= to use the British dictionary and add a hook
+    for text mode.
+    #+BEGIN_SRC emacs-lisp
+      (use-package flyspell
+        :ensure t
+        :init
+        (dolist (hook '(text-mode-hook))
+          (add-hook hook (lambda () (flyspell-mode 1))))
+        :config
+        (setq ispell-dictionary "british"))
+    #+END_SRC
+*** Useful Commands
+    | Task                        | Cmd                              | Alt Cmd | Notes              |
+    |-----------------------------+----------------------------------+---------+--------------------|
+    | Check current word spelling | =M-x ispell-word=                | =M-$=   |                    |
+    | Spell check current buffer  | =M-x flyspell-buffer=            |         |                    |
+    | Enable =flyspell-mode=      | =M-x flyspell-mode=              |         |                    |
+    | Goto next error             | =M-x flyspell-goto-next-error=   | =C-,=   | In =flyspell-mode= |
+    | Correct an error            | =M-x flyspell-auto-correct-word= | =C-.=   | In =flyspell-mode= |                              |                                  |         |                    |
 
 ** Org Mode
-   Use alternative bullet display for =org=.
-   #+BEGIN_SRC emacs-lisp
-     (use-package org-bullets
-       :ensure t
-       :init
-       (add-hook 'org-mode-hook #'org-bullets-mode))
-       :config
-       (setq org-ellipsis "⤵")
-   #+END_SRC
+*** Setup
+    Use alternative bullet display for =org=.
+    #+BEGIN_SRC emacs-lisp
+      (use-package org-bullets
+        :ensure t
+        :init
+        (add-hook 'org-mode-hook #'org-bullets-mode))
+      :config
+      (setq org-ellipsis "⤵")
+    #+END_SRC
 
-   Add =flyspell= hook.
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'org-mode-hook 'flyspell-mode)
-   #+END_SRC
+    Add =flyspell= hook.
+    #+BEGIN_SRC emacs-lisp
+      (add-hook 'org-mode-hook 'flyspell-mode)
+    #+END_SRC
 
-   Configure source code blocks.
-   #+BEGIN_SRC emacs-lisp
-     (setq org-src-fontify-natively t)
-     (setq org-src-tab-acts-natively t)
-     (setq org-src-window-setup 'current-window)
-   #+END_SRC
+    Configure source code blocks.
+    #+BEGIN_SRC emacs-lisp
+      (setq org-src-fontify-natively t)
+      (setq org-src-tab-acts-natively t)
+      (setq org-src-window-setup 'current-window)
+    #+END_SRC
 
-   Fix quotations when exporting.
-   #+BEGIN_SRC emacs-lisp
-     (setq org-export-with-smart-quotes t)
-   #+END_SRC
+    Fix quotations when exporting.
+    #+BEGIN_SRC emacs-lisp
+      (setq org-export-with-smart-quotes t)
+    #+END_SRC
 
-   Function to archive tasks marked =DONE=.
-   #+BEGIN_SRC emacs-lisp
-     (defun org-archive-done-tasks ()
-       (interactive)
-       (org-map-entries 'org-archive-subtree "/DONE" 'file))
-   #+END_SRC
+    Function to archive tasks marked =DONE=.
+    #+BEGIN_SRC emacs-lisp
+      (defun org-archive-done-tasks ()
+        (interactive)
+        (org-map-entries 'org-archive-subtree "/DONE" 'file))
+    #+END_SRC
 
-   Enable =babel= language evaluation in =org=.
-   #+BEGIN_SRC emacs-lisp
-     (org-babel-do-load-languages
-      'org-babel-load-languages
-      '((emacs-lisp . t)
-        (haskell . t) ;; Needs lhs2tex
-        (python . t)
-        (shell . t)
-        (latex . t)))
-   #+END_SRC
+    Enable =babel= language evaluation in =org=.
+    #+BEGIN_SRC emacs-lisp
+      (org-babel-do-load-languages
+       'org-babel-load-languages
+       '((emacs-lisp . t)
+         (haskell . t) ;; Needs lhs2tex
+         (python . t)
+         (shell . t)
+         (latex . t)))
+    #+END_SRC
 
-   Require =ob-sh=.
-   #+BEGIN_SRC emacs-lisp
-     (require 'ob-shell)
-   #+END_SRC
+    Require =ob-sh=.
+    #+BEGIN_SRC emacs-lisp
+      (require 'ob-shell)
+    #+END_SRC
+*** Useful Commands
+    | Task                          | Cmd                   | Alt Cmd | Notes |
+    |-------------------------------+-----------------------+---------+-------|
+    | Move heading up/down          | =M-up= / =M-down=     |         |       |
+    | Promote/demote heading        | =M-left= / =M-right=  |         |       |
+    | Scroll TODO state             | =M-left= / =M-right=  |         |       |
+    | Agenda                        | =C-c a=               |         |       |
+    | Add/remove document in agenda | =C-c [= / =C-c ]=     |         |       |
+    | Add date or time/date         | =C-c .= / =C-u C-c .= |         |       |
+    | Add tag                       | =C-c C-c=             |         |       |
+    | Export                        | =C-c C-e=             |         |       |
 
 ** Helm
-   Install =helm= if required and require =helm-config=.
-   #+BEGIN_SRC emacs-lisp
-     (use-package helm
-       :ensure t
-       :config
-       (setq helm-split-window-in-side-p t))
+*** Setup
+    Install =helm= if required and require =helm-config=.
+    #+BEGIN_SRC emacs-lisp
+      (use-package helm
+        :ensure t
+        :config
+        (setq helm-split-window-in-side-p t))
 
-     (global-set-key (kbd "M-x") #'helm-M-x)
-     (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
-     (global-set-key (kbd "C-x C-f") #'helm-find-files)
-     (helm-mode 1)
-   #+END_SRC
+      (global-set-key (kbd "M-x") #'helm-M-x)
+      (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
+      (global-set-key (kbd "C-x C-f") #'helm-find-files)
+      (helm-mode 1)
+    #+END_SRC
+*** Useful Commands
+    | Task | Cmd | Alt Cmd | Notes |
+    |------+-----+---------+-------|
+    |      |     |         |       |
 
 ** CEDET (Collection of Emacs Development Environment Tools)
-   Require =CEDET=.
-   #+BEGIN_SRC emacs-lisp
-     (require 'cedet-global)
-   #+END_SRC
+*** Setup
+    Require =CEDET=.
+    #+BEGIN_SRC emacs-lisp
+      (require 'cedet-global)
+    #+END_SRC
 
-   Enable =CEDET= semantic mode.
-   #+BEGIN_SRC emacs-lisp
-     (require 'semantic)
+    Enable =CEDET= semantic mode.
+    #+BEGIN_SRC emacs-lisp
+      (require 'semantic)
 
-     (global-semanticdb-minor-mode 1)
-     (global-semantic-idle-scheduler-mode 1)
+      (global-semanticdb-minor-mode 1)
+      (global-semantic-idle-scheduler-mode 1)
 
-     (semantic-mode 1)
-   #+END_SRC
+      (semantic-mode 1)
+    #+END_SRC
 
-   Enable EDE globally.
-   #+BEGIN_SRC emacs-lisp
-     (global-ede-mode 1)
-   #+END_SRC
+    Enable EDE globally.
+    #+BEGIN_SRC emacs-lisp
+      (global-ede-mode 1)
+    #+END_SRC
 
-   Load C/C++ project configuration files.
-   #+BEGIN_SRC emacs-lisp
-     (setq ede-custom-file (expand-file-name "cc-mode-projects.el" user-emacs-directory))
-     (when (file-exists-p ede-custom-file)
-       (load ede-custom-file))
-   #+END_SRC
+    Load C/C++ project configuration files.
+    #+BEGIN_SRC emacs-lisp
+      (setq ede-custom-file (expand-file-name "cc-mode-projects.el" user-emacs-directory))
+      (when (file-exists-p ede-custom-file)
+        (load ede-custom-file))
+    #+END_SRC
 
-   Example =cc-mode-projects.el=.
-   #+BEGIN_SRC
+    Example =cc-mode-projects.el=.
+    #+BEGIN_SRC
 (ede-cpp-root-project "project_name"
 		      :file "dir/to/project/project_root/Makefile"
 		      :include-path '("user_include1"
 				      "user_include2")
 		      :system-include-path '("sys_include1"
 					     "sys_include2"))
-   #+END_SRC
-
+    #+END_SRC
+*** Useful Commands
+    | Task           | Cmd           | Alt Cmd | Notes |
+    |----------------+---------------+---------+-------|
+    | Create project | =M-x ede-new= |         |       |
+ 
 ** Yasnippet
-   Install =yasnippet= and =yasnippet-snippets=.
-   #+BEGIN_SRC emacs-lisp
-     (use-package yasnippet
-       :ensure t
-       :config
-       (yas-global-mode 1))
+*** Setup
+    Install =yasnippet= and =yasnippet-snippets=.
+    #+BEGIN_SRC emacs-lisp
+      (use-package yasnippet
+        :ensure t
+        :config
+        (yas-global-mode 1))
 
-     (use-package yasnippet-snippets
-       :ensure t)
-   #+END_SRC
+      (use-package yasnippet-snippets
+        :ensure t)
+    #+END_SRC
+*** Useful Commands
+    | Task               | Cmd                           | Alt Cmd     | Notes                  |
+    |--------------------+-------------------------------+-------------+------------------------|
+    | New snippet        | =M-x yas-new-snippet=         | =C-c / C-n= |                        |
+    | Goto snippet       | =M-x yas-visit-snippet-file=  | =C-c / C-v= |                        |
+    | Snippet major mode | =M-x snippet-mode=            |             | For editing snippets   |
+    | Load snippet       | =M-x yas-load-snippet-buffer= | =C-c C-l=   | When in =snippet-mode= |
+    | Try snippet        | =M-x yas-tryout-snippet=      | =C-c C-t=   | When in =snippet-mode= |
 
 ** Company Mode
-   Install =company= if required and enable for all buffers.
-   #+BEGIN_SRC emacs-lisp
-     (use-package company
-       :ensure t
-       :config
-       (progn
-         (add-hook 'after-init-hook 'global-company-mode)
-         (global-set-key (kbd "M-/") 'company-complete-common-or-cycle)
-         (setq company-idle-delay 0)) 
-       (add-to-list 'company-backends 'company-yasnippet)
-       (add-to-list 'company-backends 'company-semantic))
-   #+END_SRC
+*** Setup
+    Install =company= if required and enable for all buffers.
+    #+BEGIN_SRC emacs-lisp
+      (use-package company
+        :ensure t
+        :config
+        (progn
+          (add-hook 'after-init-hook 'global-company-mode)
+          (global-set-key (kbd "M-/") 'company-complete-common-or-cycle)
+          (setq company-idle-delay 0)) 
+        (add-to-list 'company-backends 'company-yasnippet)
+        (add-to-list 'company-backends 'company-semantic))
+    #+END_SRC
 
-   Enable =company-mode= for all buffers.
-   #+BEGIN_SRC emacs-lisp
-                                             ;(add-hook 'after-init-hook 'global-company-mode)
-   #+END_SRC
+    Enable =company-mode= for all buffers.
+    #+BEGIN_SRC
+     (add-hook 'after-init-hook 'global-company-mode)
+    #+END_SRC
+*** Useful Commands
+    | Task                       | Cmd                    | Alt Cmd | Notes |
+    |----------------------------+------------------------+---------+-------|
+    | Select the n'th suggestion | =M-(n)=                |         |       |
+    | Search through completions | =C-s= / =C-r= / =C-o=  |         |       |
+    | Manual completion          | =M-x company-complete= |         |       |
 
 ** LSP (Language Server Protocol)
-   Setup =lsp=.
-   #+BEGIN_SRC emacs-lisp
-     (use-package lsp-mode
+*** Setup
+    Setup =lsp=.
+    #+BEGIN_SRC emacs-lisp
+      (use-package lsp-mode
+        :ensure t
+        :commands (lsp lsp-execute-code-action)
+        :hook ((go-mode . lsp-deferred)
+               (lsp-mode . lsp-enable-which-key-integration)
+               (lsp-mode . lsp-diagnostics-modeline-mode))
+        :bind ("C-c C-c" . #'lsp-execute-code-action)
+        :custom
+        (lsp-print-performance t)
+        (lsp-log-io t)
+        (lsp-diagnostics-modeline-scope :project)
+        (lsp-file-watch-threshold 5000)
+        (lsp-enable-file-watchers nil))
+    #+END_SRC
+
+    Setup =lsp-ui=.
+    #+BEGIN_SRC emacs-lisp
+      (use-package lsp-ui
+        :commands lsp-ui-mode
+        :hook
+        (lsp-mode . lsp-ui-mode))
+    #+END_SRC
+
+    Enable =company-lsp=.
+    #+BEGIN_SRC
+     (use-package company-lsp
        :ensure t
-       :commands (lsp lsp-execute-code-action)
-       :hook ((go-mode . lsp-deferred)
-              (lsp-mode . lsp-enable-which-key-integration)
-              (lsp-mode . lsp-diagnostics-modeline-mode))
-       :bind ("C-c C-c" . #'lsp-execute-code-action)
-       :custom
-       (lsp-print-performance t)
-       (lsp-log-io t)
-       (lsp-diagnostics-modeline-scope :project)
-       (lsp-file-watch-threshold 5000)
-       (lsp-enable-file-watchers nil))
-   #+END_SRC
+       :custom 
+       (company-lsp-enable-snippet t)
+       :after
+       (company lsp-mode))
+    #+END_SRC
+*** Useful Commands
+    | Task | Cmd | Alt Cmd | Notes |
+    |------+-----+---------+-------|
+    |      |     |         |       |
 
-   Setup =lsp-ui=.
-   #+BEGIN_SRC emacs-lisp
-     (use-package lsp-ui
-       :commands lsp-ui-mode
-       :hook
-       (lsp-mode . lsp-ui-mode))
-   #+END_SRC
-
-   Enable =company-lsp=.
-   #+BEGIN_SRC emacs-lisp
-                                             ;(use-package company-lsp
-                                             ;    :ensure t
-                                             ;    :custom (company-lsp-enable-snippet t)
-                                             ;    :after (company lsp-mode))
-   #+END_SRC
 
 ** Flycheck
    Install =flycheck= if required and use globally.
