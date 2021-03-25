@@ -1,4 +1,4 @@
-#+TITLE: Emacs Config
+#+TITLE: Emacs Configuration
 #+AUTHOR: Jack Hunt
 #+EMAIL: jackmileshunt@gmail.com
 #+TOC: headlines 3
