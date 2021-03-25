@@ -158,7 +158,7 @@
     | Spell check current buffer  | =M-x flyspell-buffer=            |         |                    |
     | Enable =flyspell-mode=      | =M-x flyspell-mode=              |         |                    |
     | Goto next error             | =M-x flyspell-goto-next-error=   | =C-,=   | In =flyspell-mode= |
-    | Correct an error            | =M-x flyspell-auto-correct-word= | =C-.=   | In =flyspell-mode= |                              |                                  |         |                    |
+    | Correct an error            | =M-x flyspell-auto-correct-word= | =C-.=   | In =flyspell-mode= |
 
 ** Org Mode
 *** Setup
@@ -372,7 +372,6 @@
     | Task | Cmd | Alt Cmd | Notes |
     |------+-----+---------+-------|
     |      |     |         |       |
-
 
 ** Flycheck
    Install =flycheck= if required and use globally.
