@@ -575,8 +575,6 @@
        (setq irony-server-w32-pipe-buffer-size (* 64 1024)))
    #+END_SRC
 
-** RTags
-   TODO
 * YAML
   Use =yaml-mode=.
   #+BEGIN_SRC emacs-lisp
