@@ -127,7 +127,16 @@
      (global-unset-key (kbd "<M-up>"))
      (global-unset-key (kbd "<M-down>"))
    #+END_SRC
-
+   
+** Environment
+   Ensure environment variables are available when starting Emacs GUI.
+   #+BEGIN_SRC emacs-lisp
+     (use-package exec-path-from-shell
+       :ensure t
+       :config
+       (when (memq window-system '(mac ns x))
+         (exec-path-from-shell-initialize)))
+   #+end_src
 * Language Agnostic Packages
 ** Flyspell.
    Install =flyspell= if required.
