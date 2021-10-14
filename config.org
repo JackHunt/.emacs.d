@@ -69,16 +69,6 @@
      (load-theme 'atom-one-dark t)
    #+END_SRC
 
-   Set the window font to =fira-code=.
-   #+BEGIN_SRC emacs-lisp
-;     (use-package fira-code-mode
-;       :ensure t
-;       :config (global-fira-code-mode))
-
-;     (when (window-system)
-;       (set-frame-font "Fira Code"))
-   #+END_SRC
-
    Set auto scroll for compilation buffer.
    #+BEGIN_SRC emacs-lisp
      (setq compilation-scroll-output t)
