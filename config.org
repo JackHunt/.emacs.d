@@ -22,7 +22,6 @@
      (require 'package)
      (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
      (package-refresh-contents)
-     (package-initialize)
    #+END_SRC
 
    Require =use-package=.
@@ -311,7 +310,7 @@
       (use-package helm-lsp
         :commands
         helm-lsp-workspace-symbol)
-*** #+END_SRC
+    #+END_SRC
 
     Enable =company-lsp=.
     #+BEGIN_SRC
