@@ -43,7 +43,7 @@
 ** UI & Editing
    Set user information.
    #+BEGIN_SRC emacs-lisp
-     (setq user-full-name "Jack Miles Hunt"
+     (setq user-full-name "Jack Hunt"
            user-mail-address "jackmileshunt@gmail.com")
    #+END_SRC
 
@@ -101,22 +101,6 @@
          (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#"))))
    #+END_SRC
 
-   Disable arrow keys.
-   #+BEGIN_SRC emacs-lisp
-     (global-unset-key (kbd "<left>"))
-     (global-unset-key (kbd "<right>"))
-     (global-unset-key (kbd "<up>"))
-     (global-unset-key (kbd "<down>"))
-     (global-unset-key (kbd "<C-left>"))
-     (global-unset-key (kbd "<C-right>"))
-     (global-unset-key (kbd "<C-up>"))
-     (global-unset-key (kbd "<C-down>"))
-     (global-unset-key (kbd "<M-left>"))
-     (global-unset-key (kbd "<M-right>"))
-     (global-unset-key (kbd "<M-up>"))
-     (global-unset-key (kbd "<M-down>"))
-   #+END_SRC
-   
 ** Environment
    Ensure environment variables are available when starting Emacs GUI.
    #+BEGIN_SRC emacs-lisp
@@ -125,7 +109,8 @@
        :config
        (when (memq window-system '(mac ns x))
          (exec-path-from-shell-initialize)))
-   #+end_src
+   #+END_SRC
+
 * Language Agnostic Packages
 ** Flyspell.
 *** Setup
@@ -212,19 +197,29 @@
     | Add tag                       | =C-c C-c=             |         |       |
     | Export                        | =C-c C-e=             |         |       |
     
-** Helm
+** Ivy
 *** Setup
-    Install =helm= if required and require =helm-config=.
+    Install =ivy= if required=.
     #+BEGIN_SRC emacs-lisp
-      (use-package helm
-        :ensure t
+      (use-package ivy :ensure t
+        :diminish (ivy-mode . "")
+        :bind
+        (:map ivy-mode-map
+          ("C-'" . ivy-avy))
         :config
-        (setq helm-split-window-in-side-p t))
-
-      (global-set-key (kbd "M-x") #'helm-M-x)
-      (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
-      (global-set-key (kbd "C-x C-f") #'helm-find-files)
-      (helm-mode 1)
+        (ivy-mode 1)
+        ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
+        (setq ivy-use-virtual-buffers t)
+        ;; number of result lines to display
+        (setq ivy-height 10)
+        ;; does not count candidates
+        (setq ivy-count-format "")
+        ;; no regexp by default
+        (setq ivy-initial-inputs-alist nil)
+        ;; configure regexp engine.
+        (setq ivy-re-builders-alist
+          ;; allow input not in order
+            '((t   . ivy--regex-ignore-order))))
     #+END_SRC
 *** Useful Commands
     | Task | Cmd | Alt Cmd | Notes |
@@ -259,17 +254,26 @@
       (use-package company
         :ensure t
         :config
-        (progn
-          (add-hook 'after-init-hook 'global-company-mode)
-          (global-set-key (kbd "M-/") 'company-complete-common-or-cycle)
-          (setq company-idle-delay 0)) 
-        (add-to-list 'company-backends 'company-yasnippet)
-        (add-to-list 'company-backends 'company-semantic))
+          (progn
+            (add-hook 'after-init-hook 'global-company-mode)
+            (global-set-key (kbd "M-/") 'company-complete-common-or-cycle)
+            (setq company-idle-delay 0))
+            (use-package company-irony :ensure t :defer t))
+    #+END_SRC
+
+    Add =company= backends.
+    #+BEGIN_SRC emacs-lisp
+    (setq company-backends '((company-elpy
+                              company-gtags
+                              company-irony
+                              company-python
+                              company-semantic
+                              company-yasnippet)))
     #+END_SRC
 
     Enable =company-mode= for all buffers.
-    #+BEGIN_SRC
-     (add-hook 'after-init-hook 'global-company-mode)
+    #+BEGIN_SRC emacs-lisp
+      (add-hook 'after-init-hook 'global-company-mode)
     #+END_SRC
 *** Useful Commands
     | Task                       | Cmd                    | Alt Cmd | Notes |
@@ -303,13 +307,6 @@
         :commands lsp-ui-mode
         :hook
         (lsp-mode . lsp-ui-mode))
-    #+END_SRC
-
-    Setup =helm-lsp=.
-    #+BEGIN_SRC emacs-lisp
-      (use-package helm-lsp
-        :commands
-        helm-lsp-workspace-symbol)
     #+END_SRC
 
     Enable =company-lsp=.
@@ -498,7 +495,7 @@
 * Python
 *** Setup
     Install =elpy= if required and enable.
-    #+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-list
       (use-package elpy
         :ensure t
         :hook
@@ -539,7 +536,7 @@
                (lambda () (setq flycheck-clang-language-standard "C11")))
 
      (add-hook 'c++-mode-hook 
-               (lambda () (setq flycheck-clang-language-standard "c++17")))
+               (lambda () (setq flycheck-clang-language-standard "c++20")))
    #+END_SRC
 
 ** Irony Mode
