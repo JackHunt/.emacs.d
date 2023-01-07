@@ -199,9 +199,10 @@
     
 ** Ivy
 *** Setup
-    Install =ivy= if required=.
+   Install =ivy= if required=.
     #+BEGIN_SRC emacs-lisp
-      (use-package ivy :ensure t
+      (use-package ivy
+        :ensure t
         :diminish (ivy-mode . "")
         :bind
         (:map ivy-mode-map
@@ -225,7 +226,20 @@
     | Task | Cmd | Alt Cmd | Notes |
     |------+-----+---------+-------|
     |      |     |         |       |
- 
+
+** NeoTree
+*** Setup
+    Install =neotree=.
+    #+BEGIN_SRC emacs-lisp
+      (use-package neotree
+        :ensure t)
+      (global-set-key [f8] 'neotree-toggle)
+    #+END_SRC
+*** Useful Commands
+    | Task | Cmd | Alt Cmd | Notes |
+    |------+-----+---------+-------|
+    |      |     |         |       |    
+
 ** Yasnippet
 *** Setup
     Install =yasnippet= and =yasnippet-snippets=.
@@ -397,10 +411,25 @@
         :config
         (projectile-global-mode))
     #+END_SRC
+
+    Rebind =s-p= to =C-c C-p=
+    #+BEGIN_SRC emacs-lisp
+      (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
+    #+END_SRC
 *** Useful Commands
-    | Task                       | Cmd       | Alt Cmd | Notes |
-    |----------------------------+-----------+---------+-------|
-    |                            |           |         |       |
+    | Task                             | Cmd           | Alt Cmd       | Notes                        |
+    |----------------------------------+---------------+---------------+------------------------------|
+    | Find file in current project     | =C-c C-p f=   | N/A           |                              |
+    | Switch project                   | =C-c C-p p=   | =C-c C-p q=   |                              |
+    | Grep in project                  | =C-c C-p s g= | N/A           |                              |
+    | Replace in project               | =C-c C-p r=   | N/A           |                              |
+    | Find references in project       | =C-c C-p ?=   | =C-c C-p s x= |                              |
+    | Invoke projectile command        | =C-c C-p m=   | N/A           |                              |
+    | Toggle implementation & test     | =C-c C-p t=   | N/A           |                              |
+    | Toggle related files             | =C-c C-p a=   | N/A           | Header & source, for example |
+    | Run shell cmd in root of project | =C-c C-p !=   | =C-c C-p &=   | Sync & async, respectively   |
+    | Build/compile project            | =C-c C-p c=   | N/A           |                              |
+    | Test project                     | =C-c C-p t=   |               |                              |
 
 ** Key Quiz
 *** Setup
