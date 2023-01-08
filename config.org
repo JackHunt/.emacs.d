@@ -5,625 +5,659 @@
 
 * Base Emacs Settings
 ** Configuration Parsing and Package Management
-   Fix for emacs < 26.3
-   #+BEGIN_SRC emacs-lisp
-     (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-   #+END_SRC
+Fix for emacs < 26.3
+#+BEGIN_SRC emacs-lisp
+  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+#+END_SRC
 
-   Don't write out to =init.el=.
-   #+BEGIN_SRC emacs-lisp
-     (setq-default custom-file (expand-file-name ".custom.el" user-emacs-directory))
-     (when (file-exists-p custom-file)
-       (load custom-file))
-   #+END_SRC
+Don't write out to =init.el=.
+#+BEGIN_SRC emacs-lisp
+  (setq-default custom-file (expand-file-name ".custom.el" user-emacs-directory))
+  (when (file-exists-p custom-file)
+    (load custom-file))
+#+END_SRC
 
-   Set up MELPA and =package=.
-   #+BEGIN_SRC emacs-lisp
-     (require 'package)
-     (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-     (package-refresh-contents)
-   #+END_SRC
+Set up MELPA and =package=.
+#+BEGIN_SRC emacs-lisp
+  (require 'package)
+    (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+    (package-refresh-contents)
+#+END_SRC
 
-   Require =use-package=.
-   #+BEGIN_SRC emacs-lisp
-     (package-install 'use-package)
-     (eval-when-compile
-       (require 'use-package))
-   #+END_SRC
+Require =use-package=.
+#+BEGIN_SRC emacs-lisp
+  (package-install 'use-package)
+  (eval-when-compile
+    (require 'use-package))
+#+END_SRC
 
-   Always compile and use the latest package versions with =auto-compile=.
-   #+BEGIN_SRC emacs-lisp
-     (use-package auto-compile
-       :ensure t
-       :config
-       (auto-compile-on-load-mode))
-     (setq load-prefer-newer t)
-   #+END_SRC
+Always compile and use the latest package versions with =auto-compile=.
+#+BEGIN_SRC emacs-lisp
+  (use-package auto-compile
+    :ensure t
+    :config
+    (auto-compile-on-load-mode))
+  (setq load-prefer-newer t)
+#+END_SRC
 
 ** UI & Editing
-   Set user information.
-   #+BEGIN_SRC emacs-lisp
-     (setq user-full-name "Jack Hunt"
-           user-mail-address "jackmileshunt@gmail.com")
-   #+END_SRC
+Set user information.
+#+BEGIN_SRC emacs-lisp
+  (setq user-full-name "Jack Hunt"
+        user-mail-address "jackmileshunt@gmail.com")
+#+END_SRC
 
-   Disable menu and scroll bar.
-   #+BEGIN_SRC emacs-lisp
-     (tool-bar-mode 0)
-     (menu-bar-mode 0)
-     (when window-system
-       (scroll-bar-mode -1))
-   #+END_SRC
+Disable menu and scroll bar.
+#+BEGIN_SRC emacs-lisp
+  (tool-bar-mode 0)
+  (menu-bar-mode 0)
+  (when window-system
+    (scroll-bar-mode -1))
+#+END_SRC
 
-   Enable current line highlighting.
-   #+BEGIN_SRC emacs-lisp
-     (when window-system
-       (global-hl-line-mode))
-   #+END_SRC
+Enable current line highlighting.
+#+BEGIN_SRC emacs-lisp
+  (when window-system
+    (global-hl-line-mode))
+#+END_SRC
 
-   Install and set theme.
-   #+BEGIN_SRC emacs-lisp
-     (use-package atom-one-dark-theme
-       :ensure t)
-     (load-theme 'atom-one-dark t)
-   #+END_SRC
+Install and set theme.
+#+BEGIN_SRC emacs-lisp
+  (use-package atom-one-dark-theme
+    :ensure t)
+  (load-theme 'atom-one-dark t)
+#+END_SRC
 
-   Set auto scroll for compilation buffer.
-   #+BEGIN_SRC emacs-lisp
-     (setq compilation-scroll-output t)
-   #+END_SRC
+Set auto scroll for compilation buffer.
+#+BEGIN_SRC emacs-lisp
+  (setq compilation-scroll-output t)
+#+END_SRC
 
-   Use =smart-mode-line=.
-   #+BEGIN_SRC emacs-lisp
-     (use-package smart-mode-line
-       :ensure t)
+Use =smart-mode-line=.
+#+BEGIN_SRC emacs-lisp
+  (use-package smart-mode-line
+    :ensure t)
 
-     (sml/setup)
-   #+END_SRC
+  (sml/setup)
+#+END_SRC
 
-   Enable highlighting of matching brackets.
-   #+BEGIN_SRC emacs-lisp
-     (setq show-paren-style 'mixed)
-     (setq show-paren-delay 0)
-     (show-paren-mode 1)
-   #+END_SRC
+Enable highlighting of matching brackets.
+#+BEGIN_SRC emacs-lisp
+  (setq show-paren-style 'mixed)
+  (setq show-paren-delay 0)
+  (show-paren-mode 1)
+#+END_SRC
 
-   Use Spaces instead of Tabs and set width.
-   #+BEGIN_SRC emacs-lisp
-     (setq-default indent-tabs-mode nil)
-     (setq-default tab-width 4)
-   #+END_SRC
+Use Spaces instead of Tabs and set width.
+#+BEGIN_SRC emacs-lisp
+  (setq-default indent-tabs-mode nil)
+  (setq-default tab-width 4)
+#+END_SRC
 
 ** Key Bindings.
-   Fix =#= key on a Mac.
-   #+BEGIN_SRC emacs-lisp
-     (if (eq system-type 'darwin)
-         (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#"))))
-   #+END_SRC
+Fix =#= key on a Mac.
+#+BEGIN_SRC emacs-lisp
+  (if (eq system-type 'darwin)
+      (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#"))))
+#+END_SRC
 
 ** Environment
-   Ensure environment variables are available when starting Emacs GUI.
-   #+BEGIN_SRC emacs-lisp
-     (use-package exec-path-from-shell
-       :ensure t
-       :config
-       (when (memq window-system '(mac ns x))
-         (exec-path-from-shell-initialize)))
-   #+END_SRC
+Ensure environment variables are available when starting Emacs GUI.
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t
+    :config
+    (when (memq window-system '(mac ns x))
+      (exec-path-from-shell-initialize)))
+#+END_SRC
 
 * Language Agnostic Packages
 ** Flyspell.
 *** Setup
-    Setup =flyspell= to use the British dictionary and add a hook
-    for text mode.
-    #+BEGIN_SRC emacs-lisp
-      (use-package flyspell
-        :ensure t
-        :init
-        (dolist (hook '(text-mode-hook))
-          (add-hook hook (lambda () (flyspell-mode 1))))
-        :config
-        (setq ispell-dictionary "british"))
-    #+END_SRC
+Setup =flyspell= to use the British dictionary and add a hook
+for text mode.
+#+BEGIN_SRC emacs-lisp
+  (use-package flyspell
+    :ensure t
+    :init
+    (dolist (hook '(text-mode-hook))
+      (add-hook hook (lambda () (flyspell-mode 1))))
+    :config
+    (setq ispell-dictionary "british"))
+#+END_SRC
+
 *** Useful Commands
-    | Task                        | Cmd                              | Alt Cmd | Notes              |
-    |-----------------------------+----------------------------------+---------+--------------------|
-    | Check current word spelling | =M-x ispell-word=                | =M-$=   |                    |
-    | Spell check current buffer  | =M-x flyspell-buffer=            |         |                    |
-    | Enable =flyspell-mode=      | =M-x flyspell-mode=              |         |                    |
-    | Goto next error             | =M-x flyspell-goto-next-error=   | =C-,=   | In =flyspell-mode= |
-    | Correct an error            | =M-x flyspell-auto-correct-word= | =C-.=   | In =flyspell-mode= |
+| Task                        | Cmd                              | Alt Cmd | Notes              |
+|-----------------------------+----------------------------------+---------+--------------------|
+| Check current word spelling | =M-x ispell-word=                | =M-$=   |                    |
+| Spell check current buffer  | =M-x flyspell-buffer=            |         |                    |
+| Enable =flyspell-mode=      | =M-x flyspell-mode=              |         |                    |
+| Goto next error             | =M-x flyspell-goto-next-error=   | =C-,=   | In =flyspell-mode= |
+| Correct an error            | =M-x flyspell-auto-correct-word= | =C-.=   | In =flyspell-mode= |
 
 ** Org Mode
 *** Setup
-    Use alternative bullet display for =org=.
-    #+BEGIN_SRC emacs-lisp
-      (use-package org-bullets
-        :ensure t
-        :init
-        (add-hook 'org-mode-hook #'org-bullets-mode))
-      :config
-      (setq org-ellipsis "⤵")
-    #+END_SRC
+Use alternative bullet display for =org=.
+#+BEGIN_SRC emacs-lisp
+  (use-package org-bullets
+    :ensure t
+    :init
+    (add-hook 'org-mode-hook #'org-bullets-mode))
+  :config
+  (setq org-ellipsis "⤵")
+#+END_SRC
 
-    Add =flyspell= hook.
-    #+BEGIN_SRC emacs-lisp
-      (add-hook 'org-mode-hook 'flyspell-mode)
-    #+END_SRC
+Add =flyspell= hook.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook 'flyspell-mode)
+#+END_SRC
 
-    Configure source code blocks.
-    #+BEGIN_SRC emacs-lisp
-      (setq org-src-fontify-natively t)
-      (setq org-src-tab-acts-natively t)
-      (setq org-src-window-setup 'current-window)
-    #+END_SRC
+Configure source code blocks.
+#+BEGIN_SRC emacs-lisp
+  (setq org-src-fontify-natively t)
+  (setq org-src-tab-acts-natively t)
+  (setq org-src-window-setup 'current-window)
+#+END_SRC
 
-    Fix quotations when exporting.
-    #+BEGIN_SRC emacs-lisp
-      (setq org-export-with-smart-quotes t)
-    #+END_SRC
+Fix quotations when exporting.
+#+BEGIN_SRC emacs-lisp
+  (setq org-export-with-smart-quotes t)
+#+END_SRC
 
-    Function to archive tasks marked =DONE=.
-    #+BEGIN_SRC emacs-lisp
-      (defun org-archive-done-tasks ()
-        (interactive)
-        (org-map-entries 'org-archive-subtree "/DONE" 'file))
-    #+END_SRC
+Function to archive tasks marked =DONE=.
+#+BEGIN_SRC emacs-lisp
+  (defun org-archive-done-tasks ()
+    (interactive)
+    (org-map-entries 'org-archive-subtree "/DONE" 'file))
+#+END_SRC
 
-    Enable =babel= language evaluation in =org=.
-    #+BEGIN_SRC emacs-lisp
-      (org-babel-do-load-languages
-       'org-babel-load-languages
-       '((emacs-lisp . t)
-         (haskell . t) ;; Needs lhs2tex
-         (python . t)
-         (shell . t)
-         (latex . t)))
-    #+END_SRC
+Enable =babel= language evaluation in =org=.
+#+BEGIN_SRC emacs-lisp
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (haskell . t) ;; Needs lhs2tex
+     (python . t)
+     (shell . t)
+     (latex . t)))
+#+END_SRC
 
-    Require =ob-sh=.
-    #+BEGIN_SRC emacs-lisp
-      (require 'ob-shell)
-    #+END_SRC
+Require =ob-sh=.
+#+BEGIN_SRC emacs-lisp
+  (require 'ob-shell)
+#+END_SRC
+
 *** Useful Commands
-    | Task                          | Cmd                   | Alt Cmd | Notes |
-    |-------------------------------+-----------------------+---------+-------|
-    | Move heading up/down          | =M-up= / =M-down=     |         |       |
-    | Promote/demote heading        | =M-left= / =M-right=  |         |       |
-    | Scroll TODO state             | =M-left= / =M-right=  |         |       |
-    | Agenda                        | =C-c a=               |         |       |
-    | Add/remove document in agenda | =C-c [= / =C-c ]=     |         |       |
-    | Add date or time/date         | =C-c .= / =C-u C-c .= |         |       |
-    | Add tag                       | =C-c C-c=             |         |       |
-    | Export                        | =C-c C-e=             |         |       |
+| Task                          | Cmd                   | Alt Cmd | Notes |
+|-------------------------------+-----------------------+---------+-------|
+| Move heading up/down          | =M-up= / =M-down=     |         |       |
+| Promote/demote heading        | =M-left= / =M-right=  |         |       |
+| Scroll TODO state             | =M-left= / =M-right=  |         |       |
+| Agenda                        | =C-c a=               |         |       |
+| Add/remove document in agenda | =C-c [= / =C-c ]=     |         |       |
+| Add date or time/date         | =C-c .= / =C-u C-c .= |         |       |
+| Add tag                       | =C-c C-c=             |         |       |
+| Export                        | =C-c C-e=             |         |       |
     
 ** Ivy
 *** Setup
-   Install =ivy= if required=.
-    #+BEGIN_SRC emacs-lisp
-      (use-package ivy
-        :ensure t
-        :diminish (ivy-mode . "")
-        :bind
-        (:map ivy-mode-map
-          ("C-'" . ivy-avy))
-        :config
-        (ivy-mode 1)
-        ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
-        (setq ivy-use-virtual-buffers t)
-        ;; number of result lines to display
-        (setq ivy-height 10)
-        ;; does not count candidates
-        (setq ivy-count-format "")
-        ;; no regexp by default
-        (setq ivy-initial-inputs-alist nil)
-        ;; configure regexp engine.
-        (setq ivy-re-builders-alist
-          ;; allow input not in order
-            '((t   . ivy--regex-ignore-order))))
-    #+END_SRC
+Install =ivy= if required=.
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy
+    :ensure t
+    :diminish (ivy-mode . "")
+    :bind
+    (:map ivy-mode-map
+      ("C-'" . ivy-avy))
+    :config
+    (ivy-mode 1)
+    ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
+    (setq ivy-use-virtual-buffers t)
+    ;; number of result lines to display
+    (setq ivy-height 10)
+    ;; does not count candidates
+    (setq ivy-count-format "")
+    ;; no regexp by default
+    (setq ivy-initial-inputs-alist nil)
+    ;; configure regexp engine.
+    (setq ivy-re-builders-alist
+      ;; allow input not in order
+        '((t   . ivy--regex-ignore-order))))
+#+END_SRC
+
+Set some useful key bindings.
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-s") 'swiper-isearch)
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  (global-set-key (kbd "M-y") 'counsel-yank-pop)
+  (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+  (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+  (global-set-key (kbd "<f1> l") 'counsel-find-library)
+  (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+  (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+  (global-set-key (kbd "<f2> j") 'counsel-set-variable)
+  (global-set-key (kbd "C-x b") 'ivy-switch-buffer)
+  (global-set-key (kbd "C-c v") 'ivy-push-view)
+  (global-set-key (kbd "C-c V") 'ivy-pop-view)
+#+END_SRC
+
 *** Useful Commands
-    | Task | Cmd | Alt Cmd | Notes |
-    |------+-----+---------+-------|
-    |      |     |         |       |
+| Task | Cmd | Alt Cmd | Notes |
+|------+-----+---------+-------|
+|      |     |         |       |
 
 ** NeoTree
 *** Setup
-    Install =neotree=.
-    #+BEGIN_SRC emacs-lisp
-      (use-package neotree
-        :ensure t)
-      (global-set-key [f8] 'neotree-toggle)
-    #+END_SRC
+Install =neotree=.
+#+BEGIN_SRC emacs-lisp
+  (use-package neotree
+    :ensure t)
+  (global-set-key [f8] 'neotree-toggle)
+#+END_SRC
+
 *** Useful Commands
-    | Task | Cmd | Alt Cmd | Notes |
-    |------+-----+---------+-------|
-    |      |     |         |       |    
+| Task | Cmd | Alt Cmd | Notes |
+|------+-----+---------+-------|
+|      |     |         |       |    
 
 ** Yasnippet
 *** Setup
-    Install =yasnippet= and =yasnippet-snippets=.
-    #+BEGIN_SRC emacs-lisp
-      (use-package yasnippet
-        :ensure t
-        :config
-        (yas-global-mode 1))
+Install =yasnippet= and =yasnippet-snippets=.
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :ensure t
+    :config
+    (yas-global-mode 1))
 
-      (use-package yasnippet-snippets
-        :ensure t)
-    #+END_SRC
+  (use-package yasnippet-snippets
+    :ensure t)
+#+END_SRC
+
 *** Useful Commands
-    | Task               | Cmd                           | Alt Cmd     | Notes                  |
-    |--------------------+-------------------------------+-------------+------------------------|
-    | New snippet        | =M-x yas-new-snippet=         | =C-c / C-n= |                        |
-    | Goto snippet       | =M-x yas-visit-snippet-file=  | =C-c / C-v= |                        |
-    | Snippet major mode | =M-x snippet-mode=            |             | For editing snippets   |
-    | Load snippet       | =M-x yas-load-snippet-buffer= | =C-c C-l=   | When in =snippet-mode= |
-    | Try snippet        | =M-x yas-tryout-snippet=      | =C-c C-t=   | When in =snippet-mode= |
+| Task               | Cmd                           | Alt Cmd     | Notes                  |
+|--------------------+-------------------------------+-------------+------------------------|
+| New snippet        | =M-x yas-new-snippet=         | =C-c / C-n= |                        |
+| Goto snippet       | =M-x yas-visit-snippet-file=  | =C-c / C-v= |                        |
+| Snippet major mode | =M-x snippet-mode=            |             | For editing snippets   |
+| Load snippet       | =M-x yas-load-snippet-buffer= | =C-c C-l=   | When in =snippet-mode= |
+| Try snippet        | =M-x yas-tryout-snippet=      | =C-c C-t=   | When in =snippet-mode= |
 
 ** Company Mode
 *** Setup
-    Install =company= if required and enable for all buffers.
-    #+BEGIN_SRC emacs-lisp
-      (use-package company
-        :ensure t
-        :config
-          (progn
-            (add-hook 'after-init-hook 'global-company-mode)
-            (global-set-key (kbd "M-/") 'company-complete-common-or-cycle)
-            (setq company-idle-delay 0))
-            (use-package company-irony :ensure t :defer t))
-    #+END_SRC
+Install =company= if required and enable for all buffers.
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :ensure t
+    :config
+      (progn
+        (add-hook 'after-init-hook 'global-company-mode)
+        (global-set-key (kbd "M-/") 'company-complete-common-or-cycle)
+        (setq company-idle-delay 0))
+        (use-package company-irony :ensure t :defer t))
+#+END_SRC
 
-    Add =company= backends.
-    #+BEGIN_SRC emacs-lisp
-    (setq company-backends '((company-elpy
-                              company-gtags
-                              company-irony
-                              company-python
-                              company-semantic
-                              company-yasnippet)))
-    #+END_SRC
+Add =company= backends.
+#+BEGIN_SRC emacs-lisp
+  (setq company-backends '((company-elpy
+                            company-gtags
+                            company-irony
+                            company-python
+                            company-semantic
+                            company-yasnippet)))
+#+END_SRC
 
-    Enable =company-mode= for all buffers.
-    #+BEGIN_SRC emacs-lisp
-      (add-hook 'after-init-hook 'global-company-mode)
-    #+END_SRC
+Enable =company-mode= for all buffers.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'after-init-hook 'global-company-mode)
+#+END_SRC
+
 *** Useful Commands
-    | Task                       | Cmd                    | Alt Cmd | Notes |
-    |----------------------------+------------------------+---------+-------|
-    | Select the n'th suggestion | =M-(n)=                |         |       |
-    | Search through completions | =C-s= / =C-r= / =C-o=  |         |       |
-    | Manual completion          | =M-x company-complete= |         |       |
+| Task                       | Cmd                    | Alt Cmd | Notes |
+|----------------------------+------------------------+---------+-------|
+| Select the n'th suggestion | =M-(n)=                |         |       |
+| Search through completions | =C-s= / =C-r= / =C-o=  |         |       |
+| Manual completion          | =M-x company-complete= |         |       |
 
 ** LSP (Language Server Protocol)
 *** Setup
-    Setup =lsp=.
-    #+BEGIN_SRC emacs-lisp
-      (use-package lsp-mode
-        :ensure t
-        :commands (lsp lsp-execute-code-action)
-        :hook ((go-mode . lsp-deferred)
-               (lsp-mode . lsp-enable-which-key-integration)
-               (lsp-mode . lsp-diagnostics-modeline-mode))
-        :bind ("C-c C-c" . #'lsp-execute-code-action)
-        :custom
-        (lsp-print-performance t)
-        (lsp-log-io t)
-        (lsp-diagnostics-modeline-scope :project)
-        (lsp-file-watch-threshold 5000)
-        (lsp-enable-file-watchers nil))
-    #+END_SRC
+Setup =lsp=.
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
+    :ensure t
+    :commands (lsp lsp-execute-code-action)
+    :hook ((go-mode . lsp-deferred)
+           (lsp-mode . lsp-enable-which-key-integration)
+           (lsp-mode . lsp-diagnostics-modeline-mode))
+    :bind ("C-c C-c" . #'lsp-execute-code-action)
+    :custom
+    (lsp-print-performance t)
+    (lsp-log-io t)
+    (lsp-diagnostics-modeline-scope :project)
+    (lsp-file-watch-threshold 5000)
+    (lsp-enable-file-watchers nil))
+#+END_SRC
 
-    Setup =lsp-ui=.
-    #+BEGIN_SRC emacs-lisp
-      (use-package lsp-ui
-        :commands lsp-ui-mode
-        :hook
-        (lsp-mode . lsp-ui-mode))
-    #+END_SRC
+Setup =lsp-ui=.
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-ui
+    :commands lsp-ui-mode
+    :hook
+    (lsp-mode . lsp-ui-mode))
+#+END_SRC
 
-    Enable =company-lsp=.
-    #+BEGIN_SRC
-     (use-package company-lsp
-       :ensure t
-       :custom 
-       (company-lsp-enable-snippet t)
-       :after
-       (company lsp-mode))
-    #+END_SRC
+Enable =company-lsp=.
+#+BEGIN_SRC
+  (use-package company-lsp
+    :ensure t
+    :custom 
+      (company-lsp-enable-snippet t)
+    :after
+      (company lsp-mode))
+#+END_SRC
+
 *** Useful Commands
-    | Task                       | Cmd       | Alt Cmd | Notes |
-    |----------------------------+-----------+---------+-------|
-    | Format document            | =s-l = == |         |       |
-    | Format region              | =s-l = r= |         |       |
-    | Toggle code lens           | =s-l T l= |         |       |
-    | Toggle symbol highlighting | =s-l T h= |         |       |
-    | Line info minor mode       | =s-l T S= |         |       |
-    | Find definitions           | =s-l g g= |         |       |
-    | Find references            | =s-l g r= |         |       |
-    | Find implementations       | =s-l g i= |         |       |
-    | Find type definitions      | =s-l g t= |         |       |
-    | Symbol declarations        | =s-l g d= |         |       |
-    | Find symbol                | =s-l g a= |         |       |
-    | Show signature & docs      | =s-l h h= |         |       |
-    | Rename symbol & references | =s-l r r= |         |       |
-    | Peek definition            | =s-l G g= |         |       |
-    | Peek references            | =s-l G r= |         |       |
-    | Peek implementation        | =s-l G i= |         |       |
-    | Peek symbols               | =s-l G s= |         |       |
+| Task                       | Cmd       | Alt Cmd | Notes |
+|----------------------------+-----------+---------+-------|
+| Format document            | =s-l = == |         |       |
+| Format region              | =s-l = r= |         |       |
+| Toggle code lens           | =s-l T l= |         |       |
+| Toggle symbol highlighting | =s-l T h= |         |       |
+| Line info minor mode       | =s-l T S= |         |       |
+| Find definitions           | =s-l g g= |         |       |
+| Find references            | =s-l g r= |         |       |
+| Find implementations       | =s-l g i= |         |       |
+| Find type definitions      | =s-l g t= |         |       |
+| Symbol declarations        | =s-l g d= |         |       |
+| Find symbol                | =s-l g a= |         |       |
+| Show signature & docs      | =s-l h h= |         |       |
+| Rename symbol & references | =s-l r r= |         |       |
+| Peek definition            | =s-l G g= |         |       |
+| Peek references            | =s-l G r= |         |       |
+| Peek implementation        | =s-l G i= |         |       |
+| Peek symbols               | =s-l G s= |         |       |
 
 ** Flycheck
 *** Setup
-    Install =flycheck= if required and use globally.
-    #+BEGIN_SRC emacs-lisp
-      (use-package flycheck
-        :ensure t
-        :init
-        (global-flycheck-mode))
-    #+END_SRC
+Install =flycheck= if required and use globally.
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :ensure t
+    :init
+    (global-flycheck-mode))
+#+END_SRC
+
 *** Useful Commands
-    | Task                     | Cmd                                | Alt Cmd     | Notes |
-    |--------------------------+------------------------------------+-------------+-------|
-    | Maually check buffer     | =M-x flycheck-buffer=              | =C-c ! c=   |       |
-    | Verify setup             | =M-x flycheck-verify-setup=        | =C-c ! v=   |       |
-    | Select checker           | =M-x flycheck-select-checker=      | =C-c ! s=   |       |
-    | Disable checker          | =M-x flycheck-disable-checker=     | =C-c ! x=   |       |
-    | Goto next error          | =M-x flycheck-next-error=          | =C-c ! n=   |       |
-    | Goto previous error      | =M-x flycheck-previous-error=      | =C-c ! p=   |       |
-    | Goto first error         | =M-x flycheck-first-error=         |             |       |
-    | Put error into kill ring | =M-x flycheck-copy-errors-as-kill= | =C-c ! C-w= |       |
-    | List errors              | =M-x flycheck-list-errors=         | =C-c ! l=   |       |
+| Task                     | Cmd                                | Alt Cmd     | Notes |
+|--------------------------+------------------------------------+-------------+-------|
+| Maually check buffer     | =M-x flycheck-buffer=              | =C-c ! c=   |       |
+| Verify setup             | =M-x flycheck-verify-setup=        | =C-c ! v=   |       |
+| Select checker           | =M-x flycheck-select-checker=      | =C-c ! s=   |       |
+| Disable checker          | =M-x flycheck-disable-checker=     | =C-c ! x=   |       |
+| Goto next error          | =M-x flycheck-next-error=          | =C-c ! n=   |       |
+| Goto previous error      | =M-x flycheck-previous-error=      | =C-c ! p=   |       |
+| Goto first error         | =M-x flycheck-first-error=         |             |       |
+| Put error into kill ring | =M-x flycheck-copy-errors-as-kill= | =C-c ! C-w= |       |
+| List errors              | =M-x flycheck-list-errors=         | =C-c ! l=   |       |
 
 ** Magit
 *** Setup
-    Install =magit= if required.
-    #+BEGIN_SRC emacs-lisp
-      (use-package magit
-        :ensure t)
-    #+END_SRC
+Install =magit= if required.
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :ensure t)
+#+END_SRC
+
 *** Useful Commands
-    | Task | Cmd | Alt Cmd | Notes |
-    |------+-----+---------+-------|
-    |      |     |         |       |
+| Task | Cmd | Alt Cmd | Notes |
+|------+-----+---------+-------|
+|      |     |         |       |
 
 ** Diff-hl
 *** Setup
-    Ensure it's used.
-    #+BEGIN_SRC emacs-lisp
-      (use-package diff-hl
-        :ensure t
-        :config
-        (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-        (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-        (add-hook 'git-commit-mode-hook 'turn-on-flyspell))
-    #+END_SRC
+Ensure it's used.
+#+BEGIN_SRC emacs-lisp
+  (use-package diff-hl
+    :ensure t
+    :config
+    (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+    (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+    (add-hook 'git-commit-mode-hook 'turn-on-flyspell))
+#+END_SRC
+
 *** Useful Commands
-    | Task                       | Cmd       | Alt Cmd | Notes |
-    |----------------------------+-----------+---------+-------|
+| Task                       | Cmd       | Alt Cmd | Notes |
+|----------------------------+-----------+---------+-------|
 
 ** Projectile.
 *** Setup
-    Install =projectile= and globally enable.
-    #+BEGIN_SRC emacs-lisp
-      (use-package projectile
-        :ensure t
-        :config
-        (projectile-global-mode))
-    #+END_SRC
+Install =projectile= and globally enable.
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :ensure t
+    :config
+    (projectile-global-mode))
+#+END_SRC
 
-    Rebind =s-p= to =C-c C-p=
-    #+BEGIN_SRC emacs-lisp
-      (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
-    #+END_SRC
+Rebind =s-p= to =C-c C-p=
+#+BEGIN_SRC emacs-lisp
+  (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
+#+END_SRC
+
 *** Useful Commands
-    | Task                             | Cmd           | Alt Cmd       | Notes                        |
-    |----------------------------------+---------------+---------------+------------------------------|
-    | Find file in current project     | =C-c C-p f=   | N/A           |                              |
-    | Switch project                   | =C-c C-p p=   | =C-c C-p q=   |                              |
-    | Grep in project                  | =C-c C-p s g= | N/A           |                              |
-    | Replace in project               | =C-c C-p r=   | N/A           |                              |
-    | Find references in project       | =C-c C-p ?=   | =C-c C-p s x= |                              |
-    | Invoke projectile command        | =C-c C-p m=   | N/A           |                              |
-    | Toggle implementation & test     | =C-c C-p t=   | N/A           |                              |
-    | Toggle related files             | =C-c C-p a=   | N/A           | Header & source, for example |
-    | Run shell cmd in root of project | =C-c C-p !=   | =C-c C-p &=   | Sync & async, respectively   |
-    | Build/compile project            | =C-c C-p c=   | N/A           |                              |
-    | Test project                     | =C-c C-p t=   |               |                              |
+| Task                             | Cmd           | Alt Cmd       | Notes                        |
+|----------------------------------+---------------+---------------+------------------------------|
+| Find file in current project     | =C-c C-p f=   | N/A           |                              |
+| Switch project                   | =C-c C-p p=   | =C-c C-p q=   |                              |
+| Grep in project                  | =C-c C-p s g= | N/A           |                              |
+| Replace in project               | =C-c C-p r=   | N/A           |                              |
+| Find references in project       | =C-c C-p ?=   | =C-c C-p s x= |                              |
+| Invoke projectile command        | =C-c C-p m=   | N/A           |                              |
+| Toggle implementation & test     | =C-c C-p t=   | N/A           |                              |
+| Toggle related files             | =C-c C-p a=   | N/A           | Header & source, for example |
+| Run shell cmd in root of project | =C-c C-p !=   | =C-c C-p &=   | Sync & async, respectively   |
+| Build/compile project            | =C-c C-p c=   | N/A           |                              |
+| Test project                     | =C-c C-p t=   |               |                              |
 
 ** Key Quiz
 *** Setup
-    Require and install =key-quiz=.
-    #+BEGIN_SRC emacs-lisp
-      (use-package key-quiz
-        :ensure t)
-    #+END_SRC
+Require and install =key-quiz=.
+#+BEGIN_SRC emacs-lisp
+  (use-package key-quiz
+    :ensure t)
+#+END_SRC
+
 *** Useful Commands
-    | Task                       | Cmd       | Alt Cmd | Notes |
-    |----------------------------+-----------+---------+-------|
-    |                            |           |         |       |
+| Task                       | Cmd       | Alt Cmd | Notes |
+|----------------------------+-----------+---------+-------|
+|                            |           |         |       |
 
 * LaTeX
 *** Setup
-    Install =auctex= if required.
-    #+BEGIN_SRC emacs-lisp
-      (use-package auctex
-        :defer t
-        :ensure t
-        :config
-        (setq TeX-auto-save t)
-        (setq TeX-parse-self t)
-        (add-hook 'LaTeX-mode-hook 'visual-line-mode)
-        (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-        (add-hook 'LaTeX-mode-hook 'flycheck-mode)
-        (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-        (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-        (setq reftex-plug-into-AUCTeX t)
-        (setq TeX-PDF-mode t))
-    #+END_SRC
+Install =auctex= if required.
+#+BEGIN_SRC emacs-lisp
+  (use-package auctex
+    :defer t
+    :ensure t
+    :config
+    (setq TeX-auto-save t)
+    (setq TeX-parse-self t)
+    (add-hook 'LaTeX-mode-hook 'visual-line-mode)
+    (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+    (add-hook 'LaTeX-mode-hook 'flycheck-mode)
+    (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+    (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+    (setq reftex-plug-into-AUCTeX t)
+    (setq TeX-PDF-mode t))
+#+END_SRC
+
 *** Useful Commands
-    | Task                       | Cmd       | Alt Cmd | Notes |
-    |----------------------------+-----------+---------+-------|
+| Task                       | Cmd       | Alt Cmd | Notes |
+|----------------------------+-----------+---------+-------|
 
 * Haskell.
 *** Setup
-    Install =haskell-mode= if required.
-    #+BEGIN_SRC emacs-lisp
-      (use-package haskell-mode
-        :ensure t
-        :config
-        (let ((new-extensions '("QuantifiedConstraints"
-                                "DerivingVia"
-                                "BlockArguments"
-                                "DerivingStrategies"
-                                "StandaloneKindSignatures")))
-          (setq
-           haskell-ghc-supported-extensions
-           (append haskell-ghc-supported-extensions new-extensions)))
-        :hook
-        ((haskell-mode .
-                  (lambda ()
-                    (haskell-doc-mode)
-                    (turn-on-haskell-indent)))
-         (haskell-mode . flycheck-mode))
-        :bind
-        (("C-c a c" . haskell-cabal-visit-file)
-         ("C-c a i" . haskell-navigate-imports)
-         ("C-c a I" . haskell-navigate-imports-return)))
-    #+END_SRC
+Install =haskell-mode= if required.
+#+BEGIN_SRC emacs-lisp
+  (use-package haskell-mode
+    :ensure t
+    :config
+    (let ((new-extensions '("QuantifiedConstraints"
+                            "DerivingVia"
+                            "BlockArguments"
+                            "DerivingStrategies"
+                            "StandaloneKindSignatures")))
+      (setq
+       haskell-ghc-supported-extensions
+       (append haskell-ghc-supported-extensions new-extensions)))
+    :hook
+    ((haskell-mode .
+              (lambda ()
+                (haskell-doc-mode)
+                (turn-on-haskell-indent)))
+     (haskell-mode . flycheck-mode))
+    :bind
+    (("C-c a c" . haskell-cabal-visit-file)
+     ("C-c a i" . haskell-navigate-imports)
+     ("C-c a I" . haskell-navigate-imports-return)))
+#+END_SRC
 
-    Install =lsp-haskell=.
-    #+BEGIN_SRC emacs-lisp
-    (use-package lsp-haskell
-      :ensure t
-      :hook
-      ((haskell-mode . lsp)
-       (haskell-literate-mode . lsp)))
-    #+END_SRC
+Install =lsp-haskell=.
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-haskell
+    :ensure t
+    :hook
+    ((haskell-mode . lsp)
+     (haskell-literate-mode . lsp)))
+#+END_SRC
 
-    Install =haskell-snippets=.
-    #+BEGIN_SRC emacs-lisp
-      (use-package haskell-snippets
-        :ensure t
-        :after
-        (haskell-mode yasnippet)
-        :defer)
-    #+END_SRC
+Install =haskell-snippets=.
+#+BEGIN_SRC emacs-lisp
+  (use-package haskell-snippets
+    :ensure t
+    :after
+    (haskell-mode yasnippet)
+    :defer)
+#+END_SRC
 
-    Require =inf-haskell= for =org=.
-    #+BEGIN_SRC emacs-lisp
-      (require 'inf-haskell)
-    #+END_SRC
+Require =inf-haskell= for =org=.
+#+BEGIN_SRC emacs-lisp
+  (require 'inf-haskell)
+#+END_SRC
+
 *** Useful Commands
-    | Task          | Cmd                               | Alt Cmd   | Notes |
-    |---------------+-----------------------------------+-----------+-------|
-    | Format inputs | =M-x haskell-mode-format-imports= | =C-c C-,= |       |
-    | REPL          | =C-`=                             |           |       |
-    |               |                                   |           |       |
+| Task          | Cmd                               | Alt Cmd   | Notes |
+|---------------+-----------------------------------+-----------+-------|
+| Format inputs | =M-x haskell-mode-format-imports= | =C-c C-,= |       |
+| REPL          | =C-`=                             |           |       |
+|               |                                   |           |       |
 
 * Python
 *** Setup
-    Install =elpy= if required and enable.
-    #+BEGIN_SRC emacs-list
-      (use-package elpy
-        :ensure t
-        :hook
-        (elpy-mode . flycheck-mode)
-        :after
-        (elpy-enable))
-    #+END_SRC
+Install =elpy= if required and enable.
+#+BEGIN_SRC emacs-list
+  (use-package elpy
+    :ensure t
+    :hook
+    (elpy-mode . flycheck-mode)
+    :after
+    (elpy-enable))
+#+END_SRC
 
-    Install =py-autopep8= is required for PEP8 formatting.
-    #+BEGIN_SRC emacs-lisp
-      (use-package py-autopep8
-        :ensure t
-        :config
-        (setq py-autopep8-options '("--max-line-length=80"))
-        :hook
-        (python-mode . py-autopep8-enable-on-save))
-    #+END_SRC
+Install =py-autopep8= is required for PEP8 formatting.
+#+BEGIN_SRC emacs-lisp
+  (use-package py-autopep8
+    :ensure t
+    :config
+    (setq py-autopep8-options '("--max-line-length=80"))
+    :hook
+    (python-mode . py-autopep8-enable-on-save))
+#+END_SRC
 
-    Install =company-jedi= for Python autocompletion.
-    #+BEGIN_SRC emacs-lisp
-      (use-package company-jedi
-        :ensure t
-        :config
-        (setq jedi:complete-on-dot t)
-        (add-to-list 'company-backends 'company-jedi)
-        :hook
-        (python-mode-hook . jedi:setup))
-    #+END_SRC
+Install =company-jedi= for Python autocompletion.
+#+BEGIN_SRC emacs-lisp
+  (use-package company-jedi
+    :ensure t
+    :config
+    (setq jedi:complete-on-dot t)
+    (add-to-list 'company-backends 'company-jedi)
+    :hook
+    (python-mode-hook . jedi:setup))
+#+END_SRC
+
 *** Useful Commands
-    | Task                       | Cmd       | Alt Cmd | Notes |
-    |----------------------------+-----------+---------+-------|
+| Task                       | Cmd       | Alt Cmd | Notes |
+|----------------------------+-----------+---------+-------|
 
 * C/C++
 ** Flyspell Hooks
-   Add hooks for =flycheck= C and C++ mode.
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'c-mode-hook 
-               (lambda () (setq flycheck-clang-language-standard "C11")))
+Add hooks for =flycheck= C and C++ mode.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'c-mode-hook 
+            (lambda () (setq flycheck-clang-language-standard "C11")))
 
-     (add-hook 'c++-mode-hook 
-               (lambda () (setq flycheck-clang-language-standard "c++20")))
-   #+END_SRC
+  (add-hook 'c++-mode-hook 
+            (lambda () (setq flycheck-clang-language-standard "c++20")))
+#+END_SRC
 
 ** Irony Mode
 *** Setup
-    Install =irony=.
-    #+BEGIN_SRC emacs-lisp
-      (use-package irony
-        :ensure t
-        :init
-        (setq-default irony-cdb-compilation-databases '(irony-cdb-libclang
-                                                        irony-cdb-clang-complete))
+Install =irony=.
+#+BEGIN_SRC emacs-lisp
+  (use-package irony
+    :ensure t
+    :init
+    (setq-default irony-cdb-compilation-databases '(irony-cdb-libclang
+                                                    irony-cdb-clang-complete))
 
-        :config
-        (unless (irony--find-server-executable) (call-interactively #'irony-install-server))
-        :hook
-        ((c++-mode . irony-mode)
-         (c-mode . irony-mode)
-         (irony-mode . irony-cdb-autosetup-compile-options)))
-    #+END_SRC
+    :config
+    (unless (irony--find-server-executable) (call-interactively #'irony-install-server))
+    :hook
+    ((c++-mode . irony-mode)
+     (c-mode . irony-mode)
+     (irony-mode . irony-cdb-autosetup-compile-options)))
+#+END_SRC
 
-    Set =irony= as a =company= backend.
-    #+BEGIN_SRC emacs-lisp
-      (use-package company-irony
-        :ensure t
-        :after
-        (add-to-list 'company-backends 'company-irony))
-    #+END_SRC
+Set =irony= as a =company= backend.
+#+BEGIN_SRC emacs-lisp
+  (use-package company-irony
+    :ensure t
+    :after
+    (add-to-list 'company-backends 'company-irony))
+#+END_SRC
 
-    Add =flycheck= hook.
-    #+BEGIN_SRC emacs-lisp
-      (use-package flycheck-irony
-        :ensure t
-        :config
-        (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))
-    #+END_SRC
+Add =flycheck= hook.
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck-irony
+    :ensure t
+    :config
+    (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))
+#+END_SRC
 
-    Add =eldoc= hook.
-    #+BEGIN_SRC emacs-lisp
-      (use-package irony-eldoc
-        :ensure t
-        :hook
-        (irony-mode . irony-eldoc))
-    #+END_SRC
+Add =eldoc= hook.
+#+BEGIN_SRC emacs-lisp
+  (use-package irony-eldoc
+    :ensure t
+    :hook
+    (irony-mode . irony-eldoc))
+#+END_SRC
+
 *** Useful Commands
-    | Task | Cmd | Alt Cmd | Notes |
-    |------+-----+---------+-------|
-    |      |     |         |       |
+| Task | Cmd | Alt Cmd | Notes |
+|------+-----+---------+-------|
+|      |     |         |       |
 
 * YAML
 *** Setup
-    Use =yaml-mode=.
-    #+BEGIN_SRC emacs-lisp
-      (use-package yaml-mode
-        :ensure t
-        :hook
-        (yaml-mode . (lambda () (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
-    #+END_SRC
+Use =yaml-mode=.
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode
+    :ensure t
+    :hook
+    (yaml-mode . (lambda () (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
+#+END_SRC
+
 *** Useful Commands
-    | Task | Cmd | Alt Cmd | Notes |
-    |------+-----+---------+-------|
-    |      |     |         |       |
+| Task | Cmd | Alt Cmd | Notes |
+|------+-----+---------+-------|
+|      |     |         |       |
