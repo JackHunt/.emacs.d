@@ -1,7 +1,12 @@
 #+TITLE: Emacs Configuration
 #+AUTHOR: Jack Hunt
 #+EMAIL: jackmileshunt@gmail.com
-#+TOC: headlines 3
+
+* Exporting
+To export to HTML.
+#+BEGIN_SRC
+C-c C-e h h
+#+END_SRC
 
 * Base Emacs Settings
 ** Configuration Parsing and Package Management
@@ -569,8 +574,20 @@ Install =company-jedi= for Python autocompletion.
 #+END_SRC
 
 *** Useful Commands
-| Task                       | Cmd       | Alt Cmd | Notes |
-|----------------------------+-----------+---------+-------|
+| Task                          | Cmd                      | Alt Cmd                  | Notes |
+|-------------------------------+--------------------------+--------------------------+-------|
+| Search files                  | =C-c C-s=                | =elpy-rgrep-symbol=      |       |
+| Provide completions           | =M-TAB=                  | =elpy-company-backend=   |       |
+| Go to definition              | =M-.=                    | =elpy-goto-definition=   |       |
+| Get list of defs in buffer    | =C-c C-o=                | =elpy-occur-definitions= |       |
+| Find references               | =M-?=                    | =xref-find-references=   |       |
+| Find symbols matching pattern | =C-M-.=                  | =xref-find-apropos=      |       |
+| Switch to shell               | =C-c C-z=                | =elpy-switch-to-shell=   |       |
+| Kill Python shell             | =C-c C-k=                | =elpy-shell-kill=        |       |
+| Kill all Python shells        | =C-c C-K=                | =elpy-shell-kill-all=    |       |
+| Syntax check                  | =C-c C-v=                | =elpy-check=             |       |
+| Show documentation for symbol | =C-c C-d=                | =elpy-doc=               |       |
+| Automatically format to pep8  | =M-x py-autopep8-buffer= | N/A                      |       |
 
 * C/C++
 ** Flyspell Hooks
