@@ -2,6 +2,39 @@
 #+AUTHOR: Jack Hunt
 #+EMAIL: jackmileshunt@gmail.com
 
+* Basic Commands
+Just some basic Emacs commands.
+| Task                               | Cmd            | Alt Cmd              | Notes                   |
+|------------------------------------+----------------+----------------------+-------------------------|
+| Get help                           | =C-h=          |                      | =C-h t= to run tutorial |
+| Find file                          | =C-x C-f=      |                      |                         |
+| Save buffer                        | =C-x C-s=      |                      |                         |
+| Write to file                      | =C-x C-w=      |                      |                         |
+| Move to begin/end of line          | =C-a= or =C-e= |                      |                         |
+| Move forward/backward a character  | =C-f= or =C-b= |                      |                         |
+| Move to next/previous line         | =C-n= or =C-p= |                      |                         |
+| Move forward/backward a screenfull | =C-v= or =M-v= | =ESC-v= for backward |                         |
+| Move to begin/end of buffer        | =M-<= or =M->= | =ESC-<= or =ESC->=   |                         |
+| Move forward/backward one word     | =M-f= or =M-b= | =ESC-f= or =ESC-b=   |                         |
+| Delete character                   | =C-d=          |                      |                         |
+| Delete word                        | =M-d=          | =ESC-d=              |                         |
+| Kill rest of line                  | =C-k=          |                      |                         |
+| Set marker                         | =C-SPC=        | =C-@=                |                         |
+| Kill region                        | =C-w=          |                      |                         |
+| Yank                               | =C-y=          |                      |                         |
+| Copy region as kill                | =M-w=          | =ESC-w=              |                         |
+| Search forward/backward            | =C-s= or =C-r= |                      |                         |
+| Query and replace                  | =M-%=          | =ESC-%=              |                         |
+| Delete (zero) current window       | =C-x 0=        |                      |                         |
+| Double window                      | =C-x 2=        |                      |                         |
+| Switch to buffer                   | =C-x b=        |                      |                         |
+| Move to other window               | =C-x o=        |                      |                         |
+| List buffers                       | =C-x C-b=      |                      |                         |
+| Keyboard quit (cancel command)     | =C-g=          |                      |                         |
+| Repeat command                     | =C-u=          |                      |                         |
+| Undo                               | =C-x u=        |                      |                         |
+| Execute extended command           | =M-x=          | =ESC-x=              |                         |
+
 * Exporting
 To export to HTML.
 #+BEGIN_SRC
