@@ -45,12 +45,13 @@ C-c C-e h h
 ** Configuration Parsing and Package Management
 Fix for emacs < 26.3
 #+BEGIN_SRC emacs-lisp
-  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 #+END_SRC
 
 Don't write out to =init.el=.
 #+BEGIN_SRC emacs-lisp
   (setq-default custom-file (expand-file-name ".custom.el" user-emacs-directory))
+
   (when (file-exists-p custom-file)
     (load custom-file))
 #+END_SRC
@@ -58,13 +59,15 @@ Don't write out to =init.el=.
 Set up MELPA and =package=.
 #+BEGIN_SRC emacs-lisp
   (require 'package)
-    (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-    (package-refresh-contents)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+
+  (package-refresh-contents)
 #+END_SRC
 
 Require =use-package=.
 #+BEGIN_SRC emacs-lisp
   (package-install 'use-package)
+
   (eval-when-compile
     (require 'use-package))
 #+END_SRC
@@ -75,6 +78,7 @@ Always compile and use the latest package versions with =auto-compile=.
     :ensure t
     :config
     (auto-compile-on-load-mode))
+
   (setq load-prefer-newer t)
 #+END_SRC
 
@@ -89,6 +93,7 @@ Disable menu and scroll bar.
 #+BEGIN_SRC emacs-lisp
   (tool-bar-mode 0)
   (menu-bar-mode 0)
+
   (when window-system
     (scroll-bar-mode -1))
 #+END_SRC
@@ -103,6 +108,7 @@ Install and set theme.
 #+BEGIN_SRC emacs-lisp
   (use-package atom-one-dark-theme
     :ensure t)
+
   (load-theme 'atom-one-dark t)
 #+END_SRC
 
@@ -278,9 +284,19 @@ Install =neotree=.
 #+END_SRC
 
 *** Useful Commands
-| Task | Cmd | Alt Cmd | Notes |
-|------+-----+---------+-------|
-|      |     |         |       |    
+| Task                                          | Cmd       | Alt Cmd | Notes                  |
+|-----------------------------------------------+-----------+---------+------------------------|
+| Next line                                     | =n=       |         | Only in Neotree buffer |
+| Previous line                                 | =p=       |         | Only in Neotree buffer |
+| Go up a directory                             | =U=       |         | Only in Neotree buffer |
+| Refresh                                       | =g=       |         | Only in Neotree buffer |
+| Maximise/minimize Neotree window              | =A=       |         | Only in Neotree buffer |
+| Toggle display hidden files                   | =H=       |         | Only in Neotree buffer |
+| Create a file or directory (if ends with =/=) | =C-c C-n= |         | Only in Neotree buffer |
+| Delete a file or directory                    | =C-c C-d= |         | Only in Neotree buffer |
+| Rename a file or directory                    | =C-c C-r= |         | Only in Neotree buffer |
+| Change the root directory                     | =C-c C-c= |         | Only in Neotree buffer |
+| Copy a file or directory.                     | =C-c C-p= |         | Only in Neotree buffer |
 
 ** Yasnippet
 *** Setup
@@ -430,9 +446,12 @@ Install =magit= if required.
 #+END_SRC
 
 *** Useful Commands
-| Task | Cmd | Alt Cmd | Notes |
-|------+-----+---------+-------|
-|      |     |         |       |
+| Task                | Cmd       | Alt Cmd               | Notes                 |
+|---------------------+-----------+-----------------------+-----------------------|
+| Magit status        | =C-x g=   | =magit-status=        | Git status            |
+| Magit dispatch      | =C-x M-g= | =magit-dispatch=      | Git commands          |
+| Magit file dispatch | =C-c M-g= | =magit-file-dispatch= | Git commands for file |
+|                     |           |                       |                       |
 
 ** Diff-hl
 *** Setup
