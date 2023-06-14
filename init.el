@@ -1,3 +1,4 @@
+
 ;; Set some sane UI defaults.
 (setq inhibit-startup-message t)
 (scroll-bar-mode -1)
@@ -103,7 +104,29 @@
   ([remap describe-command] . helpful-command)
   ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-key] . helpful-key))
-  
+
+;; Projectile.
+(use-package projectile
+  :diminish projectile-mode
+  :config (projectile-mode)
+  :custom ((projectile-completion-system 'ivy))
+;;  :bind-keymap
+;;  ("C-c p" . projectile-command-map)
+  :init
+  ;; TODO: Update dirs.
+  (when (file-directory-p "~/Projects/Code")
+    (setq projectile-project-search-path '("~/Projects/Code")))
+  (setq projectile-switch-project-action #'projectile-dired))
+
+(use-package counsel-projectile
+  :config (counsel-projectile-mode))
+
+;; Magit
+;; TODO: Check out the other buffers.
+;; https://magit.vc/manual/magit/Switching-Buffers.html
+(use-package magit
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
   
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -113,7 +136,7 @@
  '(custom-safe-themes
    '("da75eceab6bea9298e04ce5b4b07349f8c02da305734f7c0c8c6af7b5eaa9738" default))
  '(package-selected-packages
-   '(helpful which-key counsel ivy-rich command-log-mode doom-modeline yasnippet-snippets yaml-mode use-package smart-mode-line rainbow-delimiters py-autopep8 projectile org-bullets neotree magit lsp-haskell key-quiz ivy irony-eldoc haskell-snippets flycheck-irony exec-path-from-shell doom-themes diff-hl company-jedi company-irony auto-compile auctex atom-one-dark-theme)))
+   '(counsel-projectile yasnippet-snippets yaml-mode which-key use-package smart-mode-line rainbow-delimiters py-autopep8 projectile org-bullets neotree magit lsp-haskell key-quiz ivy-rich irony-eldoc helpful haskell-snippets flycheck-irony exec-path-from-shell doom-themes doom-modeline diff-hl counsel company-jedi company-irony command-log-mode auto-compile auctex atom-one-dark-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
