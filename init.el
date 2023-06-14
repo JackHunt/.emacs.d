@@ -5,10 +5,9 @@
 (tooltip-mode -1)
 (set-fringe-mode 10)
 (menu-bar-mode -1)
-(setq visible-bell t)
 
 ;; Set font - TODO: set size.
-(set-face-attribute 'default nil :font "Fira Code Retina" :height 280)
+(set-face-attribute 'default nil :font "Fira Code Retina" :height 100)
 
 ;; Setup use-package
 (require 'package)
@@ -30,7 +29,7 @@
 
 ;; Theme - TODO: get from xresources.
 (use-package doom-themes
-  :init (load-theme 'doom-gruvbox))
+  :init (load-theme 'doom-material-dark))
 
 ;; Colour coded parenthesis etc.
 (use-package rainbow-delimiters
@@ -41,9 +40,9 @@
 (global-display-line-numbers-mode t)
 
 (dolist (mode '(org-mode-hook
-                term-mode-hook))
-    shell-mode-hook
-                eshell-mode-hook
+                term-mode-hook
+		shell-mode-hook
+		eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
  
 
@@ -106,3 +105,18 @@
   ([remap describe-key] . helpful-key))
   
   
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("da75eceab6bea9298e04ce5b4b07349f8c02da305734f7c0c8c6af7b5eaa9738" default))
+ '(package-selected-packages
+   '(helpful which-key counsel ivy-rich command-log-mode doom-modeline yasnippet-snippets yaml-mode use-package smart-mode-line rainbow-delimiters py-autopep8 projectile org-bullets neotree magit lsp-haskell key-quiz ivy irony-eldoc haskell-snippets flycheck-irony exec-path-from-shell doom-themes diff-hl company-jedi company-irony auto-compile auctex atom-one-dark-theme)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
