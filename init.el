@@ -7,6 +7,9 @@
 (set-fringe-mode 10)
 (menu-bar-mode -1)
 
+(if (eq system-type 'darwin)
+    (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#"))))
+
 ;; Set font - TODO: set size.
 (set-face-attribute 'default nil :font "Fira Code Retina" :height 100)
 
