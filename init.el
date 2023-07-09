@@ -1,4 +1,3 @@
-
 ;; Set some sane UI defaults.
 (setq inhibit-startup-message t)
 (scroll-bar-mode -1)
@@ -33,7 +32,7 @@
 
 ;; Theme - TODO: get from xresources.
 (use-package doom-themes
-  :init (load-theme 'doom-material-dark))
+  :init (load-theme 'doom-material-dark t))
 
 ;; Colour coded parenthesis etc.
 (use-package rainbow-delimiters
@@ -58,22 +57,22 @@
 ;; Keep command history.
 (use-package command-log-mode)
 
-;; Setup Ivy.
+;; Setup Ivy. TODO: Customize bindings.
 (use-package ivy
   :diminish
-;;  :bind (("C-s" . swiper)
-;;         :map ivy-minibuffer-map
-;;         ("TAB" . ivy-alt-done)	
-;;         ("C-l" . ivy-alt-done)
-;;         ("C-j" . ivy-next-line)
-;;         ("C-k" . ivy-previous-line)
-;;         :map ivy-switch-buffer-map
-;;         ("C-k" . ivy-previous-line)
-;;         ("C-l" . ivy-done)
-;;         ("C-d" . ivy-switch-buffer-kill)
-;;         :map ivy-reverse-i-search-map
-;;         ("C-k" . ivy-previous-line)
-;;         ("C-d" . ivy-reverse-i-search-kill))
+  :bind (("C-s" . swiper)
+         :map ivy-minibuffer-map
+         ("TAB" . ivy-alt-done)	
+         ("C-l" . ivy-alt-done)
+         ("C-j" . ivy-next-line)
+         ("C-k" . ivy-previous-line)
+         :map ivy-switch-buffer-map
+         ("C-k" . ivy-previous-line)
+         ("C-l" . ivy-done)
+         ("C-d" . ivy-switch-buffer-kill)
+         :map ivy-reverse-i-search-map
+         ("C-k" . ivy-previous-line)
+         ("C-d" . ivy-reverse-i-search-kill))
   :config
   (ivy-mode 1))
 
@@ -113,8 +112,8 @@
   :diminish projectile-mode
   :config (projectile-mode)
   :custom ((projectile-completion-system 'ivy))
-;;  :bind-keymap
-;;  ("C-c p" . projectile-command-map)
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
   :init
   ;; TODO: Update dirs.
   (when (file-directory-p "~/Projects/Code")
@@ -122,6 +121,7 @@
   (setq projectile-switch-project-action #'projectile-dired))
 
 (use-package counsel-projectile
+  :after projectile
   :config (counsel-projectile-mode))
 
 ;; Magit
@@ -131,15 +131,112 @@
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
   
+;; LSP Mode.
+(defun jh/lsp-mode-setup ()
+  (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+  (lsp-headerline-breadcrumb-mode))
+
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :hook (lsp-mode . jh/lsp-mode-setup)
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :config
+  (lsp-enable-which-key-integration t))
+
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-ui-doc-position 'bottom))
+
+(use-package lsp-treemacs
+  :after lsp)
+
+(use-package lsp-ivy
+  :after lsp)
+
+;; DAP Mode.
+(use-package dap-mode
+  ;; Uncomment the config below if you want all UI panes to be hidden by default!
+  ;; :custom
+  ;; (lsp-enable-dap-auto-configure nil)
+  ;; :config
+  ;; (dap-ui-mode 1)
+  :commands dap-debug
+  :config
+  (require 'dap-cpptools)
+  (require 'dap-gdb-lldb)
+  (require 'dap-docker)
+  (require 'dap-python)
+  (dap-node-setup))
+
+;; Python.
+(use-package python-mode
+  :ensure t
+  :hook (python-mode . lsp-deferred)
+  :custom
+  (python-shell-interpreter "python3")
+  (dap-python-executable "python3")
+  (dap-python-debugger 'debugpy)
+  :config
+  (require 'dap-python))
+
+(use-package pyvenv
+  :after python-mode
+  :config
+  (pyvenv-mode 1))
+
+;; Company Mode.
+(use-package company
+  :after lsp-mode
+  :hook (lsp-mode . company-mode)
+  :bind (:map company-active-map
+         ("<tab>" . company-complete-selection))
+        (:map lsp-mode-map
+         ("<tab>" . company-indent-or-complete-common))
+  :custom
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.0))
+
+(use-package company-box
+  :hook (company-mode . company-box-mode))
+
+;; Terminals.
+(use-package term
+  :commands term
+  :config
+  (setq explicit-shell-file-name "zsh")
+  ;; TODO: Update to match custom prompt.
+  (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *"))
+
+(use-package eterm-256color
+  :hook (term-mode . eterm-256color-mode))
+
+(use-package vterm
+  :commands vterm
+  :config
+  ;; TODO: Update to match custom prompt.
+  (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *")
+  (setq vterm-shell "zsh")
+  (setq vterm-max-scrollback 10000))
+
+;; Dired.
+(use-package dired
+  :ensure nil
+  :commands (dired dired-jump)
+  :bind (("C-x C-j" . dired-jump))
+  :custom ((dired-listing-switches "-agho --group-directories-first")))
+
+(use-package dired-single
+  :commands (dired dired-jump))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("da75eceab6bea9298e04ce5b4b07349f8c02da305734f7c0c8c6af7b5eaa9738" default))
  '(package-selected-packages
-   '(counsel-projectile yasnippet-snippets yaml-mode which-key use-package smart-mode-line rainbow-delimiters py-autopep8 projectile org-bullets neotree magit lsp-haskell key-quiz ivy-rich irony-eldoc helpful haskell-snippets flycheck-irony exec-path-from-shell doom-themes doom-modeline diff-hl counsel company-jedi company-irony command-log-mode auto-compile auctex atom-one-dark-theme)))
+   '(python-mode dap-mode lsp-treemacs yasnippet-snippets yaml-mode yaml which-key vterm use-package smart-mode-line rainbow-delimiters pyvenv py-autopep8 pfuture org-bullets neotree magit lsp-ui lsp-ivy lsp-haskell key-quiz ivy-rich irony-eldoc hydra helpful haskell-snippets flycheck-irony exec-path-from-shell eterm-256color doom-themes doom-modeline dired-single diff-hl counsel-projectile company-jedi company-irony company-box command-log-mode cfrs auto-compile auctex atom-one-dark-theme ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
