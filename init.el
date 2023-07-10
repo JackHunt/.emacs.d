@@ -21,14 +21,23 @@
 
 (package-initialize)
 (unless package-archive-contents
- (package-refresh-contents))
+  (package-refresh-contents))
 
 ;; Initialize use-package on non-Linux platforms
 (unless (package-installed-p 'use-package)
-   (package-install 'use-package))
+  (package-install 'use-package))
 
 (require 'use-package)
 (setq use-package-always-ensure t)
+
+(use-package auto-package-update
+  :custom
+  (auto-package-update-interval 7)
+  (auto-package-update-prompt-before-update t)
+  (auto-package-update-hide-results t)
+  :config
+  (auto-package-update-maybe)
+  (auto-package-update-at-time "11:00"))
 
 ;; Theme - TODO: get from xresources.
 (use-package doom-themes
@@ -164,9 +173,9 @@
   ;; (dap-ui-mode 1)
   :commands dap-debug
   :config
-  (require 'dap-cpptools)
-  (require 'dap-gdb-lldb)
-  (require 'dap-docker)
+  ;; (require 'dap-cpptools)
+  ;; (require 'dap-gdb-lldb)
+  ;; (require 'dap-docker)
   (require 'dap-python)
   (dap-node-setup))
 
