@@ -12,6 +12,20 @@
 ;; Set font - TODO: set size.
 (set-face-attribute 'default nil :font "Fira Code Retina" :height 100)
 
+;; Force emacs style cursor navigation.
+(global-unset-key (kbd "<left>"))
+(global-unset-key (kbd "<right>"))
+(global-unset-key (kbd "<up>"))
+(global-unset-key (kbd "<down>"))
+(global-unset-key (kbd "<C-left>"))
+(global-unset-key (kbd "<C-right>"))
+(global-unset-key (kbd "<C-up>"))
+(global-unset-key (kbd "<C-down>"))
+(global-unset-key (kbd "<M-left>"))
+(global-unset-key (kbd "<M-right>"))
+(global-unset-key (kbd "<M-up>"))
+(global-unset-key (kbd "<M-down>"))
+
 ;; Setup use-package
 (require 'package)
 
@@ -179,6 +193,16 @@
   (require 'dap-python)
   (dap-node-setup))
 
+;; Flyspell
+(use-package flyspell
+  :ensure t
+  :init
+  (dolist (hook '(text-mode-hook))
+    (add-hook hook (lambda () (flyspell-mode 1))))
+  :config
+  (setq ispell-dictionary "british"))
+
+
 ;; Python.
 (use-package python-mode
   :ensure t
@@ -194,6 +218,22 @@
   :after python-mode
   :config
   (pyvenv-mode 1))
+
+;; LaTeX Mode.
+(use-package auctex
+  :defer t
+  :ensure t
+  :config
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+  ;;(add-hook 'LaTeX-mode-hook 'visual-line-mode)
+  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+  ;;(add-hook 'LaTeX-mode-hook 'flycheck-mode)
+  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+  (setq reftex-plug-into-AUCTeX t)
+  (setq TeX-PDF-mode t))
+
 
 ;; Company Mode.
 (use-package company
