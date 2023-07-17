@@ -16,3 +16,5 @@ config.el~
 *~
 config.html
 recentf
+eln-cache
+.last-package-update-day

@@ -278,17 +278,3 @@
 
 (use-package dired-single
   :commands (dired dired-jump))
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(python-mode dap-mode lsp-treemacs yasnippet-snippets yaml-mode yaml which-key vterm use-package smart-mode-line rainbow-delimiters pyvenv py-autopep8 pfuture org-bullets neotree magit lsp-ui lsp-ivy lsp-haskell key-quiz ivy-rich irony-eldoc hydra helpful haskell-snippets flycheck-irony exec-path-from-shell eterm-256color doom-themes doom-modeline dired-single diff-hl counsel-projectile company-jedi company-irony company-box command-log-mode cfrs auto-compile auctex atom-one-dark-theme ace-window)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
