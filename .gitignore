@@ -18,3 +18,5 @@ config.html
 recentf
 eln-cache
 .last-package-update-day
+.cache
+session*
