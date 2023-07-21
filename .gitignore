@@ -20,3 +20,5 @@ eln-cache
 .last-package-update-day
 .cache
 session*
+.dap-breakpoints
+.lsp-session-v1
