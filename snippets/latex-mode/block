@@ -1,0 +1,8 @@
+-- mode: snippet --
+name: block
+key: blk
+--
+\begin{block}
+  {${1:Block Title}}
+  $0
+\end{block}

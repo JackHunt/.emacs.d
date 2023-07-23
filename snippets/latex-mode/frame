@@ -1,0 +1,7 @@
+-- mode: snippet --
+name: frame
+key: frm
+--
+\begin{frame}{${1:Frame Title}}
+  $0
+\end{frame}
