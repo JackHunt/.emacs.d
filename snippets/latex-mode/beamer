@@ -1,0 +1,37 @@
+-- mode: snippet --
+name: beamer-presentation
+key: beamer
+--
+\documentclass{beamer}
+
+\begin{document}
+
+  \title{${1:Presentation Title}}
+  \author{${2:Author}}
+  \date{\today}
+
+  \begin{frame}
+    \titlepage
+  \end{frame}
+
+  \section{Introduction}
+  \begin{frame}{Introduction}
+    $0
+  \end{frame}
+
+  \section{Methodology}
+  \begin{frame}{Methodology}
+    %
+  \end{frame}
+
+  \section{Results}
+  \begin{frame}{Results}
+    %
+  \end{frame}
+
+  \section{Conclusion}
+  \begin{frame}{Conclusion}
+    %
+  \end{frame}
+
+\end{document}

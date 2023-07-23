@@ -1,0 +1,12 @@
+-- mode: snippet --
+name: table
+key: tbl
+--
+\begin{table}[htbp]
+  \centering
+  \caption{${1:Table Caption}}
+  \label{tab:${2:label}}
+  \begin{tabular}{${3:c}}
+    $0
+  \end{tabular}
+\end{table}
