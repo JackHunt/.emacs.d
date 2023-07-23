@@ -1,0 +1,7 @@
+-- mode: snippet --
+name: C++ closure using lambda.
+key: cclosure
+--
+auto closure = [${1:capture_list}] (${2:arguments}) {
+    $0
+};

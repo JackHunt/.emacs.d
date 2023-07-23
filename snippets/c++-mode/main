@@ -1,0 +1,17 @@
+-- mode: snippet --
+name: C++ main function with argument parsing
+key: cmain
+--
+include <iostream>
+include <unistd.h>
+
+int main(int argc, char* argv[]) {
+    int option;
+    while ((option = getopt(argc, argv, "${1:options}")) != -1) {
+        switch (option) {
+	    $0
+	}
+    }
+
+    return 0;
+}

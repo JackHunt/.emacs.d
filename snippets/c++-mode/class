@@ -1,0 +1,39 @@
+-- mode: snippet --
+name: C++ class with default constructors, destructor, and assignments.
+key: cclass
+-- class
+${1:ClassName} final {
+public:
+    ${1:ClassName}() {
+        $0
+    }
+
+    ~${1:ClassName}() {
+        //
+    }
+
+
+    ${1:ClassName}(const ${1:ClassName} &other) {
+        //
+    }
+
+    ${1:ClassName}(${1:ClassName}&& other) noexcept {
+        //
+    }
+
+    ${1:ClassName}& operator=(const ${1:ClassName}& other) {
+        if (this != &other) {
+            //
+        }
+
+        return *this;
+    }
+
+    ${1:ClassName}& operator=(${1:ClassName}&& other) noexcept {
+        if (this != &other) {
+            //
+        }
+
+        return *this;
+    }
+};
