@@ -1,0 +1,10 @@
+-- mode: snippet --
+name: Python context manager
+key: pcontext
+--
+class ${1:ContextManager}:
+    def __enter__(self):
+        pass $0
+
+    def __exit__(self, exc_type, exc_value, traceback):
+    	pass

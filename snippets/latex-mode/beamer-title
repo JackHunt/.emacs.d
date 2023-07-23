@@ -1,0 +1,7 @@
+-- mode: snippet --
+name: title slide
+key: title
+--
+\begin{frame}
+  \titlepage
+\end{frame}

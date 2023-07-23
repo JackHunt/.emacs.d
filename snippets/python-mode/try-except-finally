@@ -1,0 +1,10 @@
+-- mode: snippet --
+name: Python try-except-finally block
+key: ptryexcept
+--
+try:
+    $0
+except ${2:ExceptionType} as ${3:exception}:
+    raise ${3:exception}
+finally:
+    pass

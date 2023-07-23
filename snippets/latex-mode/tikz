@@ -1,0 +1,12 @@
+-- mode: snippet --
+name: tikz
+key: tikz
+--
+\begin{figure}[htbp]
+  \centering
+  \caption{${1:Caption}}
+  \label{fig:${2:label}}
+  \begin{tikzpicture}
+    $0
+  \end{tikzpicture}
+\end{figure}

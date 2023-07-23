@@ -1,0 +1,22 @@
+-- mode: snippet --
+name: Python class with default methods
+key: pclass
+--
+class ${1:ClassName}:
+    def __init__(self):
+    	pass
+
+    def __str__(self) -> str:
+    	${5:return "${1:ClassName}"}
+
+    def __repr__(self) -> ${1:ClassName}:
+        ${6:return "${1:ClassName}()"}
+
+    def __eq__(self, other) -> bool:
+    	pass
+
+    def __lt__(self, other) - bool:
+    	pass
+
+    def __gt__(self, other) -> bool:
+    	pass

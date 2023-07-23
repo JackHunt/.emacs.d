@@ -1,0 +1,14 @@
+-- mode: snippet --
+name: two columns
+key: twocol
+--
+\begin{frame}
+  \frametitle{${1:Slide Title}}
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+      $0
+
+    \column{0.5\textwidth}
+      %%
+  \end{columns}
+\end{frame}

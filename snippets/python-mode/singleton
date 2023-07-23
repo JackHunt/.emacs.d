@@ -1,0 +1,14 @@
+-- mode: snippet --
+name: Python singleton
+key: psingleton
+--
+class ${1:Singleton}:
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
+    def __init__(self${2:, ${3:args}}):
+        $0

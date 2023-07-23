@@ -1,0 +1,9 @@
+-- mode: snippet --
+name: Python closure
+key: pclosure
+--
+def ${1:outerfunction}(${2:outerarg}):
+    def ${3:innerfunction}(${4:innerarg}):
+         $0
+
+    return ${3:inner_function}

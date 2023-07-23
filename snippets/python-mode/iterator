@@ -1,0 +1,19 @@
+-- mode: snippet --
+name: Python iterator
+key: piterator
+--
+class ${1:Iterator}:
+    def __init__(self, ${2:sequence}):
+        self.${2:sequence} = ${2:sequence}
+	self.${3:index} = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.${3:index} < len(self.${2:sequence}):
+            item = self.${2:sequence}[self.${3:index}]
+            self.${3:index} += 1
+            return item
+
+        raise StopIteration
