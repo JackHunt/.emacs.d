@@ -1,7 +1,7 @@
--- mode: snippet --
-name: C++ try-catch-finally block
-key: ctrycatch
---
+# -*- mode: snippet -*-
+# name: C++ try-catch-finally block.
+# key: ctrycatch
+# --
 try {
     $0
 } catch (${1:ExceptionType1} &e}) {
