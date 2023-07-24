@@ -1,7 +1,7 @@
--- mode: snippet --
-name: figure
-key: fig
---
+# -*- mode: snippet -*-
+# name: Figure
+# key: fig
+# --
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=${1:0.8\textwidth}]{${2:figure}}
