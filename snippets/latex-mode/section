@@ -1,6 +1,7 @@
--- mode: snippet --
-name: section
-key: sec
---
+# -*- mode: snippet -*-
+# name: Section
+# key: sec
+# --
 \section{${1:Section Title}}
+\label{sec:2:section_title}
 $0
