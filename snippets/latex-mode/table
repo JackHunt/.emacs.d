@@ -1,7 +1,7 @@
--- mode: snippet --
-name: table
-key: tbl
---
+# -*- mode: snippet -*-
+# name: Table
+# key: tbl
+# --
 \begin{table}[htbp]
   \centering
   \caption{${1:Table Caption}}
