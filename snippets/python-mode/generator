@@ -1,6 +1,6 @@
--- mode: snippet --
-name: Python generator
-key: pgenerator
---
+# -*- mode: snippet -*-
+# name: Generator
+# key: pgenerator
+# --
 def ${1:generator_name}(${2:args}):
     ${3:yield ${4:value}}
