@@ -1,7 +1,7 @@
--- mode: snippet --
-name: tikz
-key: tikz
---
+# -*- mode: snippet -*-
+# name: Tikz
+# key: tikz
+# --
 \begin{figure}[htbp]
   \centering
   \caption{${1:Caption}}
