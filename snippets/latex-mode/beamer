@@ -1,7 +1,7 @@
--- mode: snippet --
-name: beamer-presentation
-key: beamer
---
+# -*- mode: snippet -*-
+# name: Beamer Presentation
+# key: beamer
+# --
 \documentclass{beamer}
 
 \begin{document}
