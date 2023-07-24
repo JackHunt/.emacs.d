@@ -1,5 +1,5 @@
--- mode: snippet --
-name: C++ lambda expression.
-key: clambda
---
+# -*- mode: snippet -*-
+# name: C++ lambda expression.
+# key: clambda
+# --
 [${1:capture_list}](${2:arguments}) {$0}
