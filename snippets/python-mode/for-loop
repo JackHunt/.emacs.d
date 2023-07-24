@@ -1,6 +1,6 @@
--- mode: snippet --
-name: for-loop
-key: for
---
+# -*- mode: snippet -*-
+# name: For Loop
+# key: for
+# --
 for $1 in $2:
     $0
