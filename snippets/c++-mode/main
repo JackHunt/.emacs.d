@@ -1,7 +1,7 @@
--- mode: snippet --
-name: C++ main function with argument parsing
-key: cmain
---
+# -*- mode: snippet -*-
+# name: C++ main function with argument parsing
+# key: cmain
+# --
 include <iostream>
 include <unistd.h>
 
