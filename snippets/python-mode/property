@@ -1,7 +1,7 @@
--- mode: snippet --
-name: Python property and setter
-key: pproperty
---
+# -*- mode: snippet -*-
+# name: Property and Setter
+# key: pproperty
+# --
 @property
 def ${1:property_name}(self):
     return self._${1:property_name}
