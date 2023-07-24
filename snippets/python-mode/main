@@ -1,7 +1,7 @@
--- mode: snippet --
-name: Python main method and main block with argparse
-key: pmain
---
+# -*- mode: snippet -*-
+# name: Main with Arg Parser
+# key: pmain
+# --
 import argparse
 
 def main(**kwargs):
