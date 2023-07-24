@@ -1,7 +1,7 @@
--- mode: snippet --
-name: C++ Canonical for loop.
-key: cfor
---
+# -*- mode: snippet -*-
+# name: C++ Canonical for loop.
+# key: cfor
+# --
 for (${1:init}; ${2:condition}; ${3:increment}) {
     $0
 }
