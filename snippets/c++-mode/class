@@ -1,7 +1,7 @@
--- mode: snippet --
-name: C++ class with default constructors, destructor, and assignments.
-key: cclass
--- class
+# -*- mode: snippet -*-
+# name: C++ class with default constructors, destructor, and assignments.
+# key: cclass
+# -- class
 ${1:ClassName} final {
 public:
     ${1:ClassName}() {
