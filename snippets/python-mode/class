@@ -1,7 +1,7 @@
--- mode: snippet --
-name: Python class with default methods
-key: pclass
---
+# -*- mode: snippet -*-
+# name: Class with default methods
+# key: pclass
+# --
 class ${1:ClassName}:
     def __init__(self):
     	pass
