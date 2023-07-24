@@ -1,7 +1,7 @@
--- mode: snippet --
-name: function
-key: def
---
+# -*- mode: snippet -*-
+# name: Function
+# key: def
+# --
 def ${1:function_name}(${2:arguments}) -> ${3:return_type}:
     """${4:Description}
     """
