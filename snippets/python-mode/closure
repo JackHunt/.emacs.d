@@ -1,7 +1,7 @@
--- mode: snippet --
-name: Python closure
-key: pclosure
---
+# -*- mode: snippet -*-
+# name: Closure
+# key: pclosure
+# --
 def ${1:outerfunction}(${2:outerarg}):
     def ${3:innerfunction}(${4:innerarg}):
          $0
