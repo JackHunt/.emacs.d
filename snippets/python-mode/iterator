@@ -1,7 +1,7 @@
--- mode: snippet --
-name: Python iterator
-key: piterator
---
+# -*- mode: snippet -*-
+# name: Iterator
+# key: piterator
+# --
 class ${1:Iterator}:
     def __init__(self, ${2:sequence}):
         self.${2:sequence} = ${2:sequence}
