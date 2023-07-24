@@ -1,7 +1,7 @@
--- mode: snippet --
-name: two columns
-key: twocol
---
+# -*- mode: snippet -*-
+# name: Beamer Two Column Slide
+# key: twocol
+# --
 \begin{frame}
   \frametitle{${1:Slide Title}}
   \begin{columns}[T]
