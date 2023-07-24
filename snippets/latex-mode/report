@@ -1,7 +1,7 @@
--- mode: snippet --
-name: latex-report
-key: report
---
+# -*- mode: snippet -*-
+# name: Report
+# key: report
+# --
 \documentclass{report}
 
 \begin{document}
