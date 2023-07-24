@@ -1,7 +1,7 @@
--- mode: snippet --
-name: Python context manager
-key: pcontext
---
+# -*- mode: snippet -*-
+# name: Context Manager
+# key: pcontext
+# --
 class ${1:ContextManager}:
     def __enter__(self):
         pass $0
