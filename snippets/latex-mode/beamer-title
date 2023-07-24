@@ -1,7 +1,7 @@
--- mode: snippet --
-name: title slide
-key: title
---
+# -*- mode: snippet -*-
+# name: Beamer Title Slide
+# key: title
+# --
 \begin{frame}
   \titlepage
 \end{frame}
