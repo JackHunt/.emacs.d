@@ -1,7 +1,7 @@
--- mode: snippet --
-name: C++ class method
-key: cmethod
---
+# -*- mode: snippet -*-
+# name: C++ class method
+# key: cmethod
+# --
 ${1:ReturnType} ${2:ClassName}::${3:methodName}(${4:arguments}) {
     $0
 }
