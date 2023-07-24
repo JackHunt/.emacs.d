@@ -1,7 +1,7 @@
--- mode: snippet --
-name: Python try-except-finally block
-key: ptryexcept
---
+# -*- mode: snippet -*-
+# name: Try-Except-Finally
+# key: ptryexcept
+# --
 try:
     $0
 except ${2:ExceptionType} as ${3:exception}:
