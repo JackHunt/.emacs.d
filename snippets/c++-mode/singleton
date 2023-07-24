@@ -1,7 +1,7 @@
--- mode: snippet --
-name: C++ Singleton.
-key: csingleton
---
+# -*- mode: snippet -*-
+# name: C++ Singleton.
+# key: csingleton
+# --
 class ${1:Singleton} final {
 private:
     ${1:Singleton}() {
