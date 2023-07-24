@@ -1,7 +1,7 @@
--- mode: snippet --
-name: Python singleton
-key: psingleton
---
+# -*- mode: snippet -*-
+# name: Singleton
+# key: psingleton
+# --
 class ${1:Singleton}:
     _instance = None
 
