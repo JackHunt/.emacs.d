@@ -1,7 +1,7 @@
--- mode: snippet --
-name: figure slide
-key: figure
---
+# -*- mode: snippet -*-
+# name: Beamer Figure Slide
+# key: figure
+# --
 \begin{frame}
   \frametitle{${1:Slide Title}}
   \begin{figure}
