@@ -36,6 +36,9 @@
 ;; Nuke trailing whitespace on save.
 (add-hook 'before-save-hook (lambda () (delete-trailing-whitespace)))
 
+;; Tabs are evil.
+(setq-default indent-tabs-mode nil)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PACKAGE MANAGEMENT
 
