@@ -33,8 +33,12 @@
 ;; Match parens, quotations etc.
 (electric-pair-mode 1)
 
+;; Nuke trailing whitespace on save.
+(add-hook 'before-save-hook (lambda () (delete-trailing-whitespace)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PACKAGE MANAGEMENT
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'package)
 
@@ -81,7 +85,7 @@
 		shell-mode-hook
 		eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
- 
+
 
 ;; Setup nice modeline - TODO: customize height
 (use-package doom-modeline
@@ -95,7 +99,7 @@
   :diminish
   :bind (("C-s" . swiper)
          :map ivy-minibuffer-map
-         ("TAB" . ivy-alt-done)	
+         ("TAB" . ivy-alt-done)
          ("C-l" . ivy-alt-done)
          ("C-j" . ivy-next-line)
          ("C-k" . ivy-previous-line)
@@ -112,7 +116,7 @@
 ;; Command descriptions & key combos in ivy.
 (use-package ivy-rich
   :init
-  (ivy-rich-mode 1)) 
+  (ivy-rich-mode 1))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; COUNSEL
@@ -122,12 +126,12 @@
          ("C-x b" . counsel-ibuffer)
          ("C-x C-f" . counsel-find-file)
          :map minibuffer-local-map
-         ("C-r" . 'counsel-minibuffer-history))) 
+         ("C-r" . 'counsel-minibuffer-history)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; HELP & LEARNING
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Shows possible key bindings given a partial sequence. 
+;; Shows possible key bindings given a partial sequence.
 (use-package which-key
   :init (which-key-mode)
   :diminish which-key-mode
@@ -183,7 +187,7 @@
 (use-package magit
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
-  
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LSP
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
