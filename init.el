@@ -14,7 +14,7 @@
     (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#"))))
 
 ;; Set font - TODO: set size.
-(set-face-attribute 'default nil :font "Fira Code Retina" :height 100)
+(set-face-attribute 'default nil :font "Fira Code Retina" :height 120)
 
 ;; Force emacs style cursor navigation.
 (global-unset-key (kbd "<left>"))
@@ -72,7 +72,7 @@
 ;; THEMES & APPEARANCE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package doom-themes
-  :init (load-theme 'doom-material-dark t))
+  :init (load-theme 'doom-acario-dark t))
 
 ;; Colour coded parenthesis etc.
 (use-package rainbow-delimiters
@@ -278,7 +278,10 @@
   :config
   (require 'dap-python))
 
+;;(setenv "WORKON_HOME" (concat (getenv "CONDA_PREFIX") "/envs"))
+;; As a hack, just symlink conda env dir to ~/.virtualenvs for now
 (use-package pyvenv
+  :ensure t
   :after python-mode
   :config
   (pyvenv-mode 1))
@@ -361,15 +364,44 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ORG MODE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Nicer bullets.
+(use-package org-bullets
+  :hook (org-mode . org-bullets-mode)
+  :custom
+  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; YASNIPPET
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Make source blocks look a bit nicer.
+(setq org-edit-src-content-indentation 0
+      org-src-tab-acts-natively t
+      org-src-preserve-indentation t
+      org-src-fontify-natively t)
+
+;; (setq org-src-window-setup 'current-window)
+(setq org-ellipsis "⤵")
+
+;; Enable spell checking.
+(add-hook 'org-mode-hook 'flyspell-mode)
+
+;; Babel for literate programming/notebooks.
+(use-package jupyter
+  :ensure t)
+
+(org-babel-do-load-languages
+  'org-babel-load-languages
+  '((python . t)
+    (shell . t)
+    (jupyter . t)))
+
+(setq org-export-with-smart-quotes t)
+(setq org-confirm-babel-evaluate nil)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("2dd4951e967990396142ec54d376cced3f135810b2b69920e77103e0bcedfba9" default))
  '(delete-selection-mode nil)
  '(package-selected-packages
    '(yasnippet which-key vterm use-package rainbow-delimiters pyvenv python-mode magit lsp-ui lsp-ivy ivy-rich helpful eterm-256color doom-themes doom-modeline dired-single dap-mode counsel-projectile company-box command-log-mode auto-package-update auctex)))
