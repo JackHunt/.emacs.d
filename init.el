@@ -115,6 +115,12 @@
   (global-ligature-mode t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; APPS
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package speed-type
+  :ensure t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; IVY
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package ivy
@@ -392,7 +398,7 @@
     (shell . t)
     (jupyter . t)))
 
-(setq org-export-with-smart-quotes t)
+;;(setq org-export-with-smart-quotes t)
 (setq org-confirm-babel-evaluate nil)
 
 (custom-set-variables
@@ -404,7 +410,7 @@
    '("2dd4951e967990396142ec54d376cced3f135810b2b69920e77103e0bcedfba9" default))
  '(delete-selection-mode nil)
  '(package-selected-packages
-   '(yasnippet which-key vterm use-package rainbow-delimiters pyvenv python-mode magit lsp-ui lsp-ivy ivy-rich helpful eterm-256color doom-themes doom-modeline dired-single dap-mode counsel-projectile company-box command-log-mode auto-package-update auctex)))
+   '(speed-type yasnippet which-key vterm use-package rainbow-delimiters pyvenv python-mode magit lsp-ui lsp-ivy ivy-rich helpful eterm-256color doom-themes doom-modeline dired-single dap-mode counsel-projectile company-box command-log-mode auto-package-update auctex)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
