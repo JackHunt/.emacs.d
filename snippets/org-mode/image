@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Image
+# key: img
+# --
+#+CAPTION: ${1:CaptionText}
+#+NAME:   fig:${2:FigName}
+[[${3:ImagePath}]]$0

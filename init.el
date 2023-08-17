@@ -14,7 +14,7 @@
     (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#"))))
 
 ;; Set font - TODO: set size.
-(set-face-attribute 'default nil :font "Fira Code Retina" :height 120)
+(set-face-attribute 'default nil :font "Fira Code Retina" :height 110)
 
 ;; Force emacs style cursor navigation.
 (global-unset-key (kbd "<left>"))
@@ -38,6 +38,20 @@
 
 ;; Tabs are evil.
 (setq-default indent-tabs-mode nil)
+
+;; Helper for reloading config.
+(defun jh/reload-config ()
+  "Reload .emacs.d/init.el"
+  (interactive)
+  (load-file "~/.emacs.d/init.el"))
+
+;; Don't store backup files with sources - it's a pain with git.
+(setq backup-directory-alist
+      `(("." . , (expand-file-name "backups" temporary-file-directory))))
+
+;; Ditto for autosaves.
+(setq auto-save-file-name-transforms `((".*" , temporary-file-directory t)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PACKAGE MANAGEMENT
@@ -87,6 +101,12 @@
 		shell-mode-hook
 		eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+;; Lines showing indentation.
+(use-package highlight-indent-guides
+  :ensure t
+  :hook (prog-mode . highlight-indent-guides-mode)
+  :custom (highlight-indent-guides-method 'bitmap))
 
 
 ;; Setup nice modeline - TODO: customize height
@@ -401,6 +421,30 @@
 ;;(setq org-export-with-smart-quotes t)
 (setq org-confirm-babel-evaluate nil)
 
+;; Enable inline images and make sure they get updated.
+(add-hook 'org-mode-hook 'org-display-inline-images)
+(add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
+(setq org-display-remote-inline-images 'cache)
+
+;; Function to generate a css file from the current theme for org export.
+(defun jh/theme-to-css (filename)
+  "Generate a CSS file based on current theme for Org HTML export."
+  (with-temp-file filename
+    ;; Document background & foreground.
+    (let ((default-bg (face-background 'default))
+          (default-fg (face-foreground 'default)))
+      (insert (format "body {\n  background-color: %s;\n  color: %s;\n}\n" default-bg default-fg)))
+
+    ;; Headings.
+    (let ((level-1-bg (face-background 'org-level-1))
+          (level-1-fg (face-foreground 'org-level-1)))
+      (insert (format "h1 {\n  background-color: %s;\n  color: %s;\n}\n" level-1-bg level-1-fg)))
+
+    ;; TODO
+
+    ))
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -409,8 +453,9 @@
  '(custom-safe-themes
    '("2dd4951e967990396142ec54d376cced3f135810b2b69920e77103e0bcedfba9" default))
  '(delete-selection-mode nil)
+ '(highlight-indent-guides-method 'bitmap)
  '(package-selected-packages
-   '(speed-type yasnippet which-key vterm use-package rainbow-delimiters pyvenv python-mode magit lsp-ui lsp-ivy ivy-rich helpful eterm-256color doom-themes doom-modeline dired-single dap-mode counsel-projectile company-box command-log-mode auto-package-update auctex)))
+   '(highlight-indent-guides speed-type yasnippet which-key vterm use-package rainbow-delimiters pyvenv python-mode magit lsp-ui lsp-ivy ivy-rich helpful eterm-256color doom-themes doom-modeline dired-single dap-mode counsel-projectile company-box command-log-mode auto-package-update auctex)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
