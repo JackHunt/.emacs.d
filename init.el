@@ -53,7 +53,6 @@
 ;; Ditto for autosaves.
 (setq auto-save-file-name-transforms `((".*" , temporary-file-directory t)))
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PACKAGE MANAGEMENT
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -458,7 +457,7 @@
   :ensure t
   :custom
   (org-roam-directory (file-truename "~/GitHub/org-roam-notes/"))
-  (org-roam-db-location (file-truename "~/GitHub/org-roam-notes/"))
+  (org-roam-db-location (file-truename "~/GitHub/org-roam-notes/org-roam.sqlite3"))
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
          ("C-c n g" . org-roam-graph)
