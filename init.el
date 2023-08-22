@@ -12,7 +12,7 @@
   (menu-bar-mode -1))
 
 (if (eq system-type 'darwin)
-    (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#"))))
+    (global-set-key (kbd "M-3") #'(lambda () (interactive) (insert "#"))))
 
 ;; Set font - TODO: set size.
 (set-face-attribute 'default nil :font "Fira Code Retina" :height 110)
@@ -147,7 +147,7 @@
   :diminish
   :bind (("C-s" . swiper)
          :map ivy-minibuffer-map
-         ("TAB" . ivy-alt-done)
+         ("TAB" . ivy-partial-or-done)
          ("C-l" . ivy-alt-done)
          ("C-j" . ivy-next-line)
          ("C-k" . ivy-previous-line)
@@ -208,8 +208,8 @@
   ("C-c p" . projectile-command-map)
   :init
   ;; TODO: Update dirs.
-  (when (file-directory-p "~/Projects/Code")
-    (setq projectile-project-search-path '("~/Projects/Code")))
+  (when (file-directory-p "~/GitHub")
+    (setq projectile-project-search-path '("~/GitHub")))
   (setq projectile-switch-project-action #'projectile-dired))
 
 (use-package counsel-projectile
@@ -458,6 +458,21 @@
   :custom
   (org-roam-directory (file-truename "~/GitHub/org-roam-notes/"))
   (org-roam-db-location (file-truename "~/GitHub/org-roam-notes/org-roam.sqlite3"))
+  (org-roam-completion-everywhere t)
+  (org-roam-completion-system 'ivy)
+  (org-roam-capture-templates
+   ;; TODO: See if the headers can be in the org files.
+   '(("d" "default" plain
+      (file "~/.emacs.d/org/roam_templates/default.org")
+      :target (file+head "%<%Y%m%d%H%M%>-${slug}.org"
+                         "#+TITLE: ${title}\n#+CREATED: %U\n#+LAST_MODIFIED: %U\n\n")
+      :unnarrowed t)
+     ("m" "Maths" plain
+      (file "~/.emacs.d/org/roam_templates/maths.org")
+      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                         "#+TITLE: ${title}\n#+CREATED: %U\n#+LAST_MODIFIED: %U\n\n")
+      :unnarrowed t)
+     ))
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
          ("C-c n g" . org-roam-graph)
@@ -465,10 +480,8 @@
          ("C-c n c" . org-roam-capture)
          ("C-c n j" . org-roam-dailies-capture-today))
   :config
-
   (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
   (org-roam-db-autosync-mode)
-
   (require 'org-roam-protocol))
 
 (custom-set-variables
