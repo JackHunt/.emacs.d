@@ -144,6 +144,9 @@
 (use-package speed-type
   :ensure t)
 
+(use-package key-quiz
+  :ensure t) 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; IVY
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -207,12 +210,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package projectile
   :diminish projectile-mode
-  :config (projectile-mode)
-  :custom ((projectile-completion-system 'ivy))
+  :config
+  (projectile-global-mode)
+  :custom
+  ((projectile-completion-system 'ivy))
   :bind-keymap
   ("C-c p" . projectile-command-map)
   :init
-  ;; TODO: Update dirs.
   (when (file-directory-p "~/GitHub")
     (setq projectile-project-search-path '("~/GitHub")))
   (setq projectile-switch-project-action #'projectile-dired))
@@ -233,13 +237,19 @@
   (yas-global-mode 1))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; MAGIT
+;; MAGIT & DIFF-HL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; TODO: Check out the other buffers.
 ;; https://magit.vc/manual/magit/Switching-Buffers.html
 (use-package magit
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+  
+(use-package diff-hl
+  :ensure t
+  :config
+  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)) 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LSP
@@ -295,7 +305,6 @@
   :config
   (setq ispell-dictionary "british"))
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PYTHON
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -332,9 +341,9 @@
   :config
   (setq TeX-auto-save t)
   (setq TeX-parse-self t)
-  ;;(add-hook 'LaTeX-mode-hook 'visual-line-mode)
+  (add-hook 'LaTeX-mode-hook 'visual-line-mode)
   (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-  ;;(add-hook 'LaTeX-mode-hook 'flycheck-mode)
+  (add-hook 'LaTeX-mode-hook 'flycheck-mode)
   (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
   (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
   (setq reftex-plug-into-AUCTeX t)
@@ -449,6 +458,10 @@
 
     ))
 
+(defun jh/org-archive-done-tasks ()
+  (interactive)
+  (org-map-entries 'org-archive-subtree "/DONE" 'file)) 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ORG ROAM
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -491,6 +504,11 @@
       (file "~/.emacs.d/org/roam_templates/code_snippet.org")
       :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                          "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :code_snippet:\n\n")
+      :unnarrowed t)
+     ("r" "Random Thought" plain
+      (file "~/.emacs.d/org/roam_templates/random_thought.org")
+      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                         "\n#+title: ${title}\n#+created: %U\n#+filetags: :random:\n\n")
       :unnarrowed t))
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
