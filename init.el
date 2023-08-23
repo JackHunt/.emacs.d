@@ -457,6 +457,11 @@
   (interactive)
   (org-map-entries 'org-archive-subtree "/DONE" 'file))
 
+;; Does this really belong here? Meh
+;; Needs https://github.com/FooSoft/anki-connect
+(use-package anki-editor
+  :ensure t)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ORG ROAM
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
