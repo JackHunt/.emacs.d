@@ -475,12 +475,17 @@
      ("m" "Maths" plain
       (file "~/.emacs.d/org/roam_templates/maths.org")
       :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                         "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :some_tag:\n\n")
+                         "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :maths:\n\n")
       :unnarrowed t)
      ("i" "Idea" plain
       (file "~/.emacs.d/org/roam_templates/idea.org")
       :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                          "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :some_tag:\n\n")
+      :unnarrowed t)
+     ("p" "Paper" plain
+      (file "~/.emacs.d/org/roam_templates/paper.org")
+      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                         "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :paper:\n\n")
       :unnarrowed t)
      ))
   :bind (("C-c n l" . org-roam-buffer-toggle)
