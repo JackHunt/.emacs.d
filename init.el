@@ -9,13 +9,17 @@
   (tool-bar-mode -1)
   (tooltip-mode -1)
   (set-fringe-mode 10)
-  (menu-bar-mode -1))
-
+  (menu-bar-mode -1)
+  (global-hl-line-mode))
+   
 (if (eq system-type 'darwin)
     (global-set-key (kbd "M-3") #'(lambda () (interactive) (insert "#"))))
 
 ;; Set font - TODO: set size.
 (set-face-attribute 'default nil :font "Fira Code Retina" :height 110)
+
+;; Auto scroll compile buffer.
+(setq compilation-scroll-output t)
 
 ;; Force emacs style cursor navigation.
 (global-unset-key (kbd "<left>"))
@@ -159,7 +163,8 @@
          ("C-k" . ivy-previous-line)
          ("C-d" . ivy-reverse-i-search-kill))
   :config
-  (ivy-mode 1))
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t))
 
 ;; Command descriptions & key combos in ivy.
 (use-package ivy-rich
