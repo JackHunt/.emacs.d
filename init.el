@@ -480,7 +480,7 @@
      ("i" "Idea" plain
       (file "~/.emacs.d/org/roam_templates/idea.org")
       :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                         "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :some_tag:\n\n")
+                         "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :idea:\n\n")
       :unnarrowed t)
      ("p" "Paper" plain
       (file "~/.emacs.d/org/roam_templates/paper.org")
