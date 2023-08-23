@@ -145,7 +145,7 @@
   :ensure t)
 
 (use-package key-quiz
-  :ensure t) 
+  :ensure t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; IVY
@@ -244,12 +244,12 @@
 (use-package magit
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
-  
+
 (use-package diff-hl
   :ensure t
   :config
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)) 
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LSP
@@ -373,10 +373,7 @@
 (use-package term
   :commands term
   :config
-  (setq explicit-shell-file-name "zsh")
-  ;; TODO: Update to match custom prompt.
-  ;; (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *")
-  )
+  (setq explicit-shell-file-name "zsh"))
 
 (use-package eterm-256color
   :hook (term-mode . eterm-256color-mode))
@@ -384,8 +381,6 @@
 (use-package vterm
   :commands vterm
   :config
-  ;; TODO: Update to match custom prompt.
-  ;; (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *")
   (setq vterm-shell "zsh")
   (setq vterm-max-scrollback 10000))
 
@@ -460,7 +455,7 @@
 
 (defun jh/org-archive-done-tasks ()
   (interactive)
-  (org-map-entries 'org-archive-subtree "/DONE" 'file)) 
+  (org-map-entries 'org-archive-subtree "/DONE" 'file))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ORG ROAM
@@ -509,7 +504,7 @@
       (file "~/.emacs.d/org/roam_templates/random_thought.org")
       :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                          "\n#+title: ${title}\n#+created: %U\n#+filetags: :random:\n\n")
-      :unnarrowed t))
+      :unnarrowed t)))
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
          ("C-c n g" . org-roam-graph)
