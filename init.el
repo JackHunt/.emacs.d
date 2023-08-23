@@ -487,7 +487,6 @@
       :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                          "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :paper:\n\n")
       :unnarrowed t)
-     )
      ("c" "Code Snippet" plain
       (file "~/.emacs.d/org/roam_templates/code_snippet.org")
       :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
