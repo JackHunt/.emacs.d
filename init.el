@@ -11,7 +11,7 @@
   (set-fringe-mode 10)
   (menu-bar-mode -1)
   (global-hl-line-mode))
-   
+
 (if (eq system-type 'darwin)
     (global-set-key (kbd "M-3") #'(lambda () (interactive) (insert "#"))))
 
@@ -467,15 +467,20 @@
   (org-roam-completion-system 'ivy)
   (org-roam-capture-templates
    ;; TODO: See if the headers can be in the org files.
-   '(("d" "default" plain
+   '(("d" "Default" plain
       (file "~/.emacs.d/org/roam_templates/default.org")
       :target (file+head "%<%Y%m%d%H%M%>-${slug}.org"
-                         "#+TITLE: ${title}\n#+CREATED: %U\n#+LAST_MODIFIED: %U\n\n")
+                         "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :some_tag:\n\n")
       :unnarrowed t)
      ("m" "Maths" plain
       (file "~/.emacs.d/org/roam_templates/maths.org")
       :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                         "#+TITLE: ${title}\n#+CREATED: %U\n#+LAST_MODIFIED: %U\n\n")
+                         "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :some_tag:\n\n")
+      :unnarrowed t)
+     ("i" "Idea" plain
+      (file "~/.emacs.d/org/roam_templates/idea.org")
+      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                         "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :some_tag:\n\n")
       :unnarrowed t)
      ))
   :bind (("C-c n l" . org-roam-buffer-toggle)
