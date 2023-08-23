@@ -487,7 +487,12 @@
       :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                          "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :paper:\n\n")
       :unnarrowed t)
-     ))
+     )
+     ("c" "Code Snippet" plain
+      (file "~/.emacs.d/org/roam_templates/code_snippet.org")
+      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                         "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :code_snippet:\n\n")
+      :unnarrowed t))
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
          ("C-c n g" . org-roam-graph)
