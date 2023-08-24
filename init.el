@@ -52,7 +52,7 @@
 
 ;; Don't store backup files with sources - it's a pain with git.
 (setq backup-directory-alist
-      `(("." . , (expand-file-name "backups" temporary-file-directory))))
+  `(("." . , (expand-file-name "backups" temporary-file-directory))))
 
 ;; Ditto for autosaves.
 (setq auto-save-file-name-transforms `((".*" , temporary-file-directory t)))
@@ -467,7 +467,7 @@
 (defun jh/org-archive-done-tasks ()
   (interactive)
   (org-map-entries 'org-archive-subtree "/DONE" 'file))
-  
+
 (defun jh/org-last-modified-update ()
   "Update '#+last_modified:' if it exists in an org buffer."
   (save-excursion
@@ -479,7 +479,7 @@
 (defun jh/org-mode-setup ()
   (add-hook 'before-save-hook 'jh/org-last-modified-update nil 'local))
 
-(add-hook 'org-mode-hook 'jh/org-mode-setup)  
+(add-hook 'org-mode-hook 'jh/org-mode-setup)
 
 ;; Does this really belong here? Meh
 ;; Needs https://github.com/FooSoft/anki-connect
@@ -553,9 +553,8 @@
  '(custom-safe-themes
    '("2dd4951e967990396142ec54d376cced3f135810b2b69920e77103e0bcedfba9" default))
  '(delete-selection-mode nil)
- '(highlight-indent-guides-method 'bitmap)
  '(package-selected-packages
-   '(exec-path-from-shell highlight-indent-guides speed-type yasnippet which-key vterm use-package rainbow-delimiters pyvenv python-mode magit lsp-ui lsp-ivy ivy-rich helpful eterm-256color doom-themes doom-modeline dired-single dap-mode counsel-projectile company-box command-log-mode auto-package-update auctex)))
+   '(anki-editor diff-hl key-quiz exec-path-from-shell highlight-indent-guides speed-type yasnippet which-key vterm use-package rainbow-delimiters pyvenv python-mode magit lsp-ui lsp-ivy ivy-rich helpful eterm-256color doom-themes doom-modeline dired-single dap-mode counsel-projectile company-box command-log-mode auto-package-update auctex)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
