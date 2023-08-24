@@ -406,6 +406,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ORG MODE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; TODO states.
+(setq org-todo-keywords
+      '((sequence "TODO" "INPROGRESS" "STALLED" "|" "DONE" "DELEGATED" "KILLED")))
+
 ;; Nicer bullets.
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode)
@@ -463,6 +467,19 @@
 (defun jh/org-archive-done-tasks ()
   (interactive)
   (org-map-entries 'org-archive-subtree "/DONE" 'file))
+  
+(defun jh/org-last-modified-update ()
+  "Update '#+last_modified:' if it exists in an org buffer."
+  (save-excursion
+    (goto-char (point-min))
+    (when (re-search-forward "^#\\+last_modified: .*" nil t)
+      (replace-match (concat "#+last_modified: " (format-time-string "%U"))))))
+
+;; TODO Move stuff from above into here.
+(defun jh/org-mode-setup ()
+  (add-hook 'before-save-hook 'jh/org-last-modified-update nil 'local))
+
+(add-hook 'org-mode-hook 'jh/org-mode-setup)  
 
 ;; Does this really belong here? Meh
 ;; Needs https://github.com/FooSoft/anki-connect
