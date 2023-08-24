@@ -109,8 +109,8 @@
 
 (dolist (mode '(org-mode-hook
                 term-mode-hook
-		shell-mode-hook
-		eshell-mode-hook))
+		        shell-mode-hook
+		        eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; Lines showing indentation.
@@ -120,10 +120,10 @@
   :custom (highlight-indent-guides-method 'bitmap))
 
 
-;; Setup nice modeline - TODO: customize height
+;; Setup nice modeline.
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 15)))
+  :custom ((doom-modeline-height 20)))
 
 ;; Fancy icons.
 (use-package all-the-icons
@@ -406,45 +406,19 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ORG MODE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; TODO states.
-(setq org-todo-keywords
-      '((sequence "TODO" "INPROGRESS" "STALLED" "|" "DONE" "DELEGATED" "KILLED")))
-
 ;; Nicer bullets.
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode)
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
-;; Make source blocks look a bit nicer.
-(setq org-edit-src-content-indentation 0
-      org-src-tab-acts-natively t
-      org-src-preserve-indentation t
-      org-src-fontify-natively t)
-
-;; (setq org-src-window-setup 'current-window)
-(setq org-ellipsis "⤵")
-
-;; Enable spell checking.
-(add-hook 'org-mode-hook 'flyspell-mode)
-
 ;; Babel for literate programming/notebooks.
 (use-package jupyter
   :ensure t)
-
-(org-babel-do-load-languages
-  'org-babel-load-languages
-  '((python . t)
-    (shell . t)
-    (jupyter . t)))
-
-;;(setq org-export-with-smart-quotes t)
-(setq org-confirm-babel-evaluate nil)
-
-;; Enable inline images and make sure they get updated.
-(add-hook 'org-mode-hook 'org-display-inline-images)
-(add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
-(setq org-display-remote-inline-images 'cache)
+  
+;; Needs https://github.com/FooSoft/anki-connect
+(use-package anki-editor
+  :ensure t) 
 
 ;; Function to generate a css file from the current theme for org export.
 (defun jh/theme-to-css (filename)
@@ -459,9 +433,15 @@
     (let ((level-1-bg (face-background 'org-level-1))
           (level-1-fg (face-foreground 'org-level-1)))
       (insert (format "h1 {\n  background-color: %s;\n  color: %s;\n}\n" level-1-bg level-1-fg)))
-
-    ;; TODO
-
+    (let ((level-2-bg (face-background 'org-level-2))
+          (level-2-fg (face-foreground 'org-level-2)))
+      (insert (format "h2 {\n  background-color: %s;\n  color: %s;\n}\n" level-2-bg level-2-fg)))
+    (let ((level-3-bg (face-background 'org-level-3))
+          (level-3-fg (face-foreground 'org-level-3)))
+      (insert (format "h3 {\n  background-color: %s;\n  color: %s;\n}\n" level-3-bg level-3-fg)))
+    (let ((level-4-bg (face-background 'org-level-4))
+          (level-4-fg (face-foreground 'org-level-4)))
+      (insert (format "h4 {\n  background-color: %s;\n  color: %s;\n}\n" level-4-bg level-4-fg))) 
     ))
 
 (defun jh/org-archive-done-tasks ()
@@ -475,16 +455,42 @@
     (when (re-search-forward "^#\\+last_modified: .*" nil t)
       (replace-match (concat "#+last_modified: " (format-time-string "[%Y-%m-%d %a %H:%M]"))))))
 
-;; TODO Move stuff from above into here.
 (defun jh/org-mode-setup ()
-  (add-hook 'before-save-hook 'jh/org-last-modified-update nil 'local))
+  ;; Update roam timestamps.
+  (add-hook 'before-save-hook 'jh/org-last-modified-update nil 'local)
+  
+  ;; TODO states.
+  (setq org-todo-keywords
+    '((sequence "TODO" "INPROGRESS" "STALLED" "|" "DONE" "DELEGATED" "KILLED")))
+
+  ;; Make source blocks look a bit nicer.
+  (setq org-edit-src-content-indentation 0
+    org-src-tab-acts-natively t
+    org-src-preserve-indentation t
+    org-src-fontify-natively t)
+
+  ;; (setq org-src-window-setup 'current-window)
+  (setq org-ellipsis "⤵")
+
+  ;; Enable spell checking.
+  (add-hook 'org-mode-hook 'flyspell-mode)
+ 
+  (org-babel-do-load-languages
+    'org-babel-load-languages
+    '((python . t)
+      (shell . t)
+      (jupyter . t)))
+
+  ;;(setq org-export-with-smart-quotes t)
+  (setq org-confirm-babel-evaluate nil)
+
+  ;; Enable inline images and make sure they get updated.
+  (add-hook 'org-mode-hook 'org-display-inline-images)
+  (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
+  (setq org-display-remote-inline-images 'cache) 
+)
 
 (add-hook 'org-mode-hook 'jh/org-mode-setup)
-
-;; Does this really belong here? Meh
-;; Needs https://github.com/FooSoft/anki-connect
-(use-package anki-editor
-  :ensure t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ORG ROAM
