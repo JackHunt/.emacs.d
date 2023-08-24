@@ -473,7 +473,7 @@
   (save-excursion
     (goto-char (point-min))
     (when (re-search-forward "^#\\+last_modified: .*" nil t)
-      (replace-match (concat "#+last_modified: " (format-time-string "%U"))))))
+      (replace-match (concat "#+last_modified: " (format-time-string "[%Y-%m-%d %a %H:%M]"))))))
 
 ;; TODO Move stuff from above into here.
 (defun jh/org-mode-setup ()
@@ -541,7 +541,7 @@
          ("C-c n c" . org-roam-capture)
          ("C-c n j" . org-roam-dailies-capture-today))
   :config
-  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:30}" 'face 'org-tag)))
   (org-roam-db-autosync-mode)
   (require 'org-roam-protocol))
 
