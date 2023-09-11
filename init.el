@@ -21,6 +21,10 @@
 ;; Auto scroll compile buffer.
 (setq compilation-scroll-output t)
 
+;; C-[ maps to ESC, which is annoyingly close to C-p, meaning it's easy
+;; to accidentally close all windows.
+(global-unset-key (kbd "ESC ESC ESC"))
+
 ;; Force emacs style cursor navigation.
 (global-unset-key (kbd "<left>"))
 (global-unset-key (kbd "<right>"))
@@ -415,10 +419,10 @@
 ;; Babel for literate programming/notebooks.
 (use-package jupyter
   :ensure t)
-  
+
 ;; Needs https://github.com/FooSoft/anki-connect
 (use-package anki-editor
-  :ensure t) 
+  :ensure t)
 
 ;; Function to generate a css file from the current theme for org export.
 (defun jh/theme-to-css (filename)
@@ -441,7 +445,7 @@
       (insert (format "h3 {\n  background-color: %s;\n  color: %s;\n}\n" level-3-bg level-3-fg)))
     (let ((level-4-bg (face-background 'org-level-4))
           (level-4-fg (face-foreground 'org-level-4)))
-      (insert (format "h4 {\n  background-color: %s;\n  color: %s;\n}\n" level-4-bg level-4-fg))) 
+      (insert (format "h4 {\n  background-color: %s;\n  color: %s;\n}\n" level-4-bg level-4-fg)))
     ))
 
 (defun jh/org-archive-done-tasks ()
@@ -458,7 +462,7 @@
 (defun jh/org-mode-setup ()
   ;; Update roam timestamps.
   (add-hook 'before-save-hook 'jh/org-last-modified-update nil 'local)
-  
+
   ;; TODO states.
   (setq org-todo-keywords
     '((sequence "TODO" "INPROGRESS" "STALLED" "|" "DONE" "DELEGATED" "KILLED")))
@@ -474,7 +478,7 @@
 
   ;; Enable spell checking.
   (add-hook 'org-mode-hook 'flyspell-mode)
- 
+
   (org-babel-do-load-languages
     'org-babel-load-languages
     '((python . t)
@@ -487,7 +491,7 @@
   ;; Enable inline images and make sure they get updated.
   (add-hook 'org-mode-hook 'org-display-inline-images)
   (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
-  (setq org-display-remote-inline-images 'cache) 
+  (setq org-display-remote-inline-images 'cache)
 )
 
 (add-hook 'org-mode-hook 'jh/org-mode-setup)
