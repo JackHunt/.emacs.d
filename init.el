@@ -462,9 +462,9 @@
       (insert (format "h4 {\n  background-color: %s;\n  color: %s;\n}\n" level-4-bg level-4-fg)))
     ))
 
-(defun jh/org-archive-done-tasks ()
+(defun jh/org-archive-done-kill-tasks ()
   (interactive)
-  (org-map-entries 'org-archive-subtree "/DONE" 'file))
+  (org-map-entries 'org-archive-subtree "1/DONE|1/KILL" 'file))
 
 (defun jh/org-last-modified-update ()
   "Update '#+last_modified:' if it exists in an org buffer."
@@ -479,7 +479,16 @@
 
   ;; TODO states.
   (setq org-todo-keywords
-    '((sequence "TODO" "INPROGRESS" "STALLED" "|" "DONE" "DELEGATED" "KILLED")))
+        '((sequence "TODO" "STRT" "IDEA" "WAIT" "|" "DONE" "KILL")))
+
+  (setq org-todo-keyword-faces
+      '(("TODO" . (:foreground "cyan" :weight bold))
+        ("STRT" . (:foreground "yellow" :weight bold))
+        ("IDEA" . (:foreground "pink" :weight bold))
+        ("WAIT" . (:foreground "orange" :weight bold))
+        ("DONE" . (:foreground "green" :strike-through t))
+        ("KILL" . (:foreground "red" :strike-through t))))
+
 
   ;; Make source blocks look a bit nicer.
   (setq org-edit-src-content-indentation 0
