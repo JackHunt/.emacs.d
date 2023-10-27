@@ -348,6 +348,11 @@
   :ensure t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; SHELL SCRIPTING
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq sh-basic-offset 2)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; HASKELL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package haskell-mode
@@ -442,6 +447,7 @@
 ;; Function to generate a css file from the current theme for org export.
 (defun jh/theme-to-css (filename)
   "Generate a CSS file based on current theme for Org HTML export."
+  (interactive "FEnter the output CSS file name: ")
   (with-temp-file filename
     ;; Document background & foreground.
     (let ((default-bg (face-background 'default))
