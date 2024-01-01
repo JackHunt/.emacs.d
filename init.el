@@ -453,7 +453,9 @@
 
 ;; Needs https://github.com/FooSoft/anki-connect
 (use-package anki-editor
-  :ensure t)
+  :ensure t
+  :config
+  (setq anki-editor-create-decks t))
 
 ;; Function to generate a css file from the current theme for org export.
 (defun jh/theme-to-css (filename)
