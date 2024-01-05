@@ -78,11 +78,7 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-;; Disable package.el in favor of straight.el
-;;(setq package-enable-at-startup nil)
-
 (straight-use-package 'use-package)
-(setq use-package-always-ensure t)
 
 ;; Configure use-package to use straight.el by default
 (use-package straight
@@ -425,6 +421,8 @@
 ;; DIRED
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package dired
+  :straight (:type built-in)
+  :ensure nil
   :commands (dired dired-jump)
   :bind (("C-x C-j" . dired-jump))
   :custom ((dired-listing-switches "-agho --group-directories-first")))
@@ -451,7 +449,7 @@
   (defun jh/anki-editor-push-tree ()
     "Push all notes under a tree."
     (interactive)
-    (anki-editor-push-notes '(4)))
+    (anki-editor-push-notes '(4))))
 
 ;; Function to generate a css file from the current theme for org export.
 (defun jh/theme-to-css (filename)
