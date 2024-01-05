@@ -171,6 +171,20 @@
          ("C-r" . 'counsel-minibuffer-history)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; COMPANY
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package company
+  :bind (:map company-active-map
+         ("<tab>" . company-complete-selection))
+         ("<tab>" . company-indent-or-complete-common)
+  :custom
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.0))
+
+(use-package company-box
+  :hook (company-mode . company-box-mode))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; IVY
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package ivy
@@ -284,6 +298,15 @@
   :custom
   (python-shell-interpreter "python3"))
 
+(use-package anaconda-mode
+  :hook
+  (python-mode-hook anaconda-mode)
+  (python-mode-hook anaconda-eldoc-mode))
+
+(use-package company-anaconda
+  :config
+  (add-to-list 'company-backends 'company-anaconda))
+
 ;;(setenv "WORKON_HOME" (concat (getenv "CONDA_PREFIX") "/envs"))
 ;; As a hack, just symlink conda env dir to ~/.virtualenvs for now
 (use-package pyvenv
@@ -330,20 +353,6 @@
 (use-package yaml-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; COMPANY
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package company
-  :bind (:map company-active-map
-         ("<tab>" . company-complete-selection))
-         ("<tab>" . company-indent-or-complete-common)
-  :custom
-  (company-minimum-prefix-length 1)
-  (company-idle-delay 0.0))
-
-(use-package company-box
-  :hook (company-mode . company-box-mode))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; TERMINALS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package term
@@ -387,6 +396,7 @@
 
 ;; Needs https://github.com/FooSoft/anki-connect
 (use-package anki-editor
+  :straight (:fork "orgtre")
   :config
   (setq anki-editor-create-decks t)
   (defun jh/anki-editor-push-tree ()
