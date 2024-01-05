@@ -61,13 +61,6 @@
 ;; Ditto for autosaves.
 (setq auto-save-file-name-transforms `((".*" , temporary-file-directory t)))
 
-;; Make sure env is sane on Mac.
-(use-package exec-path-from-shell
-  :ensure t
-  :config
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PACKAGE MANAGEMENT
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -86,9 +79,10 @@
   (load bootstrap-file nil 'nomessage))
 
 ;; Disable package.el in favor of straight.el
-(setq package-enable-at-startup nil)
+;;(setq package-enable-at-startup nil)
 
 (straight-use-package 'use-package)
+(setq use-package-always-ensure t)
 
 ;; Configure use-package to use straight.el by default
 (use-package straight
@@ -103,6 +97,13 @@
   :config
   (auto-package-update-maybe)
   (auto-package-update-at-time "11:00"))
+
+;; Make sure env is sane on Mac.
+;; This should be in the above section, but relies on use-package.
+(use-package exec-path-from-shell
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; THEMES & APPEARANCE
@@ -127,7 +128,6 @@
 
 ;; Lines showing indentation.
 (use-package highlight-indent-guides
-  :ensure t
   :hook (prog-mode . highlight-indent-guides-mode)
   :custom (highlight-indent-guides-method 'bitmap))
 
@@ -160,11 +160,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; APPS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package speed-type
-  :ensure t)
+(use-package speed-type)
 
-(use-package key-quiz
-  :ensure t)
+(use-package key-quiz)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; IVY
@@ -265,7 +263,6 @@
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
 (use-package diff-hl
-  :ensure t
   :config
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
@@ -317,7 +314,6 @@
 ;; FLYSPELL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package flyspell
-  :ensure t
   :init
   (dolist (hook '(text-mode-hook))
     (add-hook hook (lambda () (flyspell-mode 1))))
@@ -327,8 +323,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; EMBEDDED
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package platformio-mode
-  :ensure t)
+(use-package platformio-mode)
 
 (add-hook 'c++-mode-hook
           (lambda ()
@@ -339,7 +334,6 @@
 ;; PYTHON
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package python-mode
-  :ensure t
   :hook (python-mode . lsp-deferred)
   :custom
   (python-shell-interpreter "python3")
@@ -351,7 +345,6 @@
 ;;(setenv "WORKON_HOME" (concat (getenv "CONDA_PREFIX") "/envs"))
 ;; As a hack, just symlink conda env dir to ~/.virtualenvs for now
 (use-package pyvenv
-  :ensure t
   :after python-mode
   :config
   (pyvenv-mode 1))
@@ -359,11 +352,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; R & STAN
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package ess
-  :ensure t)
+(use-package ess)
 
-(use-package stan-mode
-  :ensure t)
+(use-package stan-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; SHELL SCRIPTING
@@ -373,15 +364,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; HASKELL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package haskell-mode
-  :ensure t)
+(use-package haskell-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LaTeX
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package auctex
   :defer t
-  :ensure t
   :config
   (setq TeX-auto-save t)
   (setq TeX-parse-self t)
@@ -396,8 +385,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; YAML
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package yaml-mode
-  :ensure t)
+(use-package yaml-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; COMPANY
@@ -437,7 +425,6 @@
 ;; DIRED
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package dired
-  :ensure nil
   :commands (dired dired-jump)
   :bind (("C-x C-j" . dired-jump))
   :custom ((dired-listing-switches "-agho --group-directories-first")))
@@ -455,12 +442,10 @@
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
 ;; Babel for literate programming/notebooks.
-(use-package jupyter
-  :ensure t)
+(use-package jupyter)
 
 ;; Needs https://github.com/FooSoft/anki-connect
 (use-package anki-editor
-  :ensure t
   :config
   (setq anki-editor-create-decks t)
   (defun jh/anki-editor-push-tree ()
@@ -553,14 +538,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ORG ROAM
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package emacsql
-  :ensure t)
+(use-package emacsql)
 
-(use-package emacsql-sqlite
-  :ensure t)
+(use-package emacsql-sqlite)
 
 (use-package org-roam
-  :ensure t
   :custom
   (org-roam-directory (file-truename "~/GitHub/org-roam-notes/"))
   (org-roam-db-location (file-truename "~/GitHub/org-roam-notes/org-roam.sqlite3"))
@@ -608,20 +590,3 @@
   (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:30}" 'face 'org-tag)))
   (org-roam-db-autosync-mode)
   (require 'org-roam-protocol))
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("bf948e3f55a8cd1f420373410911d0a50be5a04a8886cabe8d8e471ad8fdba8e" "2dd4951e967990396142ec54d376cced3f135810b2b69920e77103e0bcedfba9" default))
- '(delete-selection-mode nil)
- '(package-selected-packages
-   '(yaml-mode anki-editor diff-hl key-quiz exec-path-from-shell highlight-indent-guides speed-type yasnippet which-key vterm use-package rainbow-delimiters pyvenv python-mode magit lsp-ui lsp-ivy ivy-rich helpful eterm-256color doom-themes doom-modeline dired-single dap-mode counsel-projectile company-box command-log-mode auto-package-update auctex)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
