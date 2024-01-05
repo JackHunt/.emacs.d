@@ -15,4 +15,7 @@ echo
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     git clean -f -x -d
+
+    echo "Deleting straight"
+    rm -rf straight
 fi
