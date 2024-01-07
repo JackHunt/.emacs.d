@@ -320,6 +320,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PYTHON
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-hook 'python-mode-hook 'projectile-mode)
+
 (use-package anaconda-mode
   :hook
   ((python-mode-hook . anaconda-mode)
@@ -340,7 +342,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; R & STAN
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package ess)
+(use-package ess
+  :hook (ess-mode-hook . projectile-mode))
 
 (use-package stan-mode)
 
@@ -503,9 +506,10 @@
 
   (org-babel-do-load-languages
     'org-babel-load-languages
-    '((python . t)
-      (shell . t)
-      (jupyter . t)))
+    '((jupyter . t)
+      (python . t)
+      (R . t)
+      (shell . t)))
 
   ;;(setq org-export-with-smart-quotes t)
   (setq org-confirm-babel-evaluate nil)
