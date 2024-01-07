@@ -12,14 +12,21 @@
   (menu-bar-mode -1)
   (global-hl-line-mode))
 
+;; Handle # properly on a mac.
 (if (eq system-type 'darwin)
     (global-set-key (kbd "M-3") #'(lambda () (interactive) (insert "#"))))
 
+;; Add some brew paths for mac.
+(if (eq system-type 'darwin)
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/texbin"))
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/bin"))
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+  (setq exec-path (append exec-path '("/usr/texbin")))
+  (setq exec-path (append exec-path '("/usr/bin")))
+  (setq exec-path (append exec-path '("/usr/local/bin"))))
+
 ;; Set font - TODO: set size.
 (set-face-attribute 'default nil :font "Fira Code Retina" :height 110)
-
-;; Auto scroll compile buffer.
-(setq compilation-scroll-output t)
 
 ;; C-[ maps to ESC, which is annoyingly close to C-p, meaning it's easy
 ;; to accidentally close all windows.
@@ -105,8 +112,10 @@
 ;; THEMES & APPEARANCE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; doom-acario-dark
-(use-package doom-themes
-  :init (load-theme 'doom-badger t))
+;; (use-package doom-themes
+;;   :init (load-theme 'doom-badger t))
+(use-package nord-theme
+  :init (load-theme 'nord t))
 
 ;; Colour coded parenthesis etc.
 (use-package rainbow-delimiters
@@ -118,8 +127,8 @@
 
 (dolist (mode '(org-mode-hook
                 term-mode-hook
-		        shell-mode-hook
-		        eshell-mode-hook))
+		shell-mode-hook
+		eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; Lines showing indentation.
@@ -135,7 +144,6 @@
 
 ;; Fancy icons.
 (use-package all-the-icons
-  :if (display-graphic-p)
   :hook (dired-mode . all-the-icons-dired-mode))
 
 ;; Ligatures.
@@ -160,6 +168,16 @@
 
 (use-package key-quiz)
 
+(use-package dashboard
+  :config
+  (dashboard-setup-startup-hook)
+  (setq initial-buffer-choice
+        (lambda () (get-buffer-create "*dashboard*")))
+  (setq dashboard-center-content t)
+  (setq dashboard-items '((recents  . 10)
+                          (projects . 10)
+                          (registers . 10))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; COUNSEL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -178,11 +196,20 @@
          ("<tab>" . company-complete-selection))
          ("<tab>" . company-indent-or-complete-common)
   :custom
-  (company-minimum-prefix-length 1)
-  (company-idle-delay 0.0))
+  (company-minimum-prefix-length 2)
+  (company-idle-delay 0.0)
+  :hook (after-init-hook . global-company-mode))
 
 (use-package company-box
+  :after company
   :hook (company-mode . company-box-mode))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ELISP
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; TODO verify this usage of with-eval-after-load
+(with-eval-after-load 'emacs-lisp-mode
+    (add-to-list 'company-backends 'company-elisp))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; IVY
@@ -265,7 +292,8 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MAGIT & DIFF-HL
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; TODO: Check out the other buffers.
 ;; https://magit.vc/manual/magit/Switching-Buffers.html
 (use-package magit
@@ -273,9 +301,15 @@
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
 (use-package diff-hl
-  :config
-  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+  :hook
+  ((magit-pre-refresh-hook . diff-hl-magit-pre-refresh)
+   (magit-post-refresh-hook .diff-hl-magit-post-refresh)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FLYCHECK
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package flycheck
+  :hook (after-init-hook . global-flycheck-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FLYSPELL
@@ -288,22 +322,25 @@
   (setq ispell-dictionary "british"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; EMBEDDED
+;; C/C++
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; TODO verify this usage of with-eval-after-load
+(with-eval-after-load 'c++-mode
+  (add-to-list 'company-backends 'company-clang))
+
+(add-hook 'c++-mode-hook
+  (lambda () (setq flycheck-clang-language-standard "c++20")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PYTHON
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package python-mode
-  :custom
-  (python-shell-interpreter "python3"))
-
 (use-package anaconda-mode
   :hook
-  (python-mode-hook anaconda-mode)
-  (python-mode-hook anaconda-eldoc-mode))
+  ((python-mode-hook . anaconda-mode)
+   (python-mode-hook . anaconda-eldoc-mode)))
 
 (use-package company-anaconda
+  :after (anaconda-mode company)
   :config
   (add-to-list 'company-backends 'company-anaconda))
 
@@ -336,14 +373,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package auctex
   :defer t
+  :hook
+  ((LaTeX-mode-hook . visual-line-mode)
+   (LaTeX-mode-hook . flyspell-mode)
+   (LaTeX-mode-hook . flycheck-mode)
+   (LaTeX-mode-hook . LaTeX-math-mode)
+   (LaTeX-mode-hook . turn-on-reftex))
   :config
   (setq TeX-auto-save t)
   (setq TeX-parse-self t)
-  (add-hook 'LaTeX-mode-hook 'visual-line-mode)
-  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-  (add-hook 'LaTeX-mode-hook 'flycheck-mode)
-  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
   (setq reftex-plug-into-AUCTeX t)
   (setq TeX-PDF-mode t))
 
