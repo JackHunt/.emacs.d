@@ -192,13 +192,13 @@
 ;; COMPANY
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package company
+  :init (global-company-mode)
   :bind (:map company-active-map
          ("<tab>" . company-complete-selection))
          ("<tab>" . company-indent-or-complete-common)
   :custom
   (company-minimum-prefix-length 2)
-  (company-idle-delay 0.0)
-  :hook (after-init-hook . global-company-mode))
+  (company-idle-delay 0.0))
 
 (use-package company-box
   :after company
@@ -309,7 +309,7 @@
 ;; FLYCHECK
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package flycheck
-  :hook (after-init-hook . global-flycheck-mode))
+  :init (global-flycheck-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FLYSPELL
@@ -377,13 +377,21 @@
   ((LaTeX-mode-hook . visual-line-mode)
    (LaTeX-mode-hook . flyspell-mode)
    (LaTeX-mode-hook . flycheck-mode)
-   (LaTeX-mode-hook . LaTeX-math-mode)
-   (LaTeX-mode-hook . turn-on-reftex))
+   (LaTeX-mode-hook . LaTeX-math-mode))
   :config
   (setq TeX-auto-save t)
   (setq TeX-parse-self t)
   (setq reftex-plug-into-AUCTeX t)
-  (setq TeX-PDF-mode t))
+  (setq TeX-PDF-mode t)
+  (setq TeX-indent-level 2)
+  (setq LaTeX-item-indent 2)
+  (setq TeX-brace-indent-level 2))
+
+(use-package reftex
+  :after auctex
+  :hook (LaTeX-mode-hook . turn-on-reftex)
+  :config
+  (setq reftex-plug-into-AUCTeX t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; YAML
