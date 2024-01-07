@@ -269,12 +269,13 @@
 ;; YASNIPPET
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package yasnippet
+  :init (yas-global-mode)
   :bind
   ("C-c y s" . yas-insert-snippet)
   ("C-c y v" . yas-visit-snippet-file)
   :config
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
-  (yas-global-mode 1))
+  (add-to-list 'company-backends 'company-yasnippet))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MAGIT & DIFF-HL
@@ -315,7 +316,16 @@
   (add-to-list 'company-backends 'company-clang))
 
 (add-hook 'c++-mode-hook
-  (lambda () (setq flycheck-clang-language-standard "c++20")))
+          (lambda () (setq flycheck-clang-language-standard "c++20")))
+
+(use-package cmake-mode
+  :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'"))
+
+(use-package flycheck-clang-analyzer
+  :after flycheck
+  :config
+  (flycheck-clang-analyzer-setup))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PYTHON
