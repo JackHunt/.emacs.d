@@ -1,0 +1,14 @@
+#+BEGIN_CAPTURE: theoretical_question
+* TODO %?                                              :Research:TheoreticalQuestion:%^{Additional Tags}
+  SCHEDULED: %^t
+  :PROPERTIES:
+  :CATEGORY: Research
+  :CREATED: %U
+  :END:
+** Overview & Background
+%?
+** Questions
+*** ...
+** Unknowns
+*** ...
+#+END_CAPTURE

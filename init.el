@@ -147,6 +147,10 @@
                                        "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
   (global-ligature-mode t))
 
+(use-package idle-highlight-mode
+  :config (setq idle-highlight-idle-time 0.2)
+  :hook ((prog-mode text-mode) . idle-highlight-mode))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; APPS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -382,7 +386,7 @@
   (setq TeX-parse-self t)
   (setq reftex-plug-into-AUCTeX t)
   (setq TeX-PDF-mode t)
-  (setq TeX-indent-level 2)
+  (setq LaTeX-indent-level 2)
   (setq LaTeX-item-indent 2)
   (setq TeX-brace-indent-level 2))
 
@@ -530,13 +534,27 @@
   (setq org-display-remote-inline-images 'cache)
 )
 
+(defun jh/add-org-capture-templates ()
+  (setq org-capture-templates
+        '(("t" "Theoretical Question" entry
+           (file+headline "~/org/work.org" "Theoretical Questions")
+           (file "~/.emacs.d/org/work_templates/theoretical_question.org") :empty-lines-after 1)
+          ("e" "Experiment" entry
+           (file+headline "~/org/work.org" "Experiments")
+           (file "~/.emacs.d/org/work_templates/experiment.org") :empty-lines-after 1)
+          ("s" "Software Engineering" entry
+           (file+headline "~/org/work.org" "Engineering Tasks")
+           (file "~/.emacs.d/org/work_templates/software_engineering.org") :empty-lines-after 1)
+      ))
+  )
+
 (add-hook 'org-mode-hook 'jh/org-mode-setup)
+(add-hook 'org-mode-hook 'jh/add-org-capture-templates)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ORG ROAM
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package emacsql)
-
 (use-package emacsql-sqlite)
 
 (use-package org-roam
