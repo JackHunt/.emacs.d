@@ -1,0 +1,16 @@
+#+BEGIN_CAPTURE: software_engineering
+* TODO %?                                              :Engineering:Software:%^{Additional Tags}
+  SCHEDULED: %^t
+  :PROPERTIES:
+  :CATEGORY: Engineering
+  :CREATED: %U
+  :END:
+** Overview
+[[^{GitHub Issue URL}] [GitHub Issue]]
+
+%?
+** Tasks
+*** ...
+** Definition of Done
+*** ...
+#+END_CAPTURE

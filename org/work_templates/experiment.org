@@ -1,0 +1,16 @@
+#+BEGIN_CAPTURE: experiment
+* TODO %?                                              :Research:Experiment:%^{Additional Tags}
+  SCHEDULED: %^t
+  :PROPERTIES:
+  :CATEGORY: Research
+  :CREATED: %U
+  :END:
+** Overview & Background
+%?
+** Method/Approach
+*** ...
+** Unknowns
+*** ...
+** Expected Results
+*** ...
+#+END_CAPTURE
