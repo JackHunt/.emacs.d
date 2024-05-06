@@ -98,10 +98,10 @@
 ;; THEMES & APPEARANCE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; doom-acario-dark
-;; (use-package doom-themes
 ;;   :init (load-theme 'doom-badger t))
 (use-package nord-theme
   :init (load-theme 'nord t))
+;;   :init (load-theme 'nord t))
 
 ;; Colour coded parenthesis etc.
 (use-package rainbow-delimiters
