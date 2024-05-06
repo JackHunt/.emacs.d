@@ -98,8 +98,8 @@
 ;; THEMES & APPEARANCE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; doom-acario-dark
-(use-package nord-theme
-  :init (load-theme 'nord t))
+(use-package doom-themes
+  :init (load-theme 'doom-badger t))
 ;; (use-package nord-theme
 ;;   :init (load-theme 'nord t))
 
@@ -129,8 +129,8 @@
   :custom ((doom-modeline-height 20)))
 
 ;; Fancy icons.
-(use-package all-the-icons
-  :hook (dired-mode . all-the-icons-dired-mode))
+(use-package nerd-icons
+  :hook (dired-mode . nerd-icons-dired-mode))
 
 ;; Ligatures.
 (use-package ligature
@@ -159,6 +159,7 @@
 (use-package key-quiz)
 
 (use-package dashboard
+  :if (< (length command-line-args) 2) ;; Skip if opening file with emacs
   :config
   (dashboard-setup-startup-hook)
   (setq initial-buffer-choice
@@ -166,7 +167,10 @@
   (setq dashboard-center-content t)
   (setq dashboard-items '((recents  . 10)
                           (projects . 10)
-                          (registers . 10))))
+                          (registers . 10)))
+  (setq dashboard-icon-type 'nerd-icons)
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; COUNSEL
@@ -227,6 +231,34 @@
 (use-package ivy-rich
   :init
   (ivy-rich-mode 1))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; LSP AND DAP MODES
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package lsp-mode
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :hook ((python-mode . lsp)
+         (c-mode . lsp)
+         (c++-mode . lsp)
+         (cmake-mode . lsp)
+         (fortran-mode . lsp)
+         (ess-mode . lsp)
+         (LaTeX-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
+
+(use-package lsp-ui
+  :after lsp-mode
+  :commands lsp-ui-mode
+  :hook (lsp-mode . lsp-ui-mode))
+
+(use-package lsp-ivy
+  :after lsp-mode
+  :commands lsp-ivy-workspace-symbol)
+
+(use-package dap-mode
+    :after lsp-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; HELP & LEARNING
@@ -334,18 +366,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PYTHON
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(add-hook 'python-mode-hook 'projectile-mode)
-
-(use-package anaconda-mode
-  :hook
-  ((python-mode-hook . anaconda-mode)
-   (python-mode-hook . anaconda-eldoc-mode)))
-
-(use-package company-anaconda
-  :after (anaconda-mode company)
-  :config
-  (add-to-list 'company-backends 'company-anaconda))
-
 ;;(setenv "WORKON_HOME" (concat (getenv "CONDA_PREFIX") "/envs"))
 ;; As a hack, just symlink conda env dir to ~/.virtualenvs for now
 (use-package pyvenv
