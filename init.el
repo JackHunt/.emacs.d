@@ -189,6 +189,7 @@
 ;; COMPANY
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package company
+  :after lsp-mode
   :init (global-company-mode)
   :bind (:map company-active-map
          ("<tab>" . company-complete-selection))
@@ -206,7 +207,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; TODO verify this usage of with-eval-after-load
 (with-eval-after-load 'emacs-lisp-mode
-    (add-to-list 'company-backends 'company-elisp))
+  (add-to-list 'company-backends 'company-elisp))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; IVY
@@ -308,6 +309,7 @@
 ;; YASNIPPET
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package yasnippet
+  :after company-mode
   :init (yas-global-mode)
   :bind
   ("C-c y s" . yas-insert-snippet)
@@ -531,9 +533,9 @@
 
   ;; Make source blocks look a bit nicer.
   (setq org-edit-src-content-indentation 0
-    org-src-tab-acts-natively t
-    org-src-preserve-indentation t
-    org-src-fontify-natively t)
+        org-src-tab-acts-natively t
+        org-src-preserve-indentation t
+        org-src-fontify-natively t)
 
   ;; (setq org-src-window-setup 'current-window)
   (setq org-ellipsis "⤵")
