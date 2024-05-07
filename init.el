@@ -170,7 +170,10 @@
                           (registers . 10)))
   (setq dashboard-icon-type 'nerd-icons)
   (setq dashboard-set-heading-icons t)
-  (setq dashboard-set-file-icons t))
+  (setq dashboard-set-file-icons t)
+  (setq dashboard-heading-icons '((recents   . "history")
+                                  (projects  . "rocket")
+                                  (registers . "database"))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; COUNSEL
