@@ -99,13 +99,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; doom-acario-dark
 (use-package doom-themes
-  :init (load-theme 'doom-badger t))
+  :init
+  (load-theme 'doom-badger t))
 ;; (use-package nord-theme
 ;;   :init (load-theme 'nord t))
 
 ;; Colour coded parenthesis etc.
 (use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
+  :hook
+  (prog-mode . rainbow-delimiters-mode))
 
 ;; Line & column numbers. Disabled for org & term.
 (column-number-mode)
@@ -119,18 +121,22 @@
 
 ;; Lines showing indentation.
 (use-package highlight-indent-guides
-  :hook (prog-mode . highlight-indent-guides-mode)
-  :custom (highlight-indent-guides-method 'bitmap))
-
+  :hook
+  (prog-mode . highlight-indent-guides-mode)
+  :custom
+  (highlight-indent-guides-method 'bitmap))
 
 ;; Setup nice modeline.
 (use-package doom-modeline
-  :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 20)))
+  :init
+  (doom-modeline-mode 1)
+  :custom
+  ((doom-modeline-height 20)))
 
 ;; Fancy icons.
 (use-package nerd-icons
-  :hook (dired-mode . nerd-icons-dired-mode))
+  :hook
+  (dired-mode . nerd-icons-dired-mode))
 
 ;; Ligatures.
 (use-package ligature
@@ -148,8 +154,10 @@
   (global-ligature-mode t))
 
 (use-package idle-highlight-mode
-  :config (setq idle-highlight-idle-time 0.2)
-  :hook ((prog-mode text-mode) . idle-highlight-mode))
+  :config
+  (setq idle-highlight-idle-time 0.2)
+  :hook
+  ((prog-mode text-mode) . idle-highlight-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; APPS
@@ -179,28 +187,34 @@
 ;; COUNSEL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package counsel
-  :bind (("M-x" . counsel-M-x)
-         ("C-x b" . counsel-ibuffer)
-         ("C-x C-f" . counsel-find-file)
-         :map minibuffer-local-map
-         ("C-r" . 'counsel-minibuffer-history)))
+  :bind
+  (("M-x" . counsel-M-x)
+   ("C-x b" . counsel-ibuffer)
+   ("C-x C-f" . counsel-find-file)
+   :map minibuffer-local-map
+   ("C-r" . 'counsel-minibuffer-history)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; COMPANY
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package company
-  :after lsp-mode
-  :init (global-company-mode)
-  :bind (:map company-active-map
-              ("<tab>" . company-complete-selection))
+  :after
+  lsp-mode
+  :init
+  (global-company-mode)
+  :bind
+  (:map company-active-map
+        ("<tab>" . company-complete-selection))
   ("<tab>" . company-indent-or-complete-common)
   :custom
   (company-minimum-prefix-length 2)
   (company-idle-delay 0.0))
 
 (use-package company-box
-  :after company
-  :hook (company-mode . company-box-mode))
+  :after
+  company
+  :hook
+  (company-mode . company-box-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ELISP
@@ -214,19 +228,20 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package ivy
   :diminish
-  :bind (("C-s" . swiper)
-         :map ivy-minibuffer-map
-         ("TAB" . ivy-partial-or-done)
-         ("C-l" . ivy-alt-done)
-         ("C-j" . ivy-next-line)
-         ("C-k" . ivy-previous-line)
-         :map ivy-switch-buffer-map
-         ("C-k" . ivy-previous-line)
-         ("C-l" . ivy-done)
-         ("C-d" . ivy-switch-buffer-kill)
-         :map ivy-reverse-i-search-map
-         ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill))
+  :bind
+  (("C-s" . swiper)
+   :map ivy-minibuffer-map
+   ("TAB" . ivy-partial-or-done)
+   ("C-l" . ivy-alt-done)
+   ("C-j" . ivy-next-line)
+   ("C-k" . ivy-previous-line)
+   :map ivy-switch-buffer-map
+   ("C-k" . ivy-previous-line)
+   ("C-l" . ivy-done)
+   ("C-d" . ivy-switch-buffer-kill)
+   :map ivy-reverse-i-search-map
+   ("C-k" . ivy-previous-line)
+   ("C-d" . ivy-reverse-i-search-kill))
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t))
@@ -242,24 +257,30 @@
 (use-package lsp-mode
   :init
   (setq lsp-keymap-prefix "C-c l")
-  :hook ((python-mode . lsp)
-         (c-mode . lsp)
-         (c++-mode . lsp)
-         (cmake-mode . lsp)
-         (fortran-mode . lsp)
-         (ess-mode . lsp)
-         (LaTeX-mode . lsp)
-         (lsp-mode . lsp-enable-which-key-integration))
+  :hook
+  ((python-mode . lsp)
+   (c-mode . lsp)
+   (c++-mode . lsp)
+   (cmake-mode . lsp)
+   (fortran-mode . lsp)
+   (ess-mode . lsp)
+   (LaTeX-mode . lsp)
+   (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
 
 (use-package lsp-ui
-  :after lsp-mode
-  :commands lsp-ui-mode
-  :hook (lsp-mode . lsp-ui-mode))
+  :after
+  lsp-mode
+  :commands
+  lsp-ui-mode
+  :hook
+  (lsp-mode . lsp-ui-mode))
 
 (use-package lsp-ivy
-  :after lsp-mode
-  :commands lsp-ivy-workspace-symbol)
+  :after
+  lsp-mode
+  :commands
+  lsp-ivy-workspace-symbol)
 
 (use-package dap-mode
   :after lsp-mode)
@@ -269,8 +290,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Shows possible key bindings given a partial sequence.
 (use-package which-key
-  :init (which-key-mode)
-  :diminish which-key-mode
+  :init
+  (which-key-mode)
+  :diminish
+  which-key-mode
   :config
   (setq which-key-idle-delay 1))
 
@@ -302,15 +325,19 @@
   (setq projectile-switch-project-action #'projectile-dired))
 
 (use-package counsel-projectile
-  :after projectile
-  :config (counsel-projectile-mode))
+  :after
+  projectile
+  :config
+  (counsel-projectile-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; YASNIPPET
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package yasnippet
-  :after company-mode
-  :init (yas-global-mode)
+  :after
+  company-mode
+  :init
+  (yas-global-mode)
   :bind
   ("C-c y s" . yas-insert-snippet)
   ("C-c y v" . yas-visit-snippet-file)
@@ -337,7 +364,8 @@
 ;; FLYCHECK
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package flycheck
-  :init (global-flycheck-mode))
+  :init
+  (global-flycheck-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FLYSPELL
@@ -360,10 +388,12 @@
           (lambda () (setq flycheck-clang-language-standard "c++20")))
 
 (use-package cmake-mode
-  :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'"))
+  :mode
+  ("CMakeLists\\.txt\\'" "\\.cmake\\'"))
 
 (use-package flycheck-clang-analyzer
-  :after flycheck
+  :after
+  flycheck
   :config
   (flycheck-clang-analyzer-setup))
 
@@ -374,7 +404,8 @@
 ;;(setenv "WORKON_HOME" (concat (getenv "CONDA_PREFIX") "/envs"))
 ;; As a hack, just symlink conda env dir to ~/.virtualenvs for now
 (use-package pyvenv
-  :after python-mode
+  :after
+  python-mode
   :config
   (pyvenv-mode 1))
 
@@ -382,7 +413,8 @@
 ;; R & STAN
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package ess
-  :hook (ess-mode-hook . projectile-mode))
+  :hook
+  (ess-mode-hook . projectile-mode))
 
 (use-package stan-mode)
 
@@ -416,8 +448,10 @@
   (setq TeX-brace-indent-level 2))
 
 (use-package reftex
-  :after auctex
-  :hook (LaTeX-mode-hook . turn-on-reftex)
+  :after
+  auctex
+  :hook
+  (LaTeX-mode-hook . turn-on-reftex)
   :config
   (setq reftex-plug-into-AUCTeX t))
 
@@ -450,8 +484,10 @@
   :straight (:type built-in)
   :ensure nil
   :commands (dired dired-jump)
-  :bind (("C-x C-j" . dired-jump))
-  :custom ((dired-listing-switches "-agho --group-directories-first")))
+  :bind
+  (("C-x C-j" . dired-jump))
+  :custom
+  ((dired-listing-switches "-agho --group-directories-first")))
 
 (use-package dired-single
   :commands (dired dired-jump))
@@ -461,7 +497,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Nicer bullets.
 (use-package org-bullets
-  :hook (org-mode . org-bullets-mode)
+  :hook
+  (org-mode . org-bullets-mode)
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
@@ -620,12 +657,13 @@
       :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                          "\n#+title: ${title}\n#+created: %U\n#+filetags: :random:\n\n")
       :unnarrowed t)))
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n g" . org-roam-graph)
-         ("C-c n i" . org-roam-node-insert)
-         ("C-c n c" . org-roam-capture)
-         ("C-c n j" . org-roam-dailies-capture-today))
+  :bind
+  (("C-c n l" . org-roam-buffer-toggle)
+   ("C-c n f" . org-roam-node-find)
+   ("C-c n g" . org-roam-graph)
+   ("C-c n i" . org-roam-node-insert)
+   ("C-c n c" . org-roam-capture)
+   ("C-c n j" . org-roam-dailies-capture-today))
   :config
   (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:30}" 'face 'org-tag)))
   (org-roam-db-autosync-mode)
