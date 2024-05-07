@@ -18,7 +18,7 @@
 
 ;; Add some brew paths for mac.
 (if (eq system-type 'darwin)
-  (setenv "PATH" (concat (getenv "PATH") ":/usr/texbin"))
+    (setenv "PATH" (concat (getenv "PATH") ":/usr/texbin"))
   (setenv "PATH" (concat (getenv "PATH") ":/usr/bin"))
   (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
   (setq exec-path (append exec-path '("/usr/texbin")))
@@ -49,7 +49,7 @@
 
 ;; Don't store backup files with sources - it's a pain with git.
 (setq backup-directory-alist
-  `(("." . , (expand-file-name "backups" temporary-file-directory))))
+      `(("." . , (expand-file-name "backups" temporary-file-directory))))
 
 ;; Ditto for autosaves.
 (setq auto-save-file-name-transforms `((".*" , temporary-file-directory t)))
@@ -60,13 +60,13 @@
 ;; Bootstrap straight.
 (defvar bootstrap-version)
 (let ((bootstrap-file
-      (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
       (bootstrap-version 5))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
         (url-retrieve-synchronously
-        "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-        'silent 'inhibit-cookies)
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
@@ -192,8 +192,8 @@
   :after lsp-mode
   :init (global-company-mode)
   :bind (:map company-active-map
-         ("<tab>" . company-complete-selection))
-         ("<tab>" . company-indent-or-complete-common)
+              ("<tab>" . company-complete-selection))
+  ("<tab>" . company-indent-or-complete-common)
   :custom
   (company-minimum-prefix-length 2)
   (company-idle-delay 0.0))
@@ -262,7 +262,7 @@
   :commands lsp-ivy-workspace-symbol)
 
 (use-package dap-mode
-    :after lsp-mode)
+  :after lsp-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; HELP & LEARNING
@@ -523,12 +523,12 @@
         '((sequence "TODO" "STRT" "IDEA" "WAIT" "|" "DONE" "KILL")))
 
   (setq org-todo-keyword-faces
-      '(("TODO" . (:foreground "cyan" :weight bold))
-        ("STRT" . (:foreground "yellow" :weight bold))
-        ("IDEA" . (:foreground "pink" :weight bold))
-        ("WAIT" . (:foreground "orange" :weight bold))
-        ("DONE" . (:foreground "green" :strike-through t))
-        ("KILL" . (:foreground "red" :strike-through t))))
+        '(("TODO" . (:foreground "cyan" :weight bold))
+          ("STRT" . (:foreground "yellow" :weight bold))
+          ("IDEA" . (:foreground "pink" :weight bold))
+          ("WAIT" . (:foreground "orange" :weight bold))
+          ("DONE" . (:foreground "green" :strike-through t))
+          ("KILL" . (:foreground "red" :strike-through t))))
 
 
   ;; Make source blocks look a bit nicer.
@@ -544,11 +544,11 @@
   (add-hook 'org-mode-hook 'flyspell-mode)
 
   (org-babel-do-load-languages
-    'org-babel-load-languages
-    '((jupyter . t)
-      (python . t)
-      (R . t)
-      (shell . t)))
+   'org-babel-load-languages
+   '((jupyter . t)
+     (python . t)
+     (R . t)
+     (shell . t)))
 
   ;;(setq org-export-with-smart-quotes t)
   (setq org-confirm-babel-evaluate nil)
@@ -557,7 +557,7 @@
   (add-hook 'org-mode-hook 'org-display-inline-images)
   (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
   (setq org-display-remote-inline-images 'cache)
-)
+  )
 
 (defun jh/add-org-capture-templates ()
   (setq org-capture-templates
@@ -570,7 +570,7 @@
           ("s" "Software Engineering" entry
            (file+headline "~/org/work.org" "Engineering Tasks")
            (file "~/.emacs.d/org/work_templates/software_engineering.org") :empty-lines-after 1)
-      ))
+          ))
   )
 
 (add-hook 'org-mode-hook 'jh/org-mode-setup)
