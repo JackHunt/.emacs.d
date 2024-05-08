@@ -262,8 +262,9 @@
    (c-mode . lsp)
    (c++-mode . lsp)
    (cmake-mode . lsp)
-   (fortran-mode . lsp)
    (ess-mode . lsp)
+   (fortran-mode . lsp)
+   (haskell-mode . lsp)
    (LaTeX-mode . lsp)
    (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
@@ -427,6 +428,8 @@
 ;; HASKELL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package haskell-mode)
+(use-package lsp-haskell
+  :after haskell-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LaTeX
