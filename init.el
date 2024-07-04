@@ -188,6 +188,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package copilot
   :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
+  :bind
+  (:map copilot-completion-map
+        ("<tab>" . copilot-accept-completion)
+        ("TAB" . copilot-accept-completion))
   :hook
   (prog-mode . copilot-mode))
 
@@ -212,8 +216,8 @@
   (global-company-mode)
   :bind
   (:map company-active-map
-        ("<tab>" . company-complete-selection))
-  ("<tab>" . company-indent-or-complete-common)
+        ("<tab>" . company-complete-selection)
+        ("<tab>" . company-indent-or-complete-common))
   :custom
   (company-minimum-prefix-length 2)
   (company-idle-delay 0.0))
