@@ -100,11 +100,11 @@
 ;; THEMES & APPEARANCE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; doom-acario-dark
+;; doom-badger
+;; doom-dracula
 (use-package doom-themes
   :init
-  (load-theme 'doom-badger t))
-;; (use-package nord-theme
-;;   :init (load-theme 'nord t))
+  (load-theme 'doom-city-lights t))
 
 ;; Colour coded parenthesis etc.
 (use-package rainbow-delimiters
