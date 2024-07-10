@@ -280,6 +280,7 @@
    (fortran-mode . lsp)
    (haskell-mode . lsp)
    (LaTeX-mode . lsp)
+   (scad-mode . lsp)
    (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
 
@@ -373,7 +374,7 @@
 (use-package diff-hl
   :hook
   ((magit-pre-refresh-hook . diff-hl-magit-pre-refresh)
-   (magit-post-refresh-hook .diff-hl-magit-post-refresh)))
+   (magit-post-refresh-hook . diff-hl-magit-post-refresh)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FLYCHECK
@@ -412,6 +413,16 @@
   :config
   (flycheck-clang-analyzer-setup))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; OPENSCAD
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package scad-mode)
+
+(use-package scad-preview
+  :after
+  scad-mode
+  :config
+  (setq scad-preview-auto-update t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PYTHON
