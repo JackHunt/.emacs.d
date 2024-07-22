@@ -444,7 +444,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package ess
   :hook
-  (ess-mode-hook . projectile-mode))
+  (ess-mode-hook . projectile-mode)
+  :config
+  (setq ess-indent-offset 2))
 
 (use-package stan-mode)
 
