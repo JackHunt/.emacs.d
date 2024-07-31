@@ -368,6 +368,8 @@
 ;; TODO: Check out the other buffers.
 ;; https://magit.vc/manual/magit/Switching-Buffers.html
 (use-package magit
+  :bind
+  ("C-x g" . magit-status)
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
