@@ -7,22 +7,9 @@ Really, it would make more sense intuitively for this to be further down,
 but it's easier to just make sure the package management stuff is dealt
 with up front before proceeding when this is written out and executed.
 ** Bootstrap
-#+BEGIN_SRC emacs-lisp
-  (defvar bootstrap-version)
-  (let ((bootstrap-file
-         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-        (bootstrap-version 5))
-    (unless (file-exists-p bootstrap-file)
-      (with-current-buffer
-          (url-retrieve-synchronously
-           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-           'silent 'inhibit-cookies)
-        (goto-char (point-max))
-        (eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage))
-
-  (straight-use-package 'use-package)
-#+END_SRC
+Bootstrapping is done in =init.el= so that Straight is setup before
+org mode is used. This is because copilot chat causes an org version
+clash when installed with Straight later in the config.
 
 ** Configure =use-package=
 #+BEGIN_SRC emacs-lisp
