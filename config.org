@@ -133,3 +133,46 @@ TODO: Update this to regenerate from org
     (setq exec-path (append exec-path '("/usr/bin")))
     (setq exec-path (append exec-path '("/usr/local/bin"))))
 #+END_SRC
+
+* Prettifying
+** Theme
+#+BEGIN_SRC emacs-lisp
+  ;; doom-acario-dark
+  ;; doom-badger
+  ;; doom-dracula
+  (use-package doom-themes
+    :init
+    (load-theme 'doom-city-lights t))
+#+END_SRC
+
+** Colourful Delimiters
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-delimiters
+    :hook
+    (prog-mode . rainbow-delimiters-mode))
+#+END_SRC
+
+** Indent Highlighting
+#+BEGIN_SRC emacs-lisp
+  (use-package highlight-indent-guides
+    :hook
+    (prog-mode . highlight-indent-guides-mode)
+    :custom
+    (highlight-indent-guides-method 'bitmap))
+#+END_SRC
+
+** Fancy Modeline
+#+BEGIN_SRC emacs-lisp
+  (use-package doom-modeline
+    :init
+    (doom-modeline-mode 1)
+    :custom
+    ((doom-modeline-height 20)))
+#+END_SRC
+
+** Fancy Icons
+#+BEGIN_SRC emacs-lisp
+  (use-package nerd-icons
+    :hook
+    (dired-mode . nerd-icons-dired-mode))
+#+END_SRC
