@@ -1,0 +1,125 @@
+#+TITLE: My Emacs Configuration
+#+AUTHOR: Jack Hunt
+#+OPTIONS: num:nil
+
+* Straight Setup
+Really, it would make more sense intuitively for this to be further down,
+but it's easier to just make sure the package management stuff is dealt
+with up front before proceeding when this is written out and executed.
+** Bootstrap
+#+BEGIN_SRC emacs-lisp
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+        (bootstrap-version 5))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
+
+  (straight-use-package 'use-package)
+#+END_SRC
+
+** Configure =use-package=
+#+BEGIN_SRC emacs-lisp
+  (use-package straight
+    :custom
+    (straight-use-package-by-default t))
+#+END_SRC
+
+** Setup Package Updates
+#+BEGIN_SRC emacs-lisp
+  (use-package auto-package-update
+    :custom
+    (auto-package-update-interval 7)
+    (auto-package-update-prompt-before-update t)
+    (auto-package-update-hide-results t)
+    :config
+    (auto-package-update-maybe)
+    (auto-package-update-at-time "11:00"))
+#+END_SRC
+
+** Mac Specific Env Setup
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :config
+    (when (memq window-system '(mac ns x))
+      (exec-path-from-shell-initialize)))
+#+END_SRC
+
+* General Setup
+** UI Behaviour
+#+BEGIN_SRC emacs-lisp
+  (when (display-graphic-p)
+    (setq inhibit-startup-message t)
+    (scroll-bar-mode -1)
+    (tool-bar-mode -1)
+    (tooltip-mode -1)
+    (set-fringe-mode 10)
+    (menu-bar-mode -1)
+    (global-hl-line-mode))
+#+END_SRC
+
+** Font
+#+BEGIN_SRC emacs-lisp
+  (set-face-attribute 'default nil :font "Fira Code Retina" :height 110)
+#+END_SRC
+
+** Unmap =C-[=
+=C-[= maps to =ESC=, which is annoyingly close to =C-p=, meaning it's easy
+to accidentally close all windows.
+#+BEGIN_SRC emacs-lisp
+  (global-unset-key (kbd "ESC ESC ESC"))
+#+END_SRC
+
+** General Editor Setup
+#+BEGIN_SRC emacs-lisp
+  ;; Match parens, quotations etc.
+  (electric-pair-mode 1)
+
+  ;; Nuke trailing whitespace on save.
+  (add-hook 'before-save-hook (lambda () (delete-trailing-whitespace)))
+
+  ;; Tabs are evil.
+  (setq-default indent-tabs-mode nil)
+  (setq-default tab-width 4)
+  (setq indent-line-function #'insert-tab)
+
+  ;; Don't store backup files with sources - it's a pain with git.
+  (setq backup-directory-alist
+        `(("." . , (expand-file-name "backups" temporary-file-directory))))
+
+  ;; Ditto for autosaves.
+  (setq auto-save-file-name-transforms `((".*" , temporary-file-directory t)))
+#+END_SRC
+
+** Mac Specific
+#+BEGIN_SRC emacs-lisp
+  (if (eq system-type 'darwin)
+      (global-set-key (kbd "M-3") #'(lambda () (interactive) (insert "#"))))
+#+END_SRC
+
+** Helper Functions
+TODO: Update this to regenerate from org
+#+BEGIN_SRC emacs-lisp
+  (defun jh/reload-config ()
+    "Reload .emacs.d/init.el"
+    (interactive)
+    (load-file "~/.emacs.d/init.el"))
+#+END_SRC
+
+* Environment Setup
+** Mac Specific
+#+BEGIN_SRC emacs-lisp
+  (if (eq system-type 'darwin)
+      (setenv "PATH" (concat (getenv "PATH") ":/usr/texbin"))
+    (setenv "PATH" (concat (getenv "PATH") ":/usr/bin"))
+    (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+    (setq exec-path (append exec-path '("/usr/texbin")))
+    (setq exec-path (append exec-path '("/usr/bin")))
+    (setq exec-path (append exec-path '("/usr/local/bin"))))
+#+END_SRC
