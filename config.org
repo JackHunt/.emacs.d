@@ -176,3 +176,69 @@ TODO: Update this to regenerate from org
     :hook
     (dired-mode . nerd-icons-dired-mode))
 #+END_SRC
+
+** Ligatures
+#+BEGIN_SRC emacs-lisp
+  (use-package ligature
+    :config
+    (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+                                         ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+                                         "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+                                         "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+                                         "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+                                         "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+                                         "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+                                         "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+                                         "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+                                         "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+    (global-ligature-mode t))
+#+END_SRC
+
+** Idle Highlighting
+#+BEGIN_SRC emacs-lisp
+  (use-package idle-highlight-mode
+    :config
+    (setq idle-highlight-idle-time 0.2)
+    :hook
+    ((prog-mode text-mode) . idle-highlight-mode))
+#+END_SRC
+
+* Apps
+** Learning and Typing
+#+BEGIN_SRC emacs-lisp
+  (use-package speed-type)
+
+  (use-package key-quiz)
+#+END_SRC
+
+** Dashboard
+#+BEGIN_SRC emacs-lisp
+  (use-package dashboard
+    :if (< (length command-line-args) 2) ;; Skip if opening file with emacs
+    :config
+    (dashboard-setup-startup-hook)
+    (setq initial-buffer-choice
+          (lambda () (get-buffer-create "*dashboard*")))
+    (setq dashboard-center-content t)
+    (setq dashboard-items '((recents  . 10)
+                            (projects . 10)
+                            (registers . 10)))
+    (setq dashboard-icon-type 'nerd-icons)
+    (setq dashboard-set-heading-icons t)
+    (setq dashboard-set-file-icons t)
+    (setq dashboard-heading-icons '((recents   . "history")
+                                    (projects  . "rocket")
+                                    (registers . "database"))))
+#+END_SRC
+
+** GitHub Copilot
+#+BEGIN_SRC emacs-lisp
+  (use-package copilot
+    :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
+    :bind
+    (:map copilot-completion-map
+          ("<tab>" . copilot-accept-completion)
+          ("TAB" . copilot-accept-completion))
+    :hook
+    (prog-mode . copilot-mode))
+#+END_SRC
