@@ -212,6 +212,7 @@ TODO: Update this to regenerate from org
 #+END_SRC
 
 ** Dashboard
+TODO: Fix missing icon.
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
     :if (< (length command-line-args) 2) ;; Skip if opening file with emacs
