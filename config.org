@@ -243,3 +243,9 @@ TODO: Fix missing icon.
     :hook
     (prog-mode . copilot-mode))
 #+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package copilot-chat
+    :straight (:host github :repo "chep/copilot-chat.el" :files ("*.el"))
+    :after (request org markdown-mode))
+#+END_SRC
