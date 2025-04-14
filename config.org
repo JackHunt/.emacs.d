@@ -95,6 +95,16 @@ to accidentally close all windows.
 
   ;; Ditto for autosaves.
   (setq auto-save-file-name-transforms `((".*" , temporary-file-directory t)))
+
+  ;; Line & column numbers. Disabled for org & term.
+  (column-number-mode)
+  (global-display-line-numbers-mode t)
+
+  (dolist (mode '(org-mode-hook
+                  term-mode-hook
+                  shell-mode-hook
+                  eshell-mode-hook))
+    (add-hook mode (lambda () (display-line-numbers-mode 0))))
 #+END_SRC
 
 ** Mac Specific
