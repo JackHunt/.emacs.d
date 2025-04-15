@@ -196,6 +196,14 @@ TODO: Update this to regenerate from org
   (use-package speed-type)
 
   (use-package key-quiz)
+
+  (use-package which-key
+    :init
+    (which-key-mode)
+    :diminish
+    which-key-mode
+    :config
+    (setq which-key-idle-delay 1))
 #+END_SRC
 
 ** Dashboard
@@ -236,6 +244,19 @@ TODO: Check all working and set key bindings.
   (use-package copilot-chat
     :straight (:host github :repo "chep/copilot-chat.el" :files ("*.el"))
     :after (request org markdown-mode))
+#+END_SRC
+
+** Better Docs for =C-h v= etc
+#+BEGIN_SRC emacs-lisp
+  (use-package helpful
+    :custom
+    (counsel-describe-function-function #'helpful-callable)
+    (counsel-describe-variable-function #'helpful-variable)
+    :bind
+    ([remap describe-function] . counsel-describe-function)
+    ([remap describe-command] . helpful-command)
+    ([remap describe-variable] . counsel-describe-variable)
+    ([remap describe-key] . helpful-key))
 #+END_SRC
 
 * General Modes
@@ -301,6 +322,118 @@ TODO: Check all working and set key bindings.
     (ivy-rich-mode 1))
 #+END_SRC
 
+** Yasnippet
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :after
+    company-mode
+    :init
+    (yas-global-mode)
+    :bind
+    ("C-c y s" . yas-insert-snippet)
+    ("C-c y v" . yas-visit-snippet-file)
+    :config
+    (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
+    (add-to-list 'company-backends 'company-yasnippet))
+#+END_SRC
+
+** Projectile
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :diminish projectile-mode
+    :config
+    (projectile-global-mode)
+    :custom
+    ((projectile-completion-system 'ivy))
+    :bind-keymap
+    ("C-c p" . projectile-command-map)
+    :init
+    (when (file-directory-p "~/GitHub")
+      (setq projectile-project-search-path '("~/GitHub")))
+    (setq projectile-switch-project-action #'projectile-dired))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package counsel-projectile
+    :after
+    projectile
+    :config
+    (counsel-projectile-mode))
+#+END_SRC
+
+** Magit
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :bind
+    ("C-x g" . magit-status)
+    :custom
+    (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  ;; TODO: Check out the other buffers.
+  ;; https://magit.vc/manual/magit/Switching-Buffers.html
+  (use-package diff-hl
+    :hook
+    ((magit-pre-refresh-hook . diff-hl-magit-pre-refresh)
+     (magit-post-refresh-hook . diff-hl-magit-post-refresh)))
+#+END_SRC
+
+** Flycheck
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :init
+    (global-flycheck-mode))
+#+END_SRC
+
+** Flyspell
+#+BEGIN_SRC emacs-lisp
+  (use-package flyspell
+    :init
+    (dolist (hook '(text-mode-hook))
+      (add-hook hook (lambda () (flyspell-mode 1))))
+    :config
+    (setq ispell-dictionary "british"))
+#+END_SRC
+
+** Dired
+#+BEGIN_SRC emacs-lisp
+  (use-package dired
+    :straight (:type built-in)
+    :ensure nil
+    :commands (dired dired-jump)
+    :bind
+    (("C-x C-j" . dired-jump))
+    :custom
+    ((dired-listing-switches "-agho --group-directories-first")))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package dired-single
+    :commands (dired dired-jump))
+#+END_SRC
+
+* Terminals
+#+BEGIN_SRC emacs-lisp
+  (use-package term
+    :commands term
+    :config
+    (setq explicit-shell-file-name "zsh"))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package eterm-256color
+    :hook (term-mode . eterm-256color-mode))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package vterm
+    :commands vterm
+    :config
+    (setq vterm-shell "zsh")
+    (setq vterm-max-scrollback 10000))
+#+END_SRC
+
 * LSP
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
@@ -341,9 +474,272 @@ TODO: Check all working and set key bindings.
     :after lsp-mode)
 #+END_SRC
 
+** Jupyter
+#+BEGIN_SRC emacs-lisp
+  (use-package jupyter)
+#+END_SRC
+
 * Language Specific
 ** Elisp
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'emacs-lisp-mode
     (add-to-list 'company-backends 'company-elisp))
+#+END_SRC
+
+** Python
+#+BEGIN_SRC emacs-lisp
+  (use-package pyvenv
+    :after
+    python-mode
+    :config
+    (pyvenv-mode 1))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  ;;(setenv "WORKON_HOME" (concat (getenv "CONDA_PREFIX") "/envs"))
+  ;; As a hack, just symlink conda env dir to ~/.virtualenvs for now
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package python-black
+    :after python
+    :hook (python-mode . python-black-on-save-mode))
+#+END_SRC
+
+** R & STAN
+#+BEGIN_SRC emacs-lisp
+  (use-package ess
+    :hook
+    (ess-mode-hook . projectile-mode)
+    :config
+    (setq ess-indent-offset 2))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package stan-mode)
+#+END_SRC
+
+** Shell
+#+BEGIN_SRC emacs-lisp
+  (setq sh-basic-offset 2)
+#+END_SRC
+
+** Haskell
+#+BEGIN_SRC emacs-lisp
+  (use-package haskell-mode)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-haskell
+    :after haskell-mode)
+#+END_SRC
+
+** LaTeX
+#+BEGIN_SRC emacs-lisp
+  (use-package auctex
+    :defer t
+    :hook
+    ((LaTeX-mode-hook . visual-line-mode)
+     (LaTeX-mode-hook . flyspell-mode)
+     (LaTeX-mode-hook . flycheck-mode)
+     (LaTeX-mode-hook . LaTeX-math-mode))
+    :config
+    (setq TeX-auto-save t)
+    (setq TeX-parse-self t)
+    (setq reftex-plug-into-AUCTeX t)
+    (setq TeX-PDF-mode t)
+    (setq LaTeX-indent-level 2)
+    (setq LaTeX-item-indent 2)
+    (setq TeX-brace-indent-level 2))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package reftex
+    :after
+    auctex
+    :hook
+    (LaTeX-mode-hook . turn-on-reftex)
+    :config
+    (setq reftex-plug-into-AUCTeX t))
+#+END_SRC
+
+** YAML
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode)
+#+END_SRC
+
+* Org Mode
+#+BEGIN_SRC emacs-lisp
+  (use-package org-bullets
+    :hook
+    (org-mode . org-bullets-mode)
+    :custom
+    (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (defun jh/theme-to-css (filename)
+    "Generate a CSS file based on current theme for Org HTML export."
+    (interactive "FEnter the output CSS file name: ")
+    (with-temp-file filename
+      ;; Document background & foreground.
+      (let ((default-bg (face-background 'default))
+            (default-fg (face-foreground 'default)))
+        (insert (format "body {\n  background-color: %s;\n  color: %s;\n}\n" default-bg default-fg)))
+
+      ;; Headings.
+      (let ((level-1-bg (face-background 'org-level-1))
+            (level-1-fg (face-foreground 'org-level-1)))
+        (insert (format "h1 {\n  background-color: %s;\n  color: %s;\n}\n" level-1-bg level-1-fg)))
+      (let ((level-2-bg (face-background 'org-level-2))
+            (level-2-fg (face-foreground 'org-level-2)))
+        (insert (format "h2 {\n  background-color: %s;\n  color: %s;\n}\n" level-2-bg level-2-fg)))
+      (let ((level-3-bg (face-background 'org-level-3))
+            (level-3-fg (face-foreground 'org-level-3)))
+        (insert (format "h3 {\n  background-color: %s;\n  color: %s;\n}\n" level-3-bg level-3-fg)))
+      (let ((level-4-bg (face-background 'org-level-4))
+            (level-4-fg (face-foreground 'org-level-4)))
+        (insert (format "h4 {\n  background-color: %s;\n  color: %s;\n}\n" level-4-bg level-4-fg)))
+      ))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (defun jh/org-archive-done-kill-tasks ()
+    (interactive)
+    (org-map-entries 'org-archive-subtree "1/DONE|1/KILL" 'file))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (defun jh/org-last-modified-update ()
+    "Update '#+last_modified:' if it exists in an org buffer."
+    (save-excursion
+      (goto-char (point-min))
+      (when (re-search-forward "^#\\+last_modified: .*" nil t)
+        (replace-match (concat "#+last_modified: " (format-time-string "[%Y-%m-%d %a %H:%M]"))))))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (defun jh/org-mode-setup ()
+    ;; Update roam timestamps.
+    (add-hook 'before-save-hook 'jh/org-last-modified-update nil 'local)
+
+    ;; TODO states.
+    (setq org-todo-keywords
+          '((sequence "TODO" "STRT" "IDEA" "WAIT" "|" "DONE" "KILL")))
+
+    (setq org-todo-keyword-faces
+          '(("TODO" . (:foreground "cyan" :weight bold))
+            ("STRT" . (:foreground "yellow" :weight bold))
+            ("IDEA" . (:foreground "pink" :weight bold))
+            ("WAIT" . (:foreground "orange" :weight bold))
+            ("DONE" . (:foreground "green" :strike-through t))
+            ("KILL" . (:foreground "red" :strike-through t))))
+
+
+    ;; Make source blocks look a bit nicer.
+    (setq org-edit-src-content-indentation 0
+          org-src-tab-acts-natively t
+          org-src-preserve-indentation t
+          org-src-fontify-natively t)
+
+    ;; (setq org-src-window-setup 'current-window)
+    (setq org-ellipsis "⤵")
+
+    ;; Enable spell checking.
+    (add-hook 'org-mode-hook 'flyspell-mode)
+
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((jupyter . t)
+       (python . t)
+       (R . t)
+       (shell . t)))
+
+    ;;(setq org-export-with-smart-quotes t)
+    (setq org-confirm-babel-evaluate nil)
+
+    ;; Enable inline images and make sure they get updated.
+    (add-hook 'org-mode-hook 'org-display-inline-images)
+    (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
+    (setq org-display-remote-inline-images 'cache)
+    )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (defun jh/add-org-capture-templates ()
+    (setq org-capture-templates
+          '(("t" "Theoretical Question" entry
+             (file+headline "~/org/work.org" "Theoretical Questions")
+             (file "~/.emacs.d/org/work_templates/theoretical_question.org") :empty-lines-after 1)
+            ("e" "Experiment" entry
+             (file+headline "~/org/work.org" "Experiments")
+             (file "~/.emacs.d/org/work_templates/experiment.org") :empty-lines-after 1)
+            ("s" "Software Engineering" entry
+             (file+headline "~/org/work.org" "Engineering Tasks")
+             (file "~/.emacs.d/org/work_templates/software_engineering.org") :empty-lines-after 1)
+            ))
+    )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook 'jh/org-mode-setup)
+  (add-hook 'org-mode-hook 'jh/add-org-capture-templates)
+#+END_SRC
+
+* Org Roam
+#+BEGIN_SRC emacs-lisp
+  (use-package emacsql)
+  (use-package emacsql-sqlite)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-roam
+    :custom
+    (org-roam-directory (file-truename "~/GitHub/org-roam-notes/"))
+    (org-roam-db-location (file-truename "~/GitHub/org-roam-notes/org-roam.sqlite3"))
+    (org-roam-completion-everywhere t)
+    (org-roam-completion-system 'ivy)
+    (org-roam-capture-templates
+     ;; TODO: See if the headers can be in the org files.
+     '(("d" "Default" plain
+        (file "~/.emacs.d/org/roam_templates/default.org")
+        :target (file+head "%<%Y%m%d%H%M%>-${slug}.org"
+                           "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :some_tag:\n\n")
+        :unnarrowed t)
+       ("m" "Maths" plain
+        (file "~/.emacs.d/org/roam_templates/maths.org")
+        :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                           "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :maths:\n\n")
+        :unnarrowed t)
+       ("i" "Idea" plain
+        (file "~/.emacs.d/org/roam_templates/idea.org")
+        :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                           "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :idea:\n\n")
+        :unnarrowed t)
+       ("p" "Paper" plain
+        (file "~/.emacs.d/org/roam_templates/paper.org")
+        :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                           "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :paper:\n\n")
+        :unnarrowed t)
+       ("c" "Code Snippet" plain
+        (file "~/.emacs.d/org/roam_templates/code_snippet.org")
+        :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                           "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :code_snippet:\n\n")
+        :unnarrowed t)
+       ("r" "Random Thought" plain
+        (file "~/.emacs.d/org/roam_templates/random_thought.org")
+        :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                           "\n#+title: ${title}\n#+created: %U\n#+filetags: :random:\n\n")
+        :unnarrowed t)))
+    :bind
+    (("C-c n l" . org-roam-buffer-toggle)
+     ("C-c n f" . org-roam-node-find)
+     ("C-c n g" . org-roam-graph)
+     ("C-c n i" . org-roam-node-insert)
+     ("C-c n c" . org-roam-capture)
+     ("C-c n j" . org-roam-dailies-capture-today))
+    :config
+    (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:30}" 'face 'org-tag)))
+    (org-roam-db-autosync-mode)
+    (require 'org-roam-protocol))
 #+END_SRC
