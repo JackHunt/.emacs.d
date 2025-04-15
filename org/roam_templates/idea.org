@@ -1,3 +1,5 @@
+#+STARTUP: latexpreview inlineimages indent
+
 * Context
 %?
 
