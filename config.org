@@ -702,8 +702,8 @@ TODO: Verify this still works
 #+BEGIN_SRC emacs-lisp
   (use-package org-roam
     :custom
-    (org-roam-directory (file-truename "~/GitHub/org-roam-notes/"))
-    (org-roam-db-location (file-truename "~/GitHub/org-roam-notes/org-roam.sqlite3"))
+    (org-roam-directory (file-truename "~/org-roam-notes/"))
+    (org-roam-db-location (file-truename "~/org-roam-notes/org-roam.sqlite3"))
     (org-roam-completion-everywhere t)
     (org-roam-completion-system 'ivy)
     (org-roam-capture-templates
