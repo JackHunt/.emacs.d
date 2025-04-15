@@ -697,13 +697,13 @@ TODO: Verify this still works
   (defun jh/add-org-capture-templates ()
     (setq org-capture-templates
           '(("t" "Theoretical Question" entry
-             (file+headline "~/org/work.org" "Theoretical Questions")
+             (file+headline "~/org-mode/work.org" "Theoretical Questions")
              (file "~/.emacs.d/org/work_templates/theoretical_question.org") :empty-lines-after 1)
             ("e" "Experiment" entry
-             (file+headline "~/org/work.org" "Experiments")
+             (file+headline "~/org-mode/work.org" "Experiments")
              (file "~/.emacs.d/org/work_templates/experiment.org") :empty-lines-after 1)
             ("s" "Software Engineering" entry
-             (file+headline "~/org/work.org" "Engineering Tasks")
+             (file+headline "~/org-mode/work.org" "Engineering Tasks")
              (file "~/.emacs.d/org/work_templates/software_engineering.org") :empty-lines-after 1)
             ))
     )
@@ -723,8 +723,8 @@ TODO: Verify this still works
 #+BEGIN_SRC emacs-lisp
   (use-package org-roam
     :custom
-    (org-roam-directory (file-truename "~/org-roam-notes/"))
-    (org-roam-db-location (file-truename "~/org-roam-notes/org-roam.sqlite3"))
+    (org-roam-directory (file-truename "~/org-mode/roam-notes/"))
+    (org-roam-db-location (file-truename "~/org-mode/roam-notes/org-roam.sqlite3"))
     (org-roam-completion-everywhere t)
     (org-roam-completion-system 'ivy)
     (org-roam-capture-templates
