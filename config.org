@@ -696,7 +696,7 @@ TODO: Verify this still works
 * Org Roam
 #+BEGIN_SRC emacs-lisp
   (use-package emacsql)
-  (use-package emacsql-sqlite)
+  ;; (use-package emacsql-sqlite)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
