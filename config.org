@@ -723,10 +723,11 @@ TODO: Verify this still works
 #+BEGIN_SRC emacs-lisp
   (use-package org-roam
     :custom
-    (org-roam-directory (file-truename "~/org-mode/roam-notes/"))
+    (org-roam-directory (file-truename "~/org-mode/roam-notes"))
     (org-roam-db-location (file-truename "~/org-mode/roam-notes/org-roam.sqlite3"))
     (org-roam-completion-everywhere t)
     (org-roam-completion-system 'ivy)
+    (org-roam-database-connector sqlite-builtin)
     (org-roam-capture-templates
      ;; TODO: See if the headers can be in the org files.
      '(("z" "Zettel" plain
@@ -736,7 +737,7 @@ TODO: Verify this still works
         :unnarrowed t)
        ("k" "Zettel KB" plain
         (file "~/.emacs.d/org/roam_templates/default.org")
-        :target (file+head "zettel_kb/{title}.org"
+        :target (file+head "zettel_kb/${slug}.org"
                            "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :some_tag:\n\n")
         :unnarrowed t)
        ("w" "Work Zettel" plain
