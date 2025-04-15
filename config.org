@@ -428,7 +428,7 @@ TODO: Check all working and set key bindings.
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (defun jh/jupyter-refresh-kernelspecs ()
+  (defun jh/jupyter-refresh-kernels ()
     "Refresh Jupyter kernelspecs"
     (interactive)
     (jupyter-available-kernelspecs t))
