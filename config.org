@@ -708,9 +708,8 @@ TODO: Verify this still works
     (org-roam-completion-system 'ivy)
     (org-roam-capture-templates
      ;; TODO: See if the headers can be in the org files.
-     '(("d" "Default" plain
+     '(("z" "Zettel" plain
         (file "~/.emacs.d/org/roam_templates/default.org")
-        :target (file+head "%<%Y%m%d%H%M%>-${slug}.org"
                            "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :some_tag:\n\n")
         :unnarrowed t)
        ("m" "Maths" plain
