@@ -1,6 +1,6 @@
 #+TITLE: My Emacs Configuration
 #+AUTHOR: Jack Hunt
-#+OPTIONS: num:nil
+#+OPTIONS: toc:3
 
 * Straight Setup
 Really, it would make more sense intuitively for this to be further down,
