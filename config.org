@@ -413,6 +413,27 @@ TODO: Check all working and set key bindings.
     :commands (dired dired-jump))
 #+END_SRC
 
+** Conda
+#+BEGIN_SRC emacs-lisp
+  (use-package conda
+    :config
+    (setq conda-anaconda-home (expand-file-name "~/anaconda3/"))
+    (setq conda-env-home-directory (expand-file-name "~/anaconda3/"))
+    (setq conda-env-subdirectory "envs"))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (unless (getenv "CONDA_DEFAULT_ENV")
+    (conda-env-activate "base"))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (defun jh/jupyter-refresh-kernelspecs ()
+    "Refresh Jupyter kernelspecs"
+    (interactive)
+    (jupyter-available-kernelspecs t))
+#+END_SRC
+
 * Terminals
 #+BEGIN_SRC emacs-lisp
   (use-package term
