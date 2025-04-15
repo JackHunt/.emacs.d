@@ -569,6 +569,7 @@ TODO: Check all working and set key bindings.
 #+END_SRC
 
 * Org Mode
+** Fancy Bullets
 #+BEGIN_SRC emacs-lisp
   (use-package org-bullets
     :hook
@@ -577,6 +578,9 @@ TODO: Check all working and set key bindings.
     (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 #+END_SRC
 
+** Utility Functions
+*** Theme to CSS
+TODO: Verify this still works
 #+BEGIN_SRC emacs-lisp
   (defun jh/theme-to-css (filename)
     "Generate a CSS file based on current theme for Org HTML export."
@@ -603,12 +607,14 @@ TODO: Check all working and set key bindings.
       ))
 #+END_SRC
 
+*** Archive Done Tasks
 #+BEGIN_SRC emacs-lisp
   (defun jh/org-archive-done-kill-tasks ()
     (interactive)
     (org-map-entries 'org-archive-subtree "1/DONE|1/KILL" 'file))
 #+END_SRC
 
+*** Update Last Modified Timestamp
 #+BEGIN_SRC emacs-lisp
   (defun jh/org-last-modified-update ()
     "Update '#+last_modified:' if it exists in an org buffer."
@@ -618,6 +624,7 @@ TODO: Check all working and set key bindings.
         (replace-match (concat "#+last_modified: " (format-time-string "[%Y-%m-%d %a %H:%M]"))))))
 #+END_SRC
 
+** Setup
 #+BEGIN_SRC emacs-lisp
   (defun jh/org-mode-setup ()
     ;; Update roam timestamps.
