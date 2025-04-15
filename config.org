@@ -220,6 +220,7 @@ TODO: Fix missing icon.
 #+END_SRC
 
 ** GitHub Copilot
+TODO: Check all working and set key bindings.
 #+BEGIN_SRC emacs-lisp
   (use-package copilot
     :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
@@ -235,4 +236,114 @@ TODO: Fix missing icon.
   (use-package copilot-chat
     :straight (:host github :repo "chep/copilot-chat.el" :files ("*.el"))
     :after (request org markdown-mode))
+#+END_SRC
+
+* General Modes
+** Counsel
+#+BEGIN_SRC emacs-lisp
+  (use-package counsel
+    :bind
+    (("M-x" . counsel-M-x)
+     ("C-x b" . counsel-ibuffer)
+     ("C-x C-f" . counsel-find-file)
+     :map minibuffer-local-map
+     ("C-r" . 'counsel-minibuffer-history)))
+#+END_SRC
+
+** Company
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :after
+    lsp-mode
+    :init
+    (global-company-mode)
+    :bind
+    (:map company-active-map
+          ("<tab>" . company-complete-selection)
+          ("<tab>" . company-indent-or-complete-common))
+    :custom
+    (company-minimum-prefix-length 2)
+    (company-idle-delay 0.0))
+
+  (use-package company-box
+    :after
+    company
+    :hook
+    (company-mode . company-box-mode))
+#+END_SRC
+
+** Ivy
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy
+    :diminish
+    :bind
+    (("C-s" . swiper)
+     :map ivy-minibuffer-map
+     ("TAB" . ivy-partial-or-done)
+     ("C-l" . ivy-alt-done)
+     ("C-j" . ivy-next-line)
+     ("C-k" . ivy-previous-line)
+     :map ivy-switch-buffer-map
+     ("C-k" . ivy-previous-line)
+     ("C-l" . ivy-done)
+     ("C-d" . ivy-switch-buffer-kill)
+     :map ivy-reverse-i-search-map
+     ("C-k" . ivy-previous-line)
+     ("C-d" . ivy-reverse-i-search-kill))
+    :config
+    (ivy-mode 1)
+    (setq ivy-use-virtual-buffers t))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy-rich
+    :init
+    (ivy-rich-mode 1))
+#+END_SRC
+
+* LSP
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
+    :init
+    (setq lsp-keymap-prefix "C-c l")
+    :hook
+    ((python-mode . lsp)
+     (c-mode . lsp)
+     (c++-mode . lsp)
+     (cmake-mode . lsp)
+     (ess-mode . lsp)
+     (fortran-mode . lsp)
+     (haskell-mode . lsp)
+     (LaTeX-mode . lsp)
+     (scad-mode . lsp)
+     (lsp-mode . lsp-enable-which-key-integration))
+    :commands lsp)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-ui
+    :after
+    lsp-mode
+    :commands
+    lsp-ui-mode
+    :hook
+    (lsp-mode . lsp-ui-mode))
+
+  (use-package lsp-ivy
+    :after
+    lsp-mode
+    :commands
+    lsp-ivy-workspace-symbol)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package dap-mode
+    :after lsp-mode)
+#+END_SRC
+
+* Language Specific
+** Elisp
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'emacs-lisp-mode
+    (add-to-list 'company-backends 'company-elisp))
 #+END_SRC
