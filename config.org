@@ -605,7 +605,7 @@ TODO: Verify this still works
 #+BEGIN_SRC emacs-lisp
   (defun jh/theme-to-css (filename)
     "Generate a CSS file based on current theme for Org HTML export."
-    (interactive "FEnter the output CSS file name: ")
+    (interactive "Enter the output CSS file name: ")
     (with-temp-file filename
       ;; Document background & foreground.
       (let ((default-bg (face-background 'default))
@@ -641,8 +641,8 @@ TODO: Verify this still works
     "Update '#+last_modified:' if it exists in an org buffer."
     (save-excursion
       (goto-char (point-min))
-      (when (re-search-forward "^#\\+last_modified: .*" nil t)
-        (replace-match (concat "#+last_modified: " (format-time-string "[%Y-%m-%d %a %H:%M]"))))))
+      (when (re-search-forward "^#\\+LAST_MODIFIED: .*" nil t)
+        (replace-match (concat "#+LAST_MODIFIED: " (format-time-string "[%Y-%m-%d %a %H:%M]"))))))
 #+END_SRC
 
 ** Setup
@@ -733,22 +733,22 @@ TODO: Verify this still works
      '(("z" "Zettel" plain
         (file "~/.emacs.d/org/roam_templates/default.org")
         :target (file+head "zettel/%<%Y%m%d%H%M%>-${slug}.org"
-                           "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :some_tag:\n\n")
+                           "\n#+TITLE: ${title}\n#+CREATED: %U\n#+LAST_MODIFIED: %U\n#+FILETAGS: :some_tag:\n\n")
         :unnarrowed t)
        ("k" "Zettel KB" plain
         (file "~/.emacs.d/org/roam_templates/default.org")
         :target (file+head "zettel_kb/${slug}.org"
-                           "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :some_tag:\n\n")
+                           "\n#+TITLE: ${title}\n#+CREATED: %U\n#+LAST_MODIFIED: %U\n#+FILETAGS: :some_tag:\n\n")
         :unnarrowed t)
        ("w" "Work Zettel" plain
         (file "~/.emacs.d/org/roam_templates/default.org")
         :target (file+head "work_zettel/%<%Y%m%d%H%M%>-${slug}.org"
-                           "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :work:\n\n")
+                           "\n#+TITLE: ${title}\n#+CREATED: %U\n#+LAST_MODIFIED: %U\n#+FILETAGS: :work_tag:\n\n")
         :unnarrowed t)
        ("m" "Work Meeting" plain
         (file "~/.emacs.d/org/roam_templates/default.org")
         :target (file+head "work_meetings/{title}.org"
-                           "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :meeting:\n\n")
+                           "\n#+TITLE: ${title}\n#+CREATED: %U\n#+LAST_MODIFIED: %U\n#+FILETAGS: :meeting:\n\n")
         :unnarrowed t)
        ))
     :bind
