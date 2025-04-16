@@ -688,10 +688,10 @@ TODO: Verify this still works
 
     (org-babel-do-load-languages
      'org-babel-load-languages
-     '((jupyter . t)
-       (python . t)
+     '((python . t)
        (R . t)
-       (shell . t)))
+       (shell . t)
+       (jupyter . t)))
 
     ;;(setq org-export-with-smart-quotes t)
     (setq org-confirm-babel-evaluate nil)
