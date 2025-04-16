@@ -496,6 +496,16 @@ TODO: Check all working and set key bindings.
 #+END_SRC
 
 ** Jupyter
+Note that the following dependencies need to be installed
+#+BEGIN_EXAMPLE
+brew install autoconf automake libtool
+#+END_EXAMPLE
+and if the ZMQ build fails, the following might need to be done
+#+BEGIN_EXAMPLE
+cd ~/.emacs.d/straight/build/zmq/src
+autoreconf -i
+#+END_EXAMPLE
+
 #+BEGIN_SRC emacs-lisp
   (use-package jupyter)
 #+END_SRC
