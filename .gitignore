@@ -30,3 +30,4 @@ straight
 anaconda-mode
 /org-persist
 .\#config.org
+request/curl-cookie-jar
