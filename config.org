@@ -428,7 +428,7 @@ TODO: Check all working and set key bindings.
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (defun jh/jupyter-refresh-kernels ()
+  (defun jh/jupyter-refresh-kernelspecs ()
     "Refresh Jupyter kernelspecs"
     (interactive)
     (jupyter-available-kernelspecs t))
@@ -507,7 +507,8 @@ autoreconf -i
 #+END_EXAMPLE
 
 #+BEGIN_SRC emacs-lisp
-  (use-package jupyter)
+  (use-package jupyter
+    :after (:all org python))
 #+END_SRC
 
 * Language Specific
@@ -657,6 +658,10 @@ TODO: Verify this still works
 
 ** Setup
 #+BEGIN_SRC emacs-lisp
+  (defun jh/display-ansi-colours ()
+    "Fixes kernel output in emacs-jupyter"
+    (ansi-color-apply-on-region (point-min) (point-max)))
+
   (defun jh/org-mode-setup ()
     ;; Update roam timestamps.
     (add-hook 'before-save-hook 'jh/org-last-modified-update nil 'local)
@@ -691,6 +696,7 @@ TODO: Verify this still works
      '((python . t)
        (R . t)
        (shell . t)
+       (emacs-lisp . t)
        (jupyter . t)))
 
     ;;(setq org-export-with-smart-quotes t)
@@ -700,6 +706,7 @@ TODO: Verify this still works
     (add-hook 'org-mode-hook 'org-display-inline-images)
     (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
     (setq org-display-remote-inline-images 'cache)
+    (add-hook 'org-babel-after-execute-hook 'jh/display-ansi-colours)
     )
 #+END_SRC
 
