@@ -13,425 +13,425 @@ clash when installed with Straight later in the config.
 
 ** Configure =use-package=
 #+BEGIN_SRC emacs-lisp
-  (use-package straight
-    :custom
-    (straight-use-package-by-default t))
+(use-package straight
+  :custom
+  (straight-use-package-by-default t))
 #+END_SRC
 
 ** Setup Package Updates
 #+BEGIN_SRC emacs-lisp
-  (use-package auto-package-update
-    :custom
-    (auto-package-update-interval 7)
-    (auto-package-update-prompt-before-update t)
-    (auto-package-update-hide-results t)
-    :config
-    (auto-package-update-maybe)
-    (auto-package-update-at-time "11:00"))
+(use-package auto-package-update
+  :custom
+  (auto-package-update-interval 7)
+  (auto-package-update-prompt-before-update t)
+  (auto-package-update-hide-results t)
+  :config
+  (auto-package-update-maybe)
+  (auto-package-update-at-time "11:00"))
 #+END_SRC
 
 ** Mac Specific Env Setup
 #+BEGIN_SRC emacs-lisp
-  (use-package exec-path-from-shell
-    :config
-    (when (memq window-system '(mac ns x))
-      (exec-path-from-shell-initialize)))
+(use-package exec-path-from-shell
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
 #+END_SRC
 
 * General Setup
 ** UI Behaviour
 #+BEGIN_SRC emacs-lisp
-  (when (display-graphic-p)
-    (setq inhibit-startup-message t)
-    (scroll-bar-mode -1)
-    (tool-bar-mode -1)
-    (tooltip-mode -1)
-    (set-fringe-mode 10)
-    (menu-bar-mode -1)
-    (global-hl-line-mode))
+(when (display-graphic-p)
+  (setq inhibit-startup-message t)
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1)
+  (tooltip-mode -1)
+  (set-fringe-mode 10)
+  (menu-bar-mode -1)
+  (global-hl-line-mode))
 #+END_SRC
 
 ** Font
 #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil :font "Fira Code Retina" :height 110)
+(set-face-attribute 'default nil :font "Fira Code Retina" :height 110)
 #+END_SRC
 
 ** Unmap =C-[=
 =C-[= maps to =ESC=, which is annoyingly close to =C-p=, meaning it's easy
 to accidentally close all windows.
 #+BEGIN_SRC emacs-lisp
-  (global-unset-key (kbd "ESC ESC ESC"))
+(global-unset-key (kbd "ESC ESC ESC"))
 #+END_SRC
 
 ** General Editor Setup
 #+BEGIN_SRC emacs-lisp
-  ;; Match parens, quotations etc.
-  (electric-pair-mode 1)
+;; Match parens, quotations etc.
+(electric-pair-mode 1)
 
-  ;; Nuke trailing whitespace on save.
-  (add-hook 'before-save-hook (lambda () (delete-trailing-whitespace)))
+;; Nuke trailing whitespace on save.
+(add-hook 'before-save-hook (lambda () (delete-trailing-whitespace)))
 
-  ;; Tabs are evil.
-  (setq-default indent-tabs-mode nil)
-  (setq-default tab-width 4)
-  (setq indent-line-function #'insert-tab)
+;; Tabs are evil.
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(setq indent-line-function #'insert-tab)
 
-  ;; Don't store backup files with sources - it's a pain with git.
-  (setq backup-directory-alist
-        `(("." . , (expand-file-name "backups" temporary-file-directory))))
+;; Don't store backup files with sources - it's a pain with git.
+(setq backup-directory-alist
+      `(("." . , (expand-file-name "backups" temporary-file-directory))))
 
-  ;; Ditto for autosaves.
-  (setq auto-save-file-name-transforms `((".*" , temporary-file-directory t)))
+;; Ditto for autosaves.
+(setq auto-save-file-name-transforms `((".*" , temporary-file-directory t)))
 
-  ;; Line & column numbers. Disabled for org & term.
-  (column-number-mode)
-  (global-display-line-numbers-mode t)
+;; Line & column numbers. Disabled for org & term.
+(column-number-mode)
+(global-display-line-numbers-mode t)
 
-  (dolist (mode '(org-mode-hook
-                  term-mode-hook
-                  shell-mode-hook
-                  eshell-mode-hook))
-    (add-hook mode (lambda () (display-line-numbers-mode 0))))
+(dolist (mode '(org-mode-hook
+                term-mode-hook
+                shell-mode-hook
+                eshell-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
 #+END_SRC
 
 ** Mac Specific
 #+BEGIN_SRC emacs-lisp
-  (if (eq system-type 'darwin)
-      (global-set-key (kbd "M-3") #'(lambda () (interactive) (insert "#"))))
+(if (eq system-type 'darwin)
+    (global-set-key (kbd "M-3") #'(lambda () (interactive) (insert "#"))))
 #+END_SRC
 
 ** Helper Functions
 TODO: Update this to regenerate from org
 #+BEGIN_SRC emacs-lisp
-  (defun jh/reload-config ()
-    "Reload .emacs.d/init.el"
-    (interactive)
-    (load-file "~/.emacs.d/init.el"))
+(defun jh/reload-config ()
+  "Reload .emacs.d/init.el"
+  (interactive)
+  (load-file "~/.emacs.d/init.el"))
 #+END_SRC
 
 * Environment Setup
 ** Mac Specific
 #+BEGIN_SRC emacs-lisp
-  (if (eq system-type 'darwin)
-      (setenv "PATH" (concat (getenv "PATH") ":/usr/texbin"))
-    (setenv "PATH" (concat (getenv "PATH") ":/usr/bin"))
-    (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-    (setq exec-path (append exec-path '("/usr/texbin")))
-    (setq exec-path (append exec-path '("/usr/bin")))
-    (setq exec-path (append exec-path '("/usr/local/bin"))))
+(if (eq system-type 'darwin)
+    (setenv "PATH" (concat (getenv "PATH") ":/usr/texbin"))
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/bin"))
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+  (setq exec-path (append exec-path '("/usr/texbin")))
+  (setq exec-path (append exec-path '("/usr/bin")))
+  (setq exec-path (append exec-path '("/usr/local/bin"))))
 #+END_SRC
 
 * Prettifying
 ** Theme
 #+BEGIN_SRC emacs-lisp
-  ;; doom-acario-dark
-  ;; doom-badger
-  ;; doom-dracula
-  (use-package doom-themes
-    :init
-    (load-theme 'doom-city-lights t))
+;; doom-acario-dark
+;; doom-badger
+;; doom-dracula
+(use-package doom-themes
+  :init
+  (load-theme 'doom-city-lights t))
 #+END_SRC
 
 ** Colourful Delimiters
 #+BEGIN_SRC emacs-lisp
-  (use-package rainbow-delimiters
-    :hook
-    (prog-mode . rainbow-delimiters-mode))
+(use-package rainbow-delimiters
+  :hook
+  (prog-mode . rainbow-delimiters-mode))
 #+END_SRC
 
 ** Indent Highlighting
 #+BEGIN_SRC emacs-lisp
-  (use-package highlight-indent-guides
-    :hook
-    (prog-mode . highlight-indent-guides-mode)
-    :custom
-    (highlight-indent-guides-method 'bitmap))
+(use-package highlight-indent-guides
+  :hook
+  (prog-mode . highlight-indent-guides-mode)
+  :custom
+  (highlight-indent-guides-method 'bitmap))
 #+END_SRC
 
 ** Fancy Modeline
 #+BEGIN_SRC emacs-lisp
-  (use-package doom-modeline
-    :init
-    (doom-modeline-mode 1)
-    :custom
-    ((doom-modeline-height 20)))
+(use-package doom-modeline
+  :init
+  (doom-modeline-mode 1)
+  :custom
+  ((doom-modeline-height 20)))
 #+END_SRC
 
 ** Fancy Icons
 #+BEGIN_SRC emacs-lisp
-  (use-package nerd-icons
-    :hook
-    (dired-mode . nerd-icons-dired-mode))
+(use-package nerd-icons
+  :hook
+  (dired-mode . nerd-icons-dired-mode))
 #+END_SRC
 
 ** Ligatures
 #+BEGIN_SRC emacs-lisp
-  (use-package ligature
-    :config
-    (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
-                                         ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
-                                         "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
-                                         "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
-                                         "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
-                                         "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
-                                         "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
-                                         "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
-                                         "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
-                                         "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
-    (global-ligature-mode t))
+(use-package ligature
+  :config
+  (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+                                       ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+                                       "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+                                       "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+                                       "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+                                       "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+                                       "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+                                       "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+                                       "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+                                       "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+  (global-ligature-mode t))
 #+END_SRC
 
 ** Idle Highlighting
 #+BEGIN_SRC emacs-lisp
-  (use-package idle-highlight-mode
-    :config
-    (setq idle-highlight-idle-time 0.2)
-    :hook
-    ((prog-mode text-mode) . idle-highlight-mode))
+(use-package idle-highlight-mode
+  :config
+  (setq idle-highlight-idle-time 0.2)
+  :hook
+  ((prog-mode text-mode) . idle-highlight-mode))
 #+END_SRC
 
 * Apps
 ** Learning and Typing
 #+BEGIN_SRC emacs-lisp
-  (use-package speed-type)
+(use-package speed-type)
 
-  (use-package key-quiz)
+(use-package key-quiz)
 
-  (use-package which-key
-    :init
-    (which-key-mode)
-    :diminish
-    which-key-mode
-    :config
-    (setq which-key-idle-delay 1))
+(use-package which-key
+  :init
+  (which-key-mode)
+  :diminish
+  which-key-mode
+  :config
+  (setq which-key-idle-delay 1))
 #+END_SRC
 
 ** Dashboard
 TODO: Fix missing icon.
 #+BEGIN_SRC emacs-lisp
-  (use-package dashboard
-    :if (< (length command-line-args) 2) ;; Skip if opening file with emacs
-    :config
-    (dashboard-setup-startup-hook)
-    (setq initial-buffer-choice
-          (lambda () (get-buffer-create "*dashboard*")))
-    (setq dashboard-center-content t)
-    (setq dashboard-items '((recents  . 10)
-                            (projects . 10)
-                            (registers . 10)))
-    (setq dashboard-icon-type 'nerd-icons)
-    (setq dashboard-set-heading-icons t)
-    (setq dashboard-set-file-icons t)
-    (setq dashboard-heading-icons '((recents   . "history")
-                                    (projects  . "rocket")
-                                    (registers . "database"))))
+(use-package dashboard
+  :if (< (length command-line-args) 2) ;; Skip if opening file with emacs
+  :config
+  (dashboard-setup-startup-hook)
+  (setq initial-buffer-choice
+        (lambda () (get-buffer-create "*dashboard*")))
+  (setq dashboard-center-content t)
+  (setq dashboard-items '((recents  . 10)
+                          (projects . 10)
+                          (registers . 10)))
+  (setq dashboard-icon-type 'nerd-icons)
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t)
+  (setq dashboard-heading-icons '((recents   . "history")
+                                  (projects  . "rocket")
+                                  (registers . "database"))))
 #+END_SRC
 
 ** GitHub Copilot
 TODO: Check all working and set key bindings.
 #+BEGIN_SRC emacs-lisp
-  (use-package copilot
-    :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
-    :bind
-    (:map copilot-completion-map
-          ("<tab>" . copilot-accept-completion)
-          ("TAB" . copilot-accept-completion))
-    :hook
-    (prog-mode . copilot-mode))
+(use-package copilot
+  :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
+  :bind
+  (:map copilot-completion-map
+        ("<tab>" . copilot-accept-completion)
+        ("TAB" . copilot-accept-completion))
+  :hook
+  (prog-mode . copilot-mode))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (use-package copilot-chat
-    :straight (:host github :repo "chep/copilot-chat.el" :files ("*.el"))
-    :after (request org markdown-mode))
+(use-package copilot-chat
+  :straight (:host github :repo "chep/copilot-chat.el" :files ("*.el"))
+  :after (request org markdown-mode))
 #+END_SRC
 
 ** Better Docs for =C-h v= etc
 #+BEGIN_SRC emacs-lisp
-  (use-package helpful
-    :custom
-    (counsel-describe-function-function #'helpful-callable)
-    (counsel-describe-variable-function #'helpful-variable)
-    :bind
-    ([remap describe-function] . counsel-describe-function)
-    ([remap describe-command] . helpful-command)
-    ([remap describe-variable] . counsel-describe-variable)
-    ([remap describe-key] . helpful-key))
+(use-package helpful
+  :custom
+  (counsel-describe-function-function #'helpful-callable)
+  (counsel-describe-variable-function #'helpful-variable)
+  :bind
+  ([remap describe-function] . counsel-describe-function)
+  ([remap describe-command] . helpful-command)
+  ([remap describe-variable] . counsel-describe-variable)
+  ([remap describe-key] . helpful-key))
 #+END_SRC
 
 * General Modes
 ** Counsel
 #+BEGIN_SRC emacs-lisp
-  (use-package counsel
-    :bind
-    (("M-x" . counsel-M-x)
-     ("C-x b" . counsel-ibuffer)
-     ("C-x C-f" . counsel-find-file)
-     :map minibuffer-local-map
-     ("C-r" . 'counsel-minibuffer-history)))
+(use-package counsel
+  :bind
+  (("M-x" . counsel-M-x)
+   ("C-x b" . counsel-ibuffer)
+   ("C-x C-f" . counsel-find-file)
+   :map minibuffer-local-map
+   ("C-r" . 'counsel-minibuffer-history)))
 #+END_SRC
 
 ** Company
 #+BEGIN_SRC emacs-lisp
-  (use-package company
-    :after
-    lsp-mode
-    :init
-    (global-company-mode)
-    :bind
-    (:map company-active-map
-          ("<tab>" . company-complete-selection)
-          ("<tab>" . company-indent-or-complete-common))
-    :custom
-    (company-minimum-prefix-length 2)
-    (company-idle-delay 0.0))
+(use-package company
+  :after
+  lsp-mode
+  :init
+  (global-company-mode)
+  :bind
+  (:map company-active-map
+        ("<tab>" . company-complete-selection)
+        ("<tab>" . company-indent-or-complete-common))
+  :custom
+  (company-minimum-prefix-length 2)
+  (company-idle-delay 0.0))
 
-  (use-package company-box
-    :after
-    company
-    :hook
-    (company-mode . company-box-mode))
+(use-package company-box
+  :after
+  company
+  :hook
+  (company-mode . company-box-mode))
 #+END_SRC
 
 ** Ivy
 #+BEGIN_SRC emacs-lisp
-  (use-package ivy
-    :diminish
-    :bind
-    (("C-s" . swiper)
-     :map ivy-minibuffer-map
-     ("TAB" . ivy-partial-or-done)
-     ("C-l" . ivy-alt-done)
-     ("C-j" . ivy-next-line)
-     ("C-k" . ivy-previous-line)
-     :map ivy-switch-buffer-map
-     ("C-k" . ivy-previous-line)
-     ("C-l" . ivy-done)
-     ("C-d" . ivy-switch-buffer-kill)
-     :map ivy-reverse-i-search-map
-     ("C-k" . ivy-previous-line)
-     ("C-d" . ivy-reverse-i-search-kill))
-    :config
-    (ivy-mode 1)
-    (setq ivy-use-virtual-buffers t))
+(use-package ivy
+  :diminish
+  :bind
+  (("C-s" . swiper)
+   :map ivy-minibuffer-map
+   ("TAB" . ivy-partial-or-done)
+   ("C-l" . ivy-alt-done)
+   ("C-j" . ivy-next-line)
+   ("C-k" . ivy-previous-line)
+   :map ivy-switch-buffer-map
+   ("C-k" . ivy-previous-line)
+   ("C-l" . ivy-done)
+   ("C-d" . ivy-switch-buffer-kill)
+   :map ivy-reverse-i-search-map
+   ("C-k" . ivy-previous-line)
+   ("C-d" . ivy-reverse-i-search-kill))
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (use-package ivy-rich
-    :init
-    (ivy-rich-mode 1))
+(use-package ivy-rich
+  :init
+  (ivy-rich-mode 1))
 #+END_SRC
 
 ** Yasnippet
 #+BEGIN_SRC emacs-lisp
-  (use-package yasnippet
-    :after
-    company-mode
-    :init
-    (yas-global-mode)
-    :bind
-    ("C-c y s" . yas-insert-snippet)
-    ("C-c y v" . yas-visit-snippet-file)
-    :config
-    (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
-    (add-to-list 'company-backends 'company-yasnippet))
+(use-package yasnippet
+  :after
+  company-mode
+  :init
+  (yas-global-mode)
+  :bind
+  ("C-c y s" . yas-insert-snippet)
+  ("C-c y v" . yas-visit-snippet-file)
+  :config
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
+  (add-to-list 'company-backends 'company-yasnippet))
 #+END_SRC
 
 ** Projectile
 #+BEGIN_SRC emacs-lisp
-  (use-package projectile
-    :diminish projectile-mode
-    :config
-    (projectile-global-mode)
-    :custom
-    ((projectile-completion-system 'ivy))
-    :bind-keymap
-    ("C-c p" . projectile-command-map)
-    :init
-    (when (file-directory-p "~/GitHub")
-      (setq projectile-project-search-path '("~/GitHub")))
-    (setq projectile-switch-project-action #'projectile-dired))
+(use-package projectile
+  :diminish projectile-mode
+  :config
+  (projectile-global-mode)
+  :custom
+  ((projectile-completion-system 'ivy))
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :init
+  (when (file-directory-p "~/GitHub")
+    (setq projectile-project-search-path '("~/GitHub")))
+  (setq projectile-switch-project-action #'projectile-dired))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (use-package counsel-projectile
-    :after
-    projectile
-    :config
-    (counsel-projectile-mode))
+(use-package counsel-projectile
+  :after
+  projectile
+  :config
+  (counsel-projectile-mode))
 #+END_SRC
 
 ** Magit
 #+BEGIN_SRC emacs-lisp
-  (use-package magit
-    :bind
-    ("C-x g" . magit-status)
-    :custom
-    (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+(use-package magit
+  :bind
+  ("C-x g" . magit-status)
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  ;; TODO: Check out the other buffers.
-  ;; https://magit.vc/manual/magit/Switching-Buffers.html
-  (use-package diff-hl
-    :hook
-    ((magit-pre-refresh-hook . diff-hl-magit-pre-refresh)
-     (magit-post-refresh-hook . diff-hl-magit-post-refresh)))
+;; TODO: Check out the other buffers.
+;; https://magit.vc/manual/magit/Switching-Buffers.html
+(use-package diff-hl
+  :hook
+  ((magit-pre-refresh-hook . diff-hl-magit-pre-refresh)
+   (magit-post-refresh-hook . diff-hl-magit-post-refresh)))
 #+END_SRC
 
 ** Flycheck
 #+BEGIN_SRC emacs-lisp
-  (use-package flycheck
-    :init
-    (global-flycheck-mode))
+(use-package flycheck
+  :init
+  (global-flycheck-mode))
 #+END_SRC
 
 ** Flyspell
 #+BEGIN_SRC emacs-lisp
-  (use-package flyspell
-    :init
-    (dolist (hook '(text-mode-hook))
-      (add-hook hook (lambda () (flyspell-mode 1))))
-    :config
-    (setq ispell-dictionary "british"))
+(use-package flyspell
+  :init
+  (dolist (hook '(text-mode-hook))
+    (add-hook hook (lambda () (flyspell-mode 1))))
+  :config
+  (setq ispell-dictionary "british"))
 #+END_SRC
 
 ** Dired
 #+BEGIN_SRC emacs-lisp
-  (use-package dired
-    :straight (:type built-in)
-    :ensure nil
-    :commands (dired dired-jump)
-    :bind
-    (("C-x C-j" . dired-jump))
-    :custom
-    ((dired-listing-switches "-agho --group-directories-first")))
+(use-package dired
+  :straight (:type built-in)
+  :ensure nil
+  :commands (dired dired-jump)
+  :bind
+  (("C-x C-j" . dired-jump))
+  :custom
+  ((dired-listing-switches "-agho --group-directories-first")))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (use-package dired-single
-    :commands (dired dired-jump))
+(use-package dired-single
+  :commands (dired dired-jump))
 #+END_SRC
 
 ** Conda
 #+BEGIN_SRC emacs-lisp
-  (use-package conda
-    :config
-    (setq conda-anaconda-home (expand-file-name "~/anaconda3/"))
-    (setq conda-env-home-directory (expand-file-name "~/anaconda3/"))
-    (setq conda-env-subdirectory "envs"))
+(use-package conda
+  :config
+  (setq conda-anaconda-home (expand-file-name "~/anaconda3/"))
+  (setq conda-env-home-directory (expand-file-name "~/anaconda3/"))
+  (setq conda-env-subdirectory "envs"))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (unless (getenv "CONDA_DEFAULT_ENV")
-    (conda-env-activate "base"))
+(unless (getenv "CONDA_DEFAULT_ENV")
+  (conda-env-activate "base"))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (defun jh/jupyter-refresh-kernelspecs ()
-    "Refresh Jupyter kernelspecs"
-    (interactive)
-    (jupyter-available-kernelspecs t))
+(defun jh/jupyter-refresh-kernelspecs ()
+  "Refresh Jupyter kernelspecs"
+  (interactive)
+  (jupyter-available-kernelspecs t))
 #+END_SRC
 
 ** HTML Export
@@ -441,51 +441,51 @@ TODO: Check all working and set key bindings.
 
 * Terminals
 #+BEGIN_SRC emacs-lisp
-  (use-package vterm
-    :commands vterm
-    :config
-    (setq vterm-shell "zsh")
-    (setq vterm-max-scrollback 10000))
+(use-package vterm
+  :commands vterm
+  :config
+  (setq vterm-shell "zsh")
+  (setq vterm-max-scrollback 10000))
 #+END_SRC
 
 * LSP
 #+BEGIN_SRC emacs-lisp
-  (use-package lsp-mode
-    :init
-    (setq lsp-keymap-prefix "C-c l")
-    :hook
-    ((python-mode . lsp)
-     (c-mode . lsp)
-     (c++-mode . lsp)
-     (cmake-mode . lsp)
-     (ess-mode . lsp)
-     (fortran-mode . lsp)
-     (haskell-mode . lsp)
-     (LaTeX-mode . lsp)
-     (scad-mode . lsp)
-     (lsp-mode . lsp-enable-which-key-integration))
-    :commands lsp)
+(use-package lsp-mode
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :hook
+  ((python-mode . lsp)
+   (c-mode . lsp)
+   (c++-mode . lsp)
+   (cmake-mode . lsp)
+   (ess-mode . lsp)
+   (fortran-mode . lsp)
+   (haskell-mode . lsp)
+   (LaTeX-mode . lsp)
+   (scad-mode . lsp)
+   (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (use-package lsp-ui
-    :after
-    lsp-mode
-    :commands
-    lsp-ui-mode
-    :hook
-    (lsp-mode . lsp-ui-mode))
+(use-package lsp-ui
+  :after
+  lsp-mode
+  :commands
+  lsp-ui-mode
+  :hook
+  (lsp-mode . lsp-ui-mode))
 
-  (use-package lsp-ivy
-    :after
-    lsp-mode
-    :commands
-    lsp-ivy-workspace-symbol)
+(use-package lsp-ivy
+  :after
+  lsp-mode
+  :commands
+  lsp-ivy-workspace-symbol)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (use-package dap-mode
-    :after lsp-mode)
+(use-package dap-mode
+  :after lsp-mode)
 #+END_SRC
 
 ** Jupyter
@@ -500,276 +500,294 @@ autoreconf -i
 #+END_EXAMPLE
 
 #+BEGIN_SRC emacs-lisp
-  (use-package jupyter
-    :after (:all org python))
+(use-package jupyter
+  :after (:all org python))
 #+END_SRC
 
 * Language Specific
 ** Elisp
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'emacs-lisp-mode
-    (add-to-list 'company-backends 'company-elisp))
+(with-eval-after-load 'emacs-lisp-mode
+  (add-to-list 'company-backends 'company-elisp))
 #+END_SRC
 
 ** Python
 #+BEGIN_SRC emacs-lisp
-  (use-package pyvenv
-    :after
-    python-mode
-    :config
-    (pyvenv-mode 1))
+(use-package pyvenv
+  :after
+  python-mode
+  :config
+  (pyvenv-mode 1))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  ;;(setenv "WORKON_HOME" (concat (getenv "CONDA_PREFIX") "/envs"))
-  ;; As a hack, just symlink conda env dir to ~/.virtualenvs for now
+;;(setenv "WORKON_HOME" (concat (getenv "CONDA_PREFIX") "/envs"))
+;; As a hack, just symlink conda env dir to ~/.virtualenvs for now
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (use-package python-black
-    :after python
-    :hook (python-mode . python-black-on-save-mode))
+(use-package python-black
+  :after python
+  :hook (python-mode . python-black-on-save-mode))
 #+END_SRC
 
 ** R & STAN
 #+BEGIN_SRC emacs-lisp
-  (use-package ess
-    :hook
-    (ess-mode-hook . projectile-mode)
-    :config
-    (setq ess-indent-offset 2))
+(use-package ess
+  :hook
+  (ess-mode-hook . projectile-mode)
+  :config
+  (setq ess-indent-offset 2))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (use-package stan-mode)
+(use-package stan-mode)
 #+END_SRC
 
 ** Shell
 #+BEGIN_SRC emacs-lisp
-  (setq sh-basic-offset 2)
+(setq sh-basic-offset 2)
 #+END_SRC
 
 ** Haskell
 #+BEGIN_SRC emacs-lisp
-  (use-package haskell-mode)
+(use-package haskell-mode)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (use-package lsp-haskell
-    :after haskell-mode)
+(use-package lsp-haskell
+  :after haskell-mode)
 #+END_SRC
 
 ** LaTeX
 #+BEGIN_SRC emacs-lisp
-  (use-package auctex
-    :defer t
-    :hook
-    ((LaTeX-mode-hook . visual-line-mode)
-     (LaTeX-mode-hook . flyspell-mode)
-     (LaTeX-mode-hook . flycheck-mode)
-     (LaTeX-mode-hook . LaTeX-math-mode))
-    :config
-    (setq TeX-auto-save t)
-    (setq TeX-parse-self t)
-    (setq reftex-plug-into-AUCTeX t)
-    (setq TeX-PDF-mode t)
-    (setq LaTeX-indent-level 2)
-    (setq LaTeX-item-indent 2)
-    (setq TeX-brace-indent-level 2))
+(use-package auctex
+  :defer t
+  :hook
+  ((LaTeX-mode-hook . visual-line-mode)
+   (LaTeX-mode-hook . flyspell-mode)
+   (LaTeX-mode-hook . flycheck-mode)
+   (LaTeX-mode-hook . LaTeX-math-mode))
+  :config
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+  (setq reftex-plug-into-AUCTeX t)
+  (setq TeX-PDF-mode t)
+  (setq LaTeX-indent-level 2)
+  (setq LaTeX-item-indent 2)
+  (setq TeX-brace-indent-level 2))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (use-package reftex
-    :after
-    auctex
-    :hook
-    (LaTeX-mode-hook . turn-on-reftex)
-    :config
-    (setq reftex-plug-into-AUCTeX t))
+(use-package reftex
+  :after
+  auctex
+  :hook
+  (LaTeX-mode-hook . turn-on-reftex)
+  :config
+  (setq reftex-plug-into-AUCTeX t))
 #+END_SRC
 
 ** YAML
 #+BEGIN_SRC emacs-lisp
-  (use-package yaml-mode)
+(use-package yaml-mode)
 #+END_SRC
 
 * Org Mode
 ** Fancy Bullets
 #+BEGIN_SRC emacs-lisp
-  (use-package org-bullets
-    :hook
-    (org-mode . org-bullets-mode)
-    :custom
-    (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+(use-package org-bullets
+  :hook
+  (org-mode . org-bullets-mode)
+  :custom
+  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 #+END_SRC
 
 ** Utility Functions
 *** Theme to CSS
 TODO: Verify this still works
 #+BEGIN_SRC emacs-lisp
-  (defun jh/theme-to-css (filename)
-    "Generate a CSS file based on current theme for Org HTML export."
-    (interactive "FEnter the output CSS file name: ")
-    (with-temp-file filename
-      ;; Document background & foreground.
-      (let ((default-bg (face-background 'default))
-            (default-fg (face-foreground 'default)))
-        (insert (format "body {\n  background-color: %s;\n  color: %s;\n}\n" default-bg default-fg)))
+(defun jh/theme-to-css (filename)
+  "Generate a CSS file based on current theme for Org HTML export."
+  (interactive "FEnter the output CSS file name: ")
+  (with-temp-file filename
+    ;; Document background & foreground.
+    (let ((default-bg (face-background 'default))
+          (default-fg (face-foreground 'default)))
+      (insert (format "body {\n  background-color: %s;\n  color: %s;\n}\n" default-bg default-fg)))
 
-      ;; Headings.
-      (let ((level-1-bg (face-background 'org-level-1))
-            (level-1-fg (face-foreground 'org-level-1)))
-        (insert (format "h1 {\n  background-color: %s;\n  color: %s;\n}\n" level-1-bg level-1-fg)))
-      (let ((level-2-bg (face-background 'org-level-2))
-            (level-2-fg (face-foreground 'org-level-2)))
-        (insert (format "h2 {\n  background-color: %s;\n  color: %s;\n}\n" level-2-bg level-2-fg)))
-      (let ((level-3-bg (face-background 'org-level-3))
-            (level-3-fg (face-foreground 'org-level-3)))
-        (insert (format "h3 {\n  background-color: %s;\n  color: %s;\n}\n" level-3-bg level-3-fg)))
-      (let ((level-4-bg (face-background 'org-level-4))
-            (level-4-fg (face-foreground 'org-level-4)))
-        (insert (format "h4 {\n  background-color: %s;\n  color: %s;\n}\n" level-4-bg level-4-fg)))
-      ))
+    ;; Headings.
+    (let ((level-1-bg (face-background 'org-level-1))
+          (level-1-fg (face-foreground 'org-level-1)))
+      (insert (format "h1 {\n  background-color: %s;\n  color: %s;\n}\n" level-1-bg level-1-fg)))
+    (let ((level-2-bg (face-background 'org-level-2))
+          (level-2-fg (face-foreground 'org-level-2)))
+      (insert (format "h2 {\n  background-color: %s;\n  color: %s;\n}\n" level-2-bg level-2-fg)))
+    (let ((level-3-bg (face-background 'org-level-3))
+          (level-3-fg (face-foreground 'org-level-3)))
+      (insert (format "h3 {\n  background-color: %s;\n  color: %s;\n}\n" level-3-bg level-3-fg)))
+    (let ((level-4-bg (face-background 'org-level-4))
+          (level-4-fg (face-foreground 'org-level-4)))
+      (insert (format "h4 {\n  background-color: %s;\n  color: %s;\n}\n" level-4-bg level-4-fg)))
+    ))
+#+END_SRC
+
+*** Export to Jupyter
+#+BEGIN_SRC emacs-lisp
+(defun org-to-ipynb-with-pandoc ()
+  "Convert the current Org mode buffer to a Jupyter Notebook using Pandoc."
+  (interactive)
+  (let* ((org-file (buffer-file-name))
+         (base-name (file-name-sans-extension org-file))
+         (ipynb-file (concat base-name ".ipynb"))
+         (command (format "pandoc --from=org --to=ipynb %s -o %s"
+                          (shell-quote-argument org-file)
+                          (shell-quote-argument ipynb-file))))
+    (if (not (string-equal (file-name-extension org-file) "org"))
+        (message "Not an Org file.")
+      (save-buffer)
+      (shell-command command)
+      (message "Converted '%s' to '%s'" org-file ipynb-file))))
 #+END_SRC
 
 *** Archive Done Tasks
 #+BEGIN_SRC emacs-lisp
-  (defun jh/org-archive-done-kill-tasks ()
-    (interactive)
-    (org-map-entries 'org-archive-subtree "1/DONE|1/KILL" 'file))
+(defun jh/org-archive-done-kill-tasks ()
+  (interactive)
+  (org-map-entries 'org-archive-subtree "1/DONE|1/KILL" 'file))
 #+END_SRC
 
 *** Update Last Modified Timestamp
 #+BEGIN_SRC emacs-lisp
-  (defun jh/org-last-modified-update ()
-    "Update '#+last_modified:' if it exists in an org buffer."
-    (save-excursion
-      (goto-char (point-min))
-      (when (re-search-forward "^#\\+last_modified: .*" nil t)
-        (replace-match (concat "#+last_modified: " (format-time-string "[%Y-%m-%d %a %H:%M]"))))))
+(defun jh/org-last-modified-update ()
+  "Update '#+last_modified:' if it exists in an org buffer."
+  (save-excursion
+    (goto-char (point-min))
+    (when (re-search-forward "^#\\+last_modified: .*" nil t)
+      (replace-match (concat "#+last_modified: " (format-time-string "[%Y-%m-%d %a %H:%M]"))))))
 #+END_SRC
 
 ** Setup
 #+BEGIN_SRC emacs-lisp
-  (defun jh/display-ansi-colours ()
-    "Fixes kernel output in emacs-jupyter"
-    (ansi-color-apply-on-region (point-min) (point-max)))
+(defun jh/display-ansi-colours ()
+  "Fixes kernel output in emacs-jupyter"
+  (ansi-color-apply-on-region (point-min) (point-max)))
 
-  (defun jh/org-mode-setup ()
-    ;; Update roam timestamps.
-    (add-hook 'before-save-hook 'jh/org-last-modified-update nil 'local)
+(defun jh/org-mode-setup ()
+  ;; Update roam timestamps.
+  (add-hook 'before-save-hook 'jh/org-last-modified-update nil 'local)
 
-    ;; TODO states.
-    (setq org-todo-keywords
-          '((sequence "TODO" "STRT" "IDEA" "WAIT" "|" "DONE" "KILL")))
+  ;; TODO states.
+  (setq org-todo-keywords
+        '((sequence "TODO" "STRT" "IDEA" "WAIT" "|" "DONE" "KILL")))
 
-    (setq org-todo-keyword-faces
-          '(("TODO" . (:foreground "cyan" :weight bold))
-            ("STRT" . (:foreground "yellow" :weight bold))
-            ("IDEA" . (:foreground "pink" :weight bold))
-            ("WAIT" . (:foreground "orange" :weight bold))
-            ("DONE" . (:foreground "green" :strike-through t))
-            ("KILL" . (:foreground "red" :strike-through t))))
+  (setq org-todo-keyword-faces
+        '(("TODO" . (:foreground "cyan" :weight bold))
+          ("STRT" . (:foreground "yellow" :weight bold))
+          ("IDEA" . (:foreground "pink" :weight bold))
+          ("WAIT" . (:foreground "orange" :weight bold))
+          ("DONE" . (:foreground "green" :strike-through t))
+          ("KILL" . (:foreground "red" :strike-through t))))
 
 
-    ;; Make source blocks look a bit nicer.
-    (setq org-edit-src-content-indentation 0
-          org-src-tab-acts-natively t
-          org-src-preserve-indentation t
-          org-src-fontify-natively t)
+  ;; Make source blocks look a bit nicer.
+  (setq org-edit-src-content-indentation 0
+        org-src-tab-acts-natively t
+        org-src-preserve-indentation t
+        org-src-fontify-natively t)
 
-    ;; (setq org-src-window-setup 'current-window)
-    (setq org-ellipsis "⤵")
+  ;; (setq org-src-window-setup 'current-window)
+  (setq org-ellipsis "⤵")
 
-    ;; Enable spell checking.
-    (add-hook 'org-mode-hook 'flyspell-mode)
+  ;; Enable spell checking.
+  (add-hook 'org-mode-hook 'flyspell-mode)
 
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((python . t)
-       (R . t)
-       (shell . t)
-       (emacs-lisp . t)
-       (jupyter . t)))
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((python . t)
+     (R . t)
+     (shell . t)
+     (emacs-lisp . t)
+     (jupyter . t)))
 
-    ;;(setq org-export-with-smart-quotes t)
-    (setq org-confirm-babel-evaluate nil)
+  ;;(setq org-export-with-smart-quotes t)
+  (setq org-confirm-babel-evaluate nil)
 
-    ;; Enable inline images and make sure they get updated.
-    (add-hook 'org-mode-hook 'org-display-inline-images)
-    (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
-    (setq org-display-remote-inline-images 'cache)
-    (add-hook 'org-babel-after-execute-hook 'jh/display-ansi-colours)
-    )
+  ;; Enable inline images and make sure they get updated.
+  (add-hook 'org-mode-hook 'org-display-inline-images)
+  (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
+  (setq org-display-remote-inline-images 'cache)
+  (add-hook 'org-babel-after-execute-hook 'jh/display-ansi-colours)
+  )
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (defun jh/add-org-capture-templates ()
-    (setq org-capture-templates
-          '(("t" "Theoretical Question" entry
-             (file+headline "~/org-mode/work.org" "Theoretical Questions")
-             (file "~/.emacs.d/org/work_templates/theoretical_question.org") :empty-lines-after 1)
-            ("e" "Experiment" entry
-             (file+headline "~/org-mode/work.org" "Experiments")
-             (file "~/.emacs.d/org/work_templates/experiment.org") :empty-lines-after 1)
-            ("s" "Software Engineering" entry
-             (file+headline "~/org-mode/work.org" "Engineering Tasks")
-             (file "~/.emacs.d/org/work_templates/software_engineering.org") :empty-lines-after 1)
-            ))
-    )
+(defun jh/add-org-capture-templates ()
+  (setq org-capture-templates
+        '(("t" "Theoretical Question" entry
+           (file+headline "~/org-mode/work.org" "Theoretical Questions")
+           (file "~/.emacs.d/org/work_templates/theoretical_question.org") :empty-lines-after 1)
+          ("e" "Experiment" entry
+           (file+headline "~/org-mode/work.org" "Experiments")
+           (file "~/.emacs.d/org/work_templates/experiment.org") :empty-lines-after 1)
+          ("s" "Software Engineering" entry
+           (file+headline "~/org-mode/work.org" "Engineering Tasks")
+           (file "~/.emacs.d/org/work_templates/software_engineering.org") :empty-lines-after 1)
+          ))
+  )
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'org-mode-hook 'jh/org-mode-setup)
-  (add-hook 'org-mode-hook 'jh/add-org-capture-templates)
+(add-hook 'org-mode-hook 'jh/org-mode-setup)
+(add-hook 'org-mode-hook 'jh/add-org-capture-templates)
 #+END_SRC
 
 * Org Roam
 #+BEGIN_SRC emacs-lisp
-  (use-package emacsql)
-  ;; (use-package emacsql-sqlite)
+(use-package emacsql)
+;; (use-package emacsql-sqlite)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (use-package org-roam
-    :custom
-    (org-roam-directory (file-truename "~/org-mode/roam-notes"))
-    (org-roam-db-location (file-truename "~/org-mode/roam-notes/org-roam.sqlite3"))
-    (org-roam-completion-everywhere t)
-    (org-roam-completion-system 'ivy)
-    (org-roam-database-connector sqlite-builtin)
-    (org-roam-capture-templates
-     ;; TODO: See if the headers can be in the org files.
-     '(("z" "Zettel" plain
-        (file "~/.emacs.d/org/roam_templates/default.org")
-        :target (file+head "zettel/%<%Y%m%d%H%M%>-${slug}.org"
-                           "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :some_tag:\n\n")
-        :unnarrowed t)
-       ("k" "Zettel KB" plain
-        (file "~/.emacs.d/org/roam_templates/default.org")
-        :target (file+head "zettel_kb/${slug}.org"
-                           "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :some_tag:\n\n")
-        :unnarrowed t)
-       ("w" "Work Zettel" plain
-        (file "~/.emacs.d/org/roam_templates/default.org")
-        :target (file+head "work_zettel/%<%Y%m%d%H%M%>-${slug}.org"
-                           "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :work:\n\n")
-        :unnarrowed t)
-       ("m" "Work Meeting" plain
-        (file "~/.emacs.d/org/roam_templates/default.org")
-        :target (file+head "work_meetings/{title}.org"
-                           "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :meeting:\n\n")
-        :unnarrowed t)
-       ))
-    :bind
-    (("C-c n l" . org-roam-buffer-toggle)
-     ("C-c n f" . org-roam-node-find)
-     ("C-c n g" . org-roam-graph)
-     ("C-c n i" . org-roam-node-insert)
-     ("C-c n c" . org-roam-capture)
-     ("C-c n j" . org-roam-dailies-capture-today))
-    :config
-    (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:30}" 'face 'org-tag)))
-    (org-roam-db-autosync-mode)
-    (require 'org-roam-protocol))
+(use-package org-roam
+  :custom
+  (org-roam-directory (file-truename "~/org-mode/roam-notes"))
+  (org-roam-db-location (file-truename "~/org-mode/roam-notes/org-roam.sqlite3"))
+  (org-roam-completion-everywhere t)
+  (org-roam-completion-system 'ivy)
+  (org-roam-database-connector sqlite-builtin)
+  (org-roam-capture-templates
+   ;; TODO: See if the headers can be in the org files.
+   '(("z" "Zettel" plain
+      (file "~/.emacs.d/org/roam_templates/default.org")
+      :target (file+head "zettel/%<%Y%m%d%H%M%>-${slug}.org"
+                         "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :some_tag:\n\n")
+      :unnarrowed t)
+     ("k" "Zettel KB" plain
+      (file "~/.emacs.d/org/roam_templates/default.org")
+      :target (file+head "zettel_kb/${slug}.org"
+                         "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :some_tag:\n\n")
+      :unnarrowed t)
+     ("w" "Work Zettel" plain
+      (file "~/.emacs.d/org/roam_templates/default.org")
+      :target (file+head "work_zettel/%<%Y%m%d%H%M%>-${slug}.org"
+                         "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :work:\n\n")
+      :unnarrowed t)
+     ("m" "Work Meeting" plain
+      (file "~/.emacs.d/org/roam_templates/default.org")
+      :target (file+head "work_meetings/{title}.org"
+                         "\n#+title: ${title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :meeting:\n\n")
+      :unnarrowed t)
+     ))
+  :bind
+  (("C-c n l" . org-roam-buffer-toggle)
+   ("C-c n f" . org-roam-node-find)
+   ("C-c n g" . org-roam-graph)
+   ("C-c n i" . org-roam-node-insert)
+   ("C-c n c" . org-roam-capture)
+   ("C-c n j" . org-roam-dailies-capture-today))
+  :config
+  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:30}" 'face 'org-tag)))
+  (org-roam-db-autosync-mode)
+  (require 'org-roam-protocol))
 #+END_SRC
