@@ -634,7 +634,7 @@ TODO: Verify this still works
 
 *** Export to Jupyter
 #+BEGIN_SRC emacs-lisp
-(defun org-to-ipynb-with-pandoc ()
+(defun jh/org-to-ipynb-with-pandoc ()
   "Convert the current Org mode buffer to a Jupyter Notebook using Pandoc."
   (interactive)
   (let* ((org-file (buffer-file-name))
