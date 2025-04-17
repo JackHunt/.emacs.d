@@ -434,6 +434,11 @@ TODO: Check all working and set key bindings.
     (jupyter-available-kernelspecs t))
 #+END_SRC
 
+** HTML Export
+#+BEGIN_SRC emacs-lisp
+(use-package htmlize)
+#+END_SRC
+
 * Terminals
 #+BEGIN_SRC emacs-lisp
   (use-package term
