@@ -121,6 +121,16 @@ TODO: Update this to regenerate from org
   (setq exec-path (append exec-path '("/usr/local/bin"))))
 #+END_SRC
 
+** TRAMP
+#+BEGIN_SRC emacs-lisp
+(setq tramp-login-shell "/bin/bash")
+(setq tramp-login-args '(("-l")))
+
+(with-eval-after-load 'tramp
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
+
+#+END_SRC
+
 * Prettifying
 ** Theme
 #+BEGIN_SRC emacs-lisp
