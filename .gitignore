@@ -31,3 +31,4 @@ anaconda-mode
 /org-persist
 .\#config.org
 request/curl-cookie-jar
+ielm-history.eld
