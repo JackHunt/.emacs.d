@@ -137,9 +137,13 @@ TODO: Update this to regenerate from org
 ;; doom-acario-dark
 ;; doom-badger
 ;; doom-dracula
-(use-package doom-themes
+;; doom-city-lights
+;; doom-challenger-deep
+;; doom-moonlight
+;; doom-outrun-electric
+(Use-package doom-themes
   :init
-  (load-theme 'doom-city-lights t))
+  (load-theme 'doom-moonlight t))
 #+END_SRC
 
 ** Colourful Delimiters
@@ -545,9 +549,8 @@ autoreconf -i
 #+BEGIN_SRC emacs-lisp
 (use-package ess
   :hook
-  (ess-mode-hook . projectile-mode)
-  :config
-  (setq ess-indent-offset 2))
+  ((ess-mode-hook . projectile-mode)
+   (ess-mode-hook . (lambda ()(ess-set-style 'DEFAULT)))))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
