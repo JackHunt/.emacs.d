@@ -141,7 +141,7 @@ TODO: Update this to regenerate from org
 ;; doom-challenger-deep
 ;; doom-moonlight
 ;; doom-outrun-electric
-(Use-package doom-themes
+(use-package doom-themes
   :init
   (load-theme 'doom-moonlight t))
 #+END_SRC
