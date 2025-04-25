@@ -244,20 +244,20 @@ TODO: Fix missing icon.
 ** GitHub Copilot
 TODO: Check all working and set key bindings.
 #+BEGIN_SRC emacs-lisp
-(use-package copilot
-  :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
-  :bind
-  (:map copilot-completion-map
-        ("<tab>" . copilot-accept-completion)
-        ("TAB" . copilot-accept-completion))
-  :hook
-  (prog-mode . copilot-mode))
+;; (use-package copilot
+;;   :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
+;;   :bind
+;;   (:map copilot-completion-map
+;;         ("<tab>" . copilot-accept-completion)
+;;         ("TAB" . copilot-accept-completion))
+;;   :hook
+;;   (prog-mode . copilot-mode))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-(use-package copilot-chat
-  :straight (:host github :repo "chep/copilot-chat.el" :files ("*.el"))
-  :after (request org markdown-mode))
+;; (use-package copilot-chat
+;;   :straight (:host github :repo "chep/copilot-chat.el" :files ("*.el"))
+;;   :after (request org markdown-mode))
 #+END_SRC
 
 ** Better Docs for =C-h v= etc
