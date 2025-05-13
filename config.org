@@ -541,8 +541,7 @@ autoreconf -i
 
 #+BEGIN_SRC emacs-lisp
 (use-package python-black
-  :after python
-  :hook (python-mode . python-black-on-save-mode))
+  :after python)
 #+END_SRC
 
 ** R & STAN
