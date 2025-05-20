@@ -159,7 +159,7 @@ TODO: Update this to regenerate from org
   :hook
   (prog-mode . highlight-indent-guides-mode)
   :custom
-  (highlight-indent-guides-method 'bitmap))
+  (highlight-indent-guides-method 'character))
 #+END_SRC
 
 ** Fancy Modeline
