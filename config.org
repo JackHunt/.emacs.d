@@ -530,8 +530,11 @@ autoreconf -i
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-;;(setenv "WORKON_HOME" (concat (getenv "CONDA_PREFIX") "/envs"))
-;; As a hack, just symlink conda env dir to ~/.virtualenvs for now
+(use-package transient
+  :ensure t)
+
+(use-package poetry
+  :ensure t)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
