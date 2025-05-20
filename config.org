@@ -505,6 +505,15 @@ autoreconf -i
 #+END_SRC
 
 * Language Specific
+#+BEGIN_SRC emacs-lisp
+(use-package docker
+  :bind ("C-c d" . docker))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package dockerfile-mode)
+#+END_SRC
+
 ** Elisp
 #+BEGIN_SRC emacs-lisp
 (with-eval-after-load 'emacs-lisp-mode
