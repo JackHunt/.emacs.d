@@ -542,6 +542,15 @@ autoreconf -i
   :after python)
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp
+(use-package sphinx-doc
+  :config
+  (setq sphinx-doc-include-types t)
+  :hook
+  (python-mode . sphinx-doc-mode)
+  :after python)
+#+END_SRC
+
 ** R & STAN
 #+BEGIN_SRC emacs-lisp
 (use-package ess
