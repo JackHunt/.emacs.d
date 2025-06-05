@@ -180,19 +180,21 @@ TODO: Update this to regenerate from org
 
 ** Ligatures
 #+BEGIN_SRC emacs-lisp
-(use-package ligature
-  :config
-  (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
-                                       ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
-                                       "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
-                                       "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
-                                       "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
-                                       "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
-                                       "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
-                                       "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
-                                       "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
-                                       "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
-  (global-ligature-mode t))
+;; Emacs 27.x has issues with ligatures
+(when (version< "28.0" emacs-version)
+  (use-package ligature
+    :config
+    (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+                                         ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+                                         "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+                                         "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+                                         "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+                                         "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+                                         "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+                                         "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+                                         "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+                                         "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+    (global-ligature-mode t)))
 #+END_SRC
 
 ** Idle Highlighting
@@ -580,31 +582,33 @@ autoreconf -i
 
 ** LaTeX
 #+BEGIN_SRC emacs-lisp
-(use-package auctex
-  :defer t
-  :hook
-  ((LaTeX-mode-hook . visual-line-mode)
-   (LaTeX-mode-hook . flyspell-mode)
-   (LaTeX-mode-hook . flycheck-mode)
-   (LaTeX-mode-hook . LaTeX-math-mode))
-  :config
-  (setq TeX-auto-save t)
-  (setq TeX-parse-self t)
-  (setq reftex-plug-into-AUCTeX t)
-  (setq TeX-PDF-mode t)
-  (setq LaTeX-indent-level 2)
-  (setq LaTeX-item-indent 2)
-  (setq TeX-brace-indent-level 2))
+(when (version< "28.0" emacs-version)
+  (use-package auctex
+    :defer t
+    :hook
+    ((LaTeX-mode-hook . visual-line-mode)
+     (LaTeX-mode-hook . flyspell-mode)
+     (LaTeX-mode-hook . flycheck-mode)
+     (LaTeX-mode-hook . LaTeX-math-mode))
+    :config
+    (setq TeX-auto-save t)
+    (setq TeX-parse-self t)
+    (setq reftex-plug-into-AUCTeX t)
+    (setq TeX-PDF-mode t)
+    (setq LaTeX-indent-level 2)
+    (setq LaTeX-item-indent 2)
+    (setq TeX-brace-indent-level 2)))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-(use-package reftex
-  :after
-  auctex
-  :hook
-  (LaTeX-mode-hook . turn-on-reftex)
-  :config
-  (setq reftex-plug-into-AUCTeX t))
+(when (version< "28.0" emacs-version)
+  (use-package reftex
+    :after
+    auctex
+    :hook
+    (LaTeX-mode-hook . turn-on-reftex)
+    :config
+    (setq reftex-plug-into-AUCTeX t)))
 #+END_SRC
 
 ** YAML
