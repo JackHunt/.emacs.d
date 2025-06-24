@@ -207,6 +207,11 @@ TODO: Update this to regenerate from org
 #+END_SRC
 
 * Apps
+** Emacs Everywhere
+#+BEGIN_SRC emacs-lisp
+(use-package emacs-everywhere)
+#+END_SRC
+
 ** Learning and Typing
 #+BEGIN_SRC emacs-lisp
 (use-package speed-type)
