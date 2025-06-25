@@ -695,6 +695,19 @@ TODO: Verify this still works
       (replace-match (concat "#+last_modified: " (format-time-string "[%Y-%m-%d %a %H:%M]"))))))
 #+END_SRC
 
+*** New Capture via Alfred
+#+BEGIN_SRC emacs-lisp
+;; https://github.com/jjasghar/alfred-org-capture/blob/master/el/alfred-org-capture.el
+(defun make-orgcapture-frame ()
+  "Create a new frame and run org-capture."
+  (interactive)
+  (make-frame '((name . "remember") (width . 80) (height . 16)
+                (top . 400) (left . 300)
+                ))
+  (select-frame-by-name "remember")
+  (org-capture))
+#+END_SRC
+
 ** Setup
 #+BEGIN_SRC emacs-lisp
 (defun jh/display-ansi-colours ()
