@@ -32,3 +32,4 @@ anaconda-mode
 .\#config.org
 request/curl-cookie-jar
 ielm-history.eld
+.DS_Store
