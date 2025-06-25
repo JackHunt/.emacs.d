@@ -113,12 +113,8 @@ TODO: Update this to regenerate from org
 ** Mac Specific
 #+BEGIN_SRC emacs-lisp
 (if (eq system-type 'darwin)
-    (setenv "PATH" (concat (getenv "PATH") ":/usr/texbin"))
-  (setenv "PATH" (concat (getenv "PATH") ":/usr/bin"))
-  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-  (setq exec-path (append exec-path '("/usr/texbin")))
-  (setq exec-path (append exec-path '("/usr/bin")))
-  (setq exec-path (append exec-path '("/usr/local/bin"))))
+    (setenv "PATH" (concat ":/Library/TeX/texbin/" (getenv "PATH")))
+  (add-to-list 'exec-path "/Library/TeX/texbin/"))
 #+END_SRC
 
 ** TRAMP
