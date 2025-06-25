@@ -741,6 +741,10 @@ TODO: Verify this still works
   (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
   (setq org-display-remote-inline-images 'cache)
   (add-hook 'org-babel-after-execute-hook 'jh/display-ansi-colours)
+
+  ;; For Auctex
+  (set-default 'preview-default-document-pt 12)
+  (set-default 'preview-scale-function 1.6)
   )
 #+END_SRC
 
