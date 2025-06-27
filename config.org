@@ -8,8 +8,8 @@ but it's easier to just make sure the package management stuff is dealt
 with up front before proceeding when this is written out and executed.
 ** Bootstrap
 Bootstrapping is done in =init.el= so that Straight is setup before
-org mode is used. This is because copilot chat causes an org version
-clash when installed with Straight later in the config.
+org mode is used. This is because of potential org version
+clashes when installed with Straight (as a dep) later in the config.
 
 ** Configure =use-package=
 #+BEGIN_SRC emacs-lisp
