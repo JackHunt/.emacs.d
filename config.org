@@ -113,12 +113,8 @@ TODO: Update this to regenerate from org
 ** Mac Specific
 #+BEGIN_SRC emacs-lisp
 (if (eq system-type 'darwin)
-    (setenv "PATH" (concat (getenv "PATH") ":/usr/texbin"))
-  (setenv "PATH" (concat (getenv "PATH") ":/usr/bin"))
-  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-  (setq exec-path (append exec-path '("/usr/texbin")))
-  (setq exec-path (append exec-path '("/usr/bin")))
-  (setq exec-path (append exec-path '("/usr/local/bin"))))
+    (setenv "PATH" (concat ":/Library/TeX/texbin/" (getenv "PATH")))
+  (add-to-list 'exec-path "/Library/TeX/texbin/"))
 #+END_SRC
 
 ** TRAMP
@@ -695,6 +691,19 @@ TODO: Verify this still works
       (replace-match (concat "#+last_modified: " (format-time-string "[%Y-%m-%d %a %H:%M]"))))))
 #+END_SRC
 
+*** New Capture via Alfred
+#+BEGIN_SRC emacs-lisp
+;; https://github.com/jjasghar/alfred-org-capture/blob/master/el/alfred-org-capture.el
+(defun make-orgcapture-frame ()
+  "Create a new frame and run org-capture."
+  (interactive)
+  (make-frame '((name . "remember") (width . 80) (height . 16)
+                (top . 400) (left . 300)
+                ))
+  (select-frame-by-name "remember")
+  (org-capture))
+#+END_SRC
+
 ** Setup
 #+BEGIN_SRC emacs-lisp
 (defun jh/display-ansi-colours ()
@@ -746,6 +755,10 @@ TODO: Verify this still works
   (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
   (setq org-display-remote-inline-images 'cache)
   (add-hook 'org-babel-after-execute-hook 'jh/display-ansi-colours)
+
+  ;; For Auctex
+  (set-default 'preview-default-document-pt 12)
+  (set-default 'preview-scale-function 1.6)
   )
 #+END_SRC
 
