@@ -33,3 +33,5 @@ anaconda-mode
 request/curl-cookie-jar
 ielm-history.eld
 .DS_Store
+eshell/history
+eshell/lastdir
