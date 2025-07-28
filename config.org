@@ -511,6 +511,8 @@ autoreconf -i
   python-mode
   :config
   (pyvenv-mode 1))
+
+(setenv "WORKON_HOME" "~/venvs")
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
