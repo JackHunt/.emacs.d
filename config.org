@@ -5,11 +5,11 @@
 * Straight Setup
 Really, it would make more sense intuitively for this to be further down,
 but it's easier to just make sure the package management stuff is dealt
-with up front before proceeding when this is written out and executed.
+with up front before proceeding when this is tangled out and executed.
 ** Bootstrap
 Bootstrapping is done in =init.el= so that Straight is setup before
 org mode is used. This is because of potential org version
-clashes when installed with Straight (as a dep) later in the config.
+clashes when =org= is installed with Straight (as a dep) later in the config.
 
 ** Configure =use-package=
 #+BEGIN_SRC emacs-lisp
@@ -168,10 +168,43 @@ TODO: Update this to regenerate from org
 #+END_SRC
 
 ** Fancy Icons
+Note that for these to render properly, =nerd-icons-install-fonts= must be run.
 #+BEGIN_SRC emacs-lisp
-(use-package nerd-icons
+(use-package nerd-icons)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package nerd-icons-dired
   :hook
   (dired-mode . nerd-icons-dired-mode))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package treemacs-nerd-icons
+  :config
+  (treemacs-load-theme "nerd-icons"))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package nerd-icons-ivy-rich
+  :ensure t
+  :after
+  ivy-rich-mode
+  :init
+  (nerd-icons-ivy-rich-mode 1)
+  (ivy-rich-mode 1))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package nerd-icons-completion
+  :config
+  (nerd-icons-completion-mode))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package nerd-icons-ibuffer
+  :ensure t
+  :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
 #+END_SRC
 
 ** Ligatures
@@ -223,27 +256,6 @@ TODO: Update this to regenerate from org
   (setq which-key-idle-delay 1))
 #+END_SRC
 
-** Dashboard
-TODO: Fix missing icon.
-#+BEGIN_SRC emacs-lisp
-(use-package dashboard
-  :if (< (length command-line-args) 2) ;; Skip if opening file with emacs
-  :config
-  (dashboard-setup-startup-hook)
-  (setq initial-buffer-choice
-        (lambda () (get-buffer-create "*dashboard*")))
-  (setq dashboard-center-content t)
-  (setq dashboard-items '((recents  . 10)
-                          (projects . 10)
-                          (registers . 10)))
-  (setq dashboard-icon-type 'nerd-icons)
-  (setq dashboard-set-heading-icons t)
-  (setq dashboard-set-file-icons t)
-  (setq dashboard-heading-icons '((recents   . "history")
-                                  (projects  . "rocket")
-                                  (registers . "database"))))
-#+END_SRC
-
 ** Better Docs for =C-h v= etc
 #+BEGIN_SRC emacs-lisp
 (use-package helpful
@@ -258,7 +270,29 @@ TODO: Fix missing icon.
 #+END_SRC
 
 * General Modes
-** Counsel
+** Ivy & Counsel
+#+BEGIN_SRC emacs-lisp
+(use-package ivy
+  :diminish
+  :bind
+  (("C-s" . swiper)
+   :map ivy-minibuffer-map
+   ("TAB" . ivy-partial-or-done)
+   ("C-l" . ivy-alt-done)
+   ("C-j" . ivy-next-line)
+   ("C-k" . ivy-previous-line)
+   :map ivy-switch-buffer-map
+   ("C-k" . ivy-previous-line)
+   ("C-l" . ivy-done)
+   ("C-d" . ivy-switch-buffer-kill)
+   :map ivy-reverse-i-search-map
+   ("C-k" . ivy-previous-line)
+   ("C-d" . ivy-reverse-i-search-kill))
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t))
+#+END_SRC
+
 #+BEGIN_SRC emacs-lisp
 (use-package counsel
   :bind
@@ -267,6 +301,12 @@ TODO: Fix missing icon.
    ("C-x C-f" . counsel-find-file)
    :map minibuffer-local-map
    ("C-r" . 'counsel-minibuffer-history)))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package ivy-rich
+  :init
+  (ivy-rich-mode 1))
 #+END_SRC
 
 ** Company
@@ -291,35 +331,6 @@ TODO: Fix missing icon.
   (company-mode . company-box-mode))
 #+END_SRC
 
-** Ivy
-#+BEGIN_SRC emacs-lisp
-(use-package ivy
-  :diminish
-  :bind
-  (("C-s" . swiper)
-   :map ivy-minibuffer-map
-   ("TAB" . ivy-partial-or-done)
-   ("C-l" . ivy-alt-done)
-   ("C-j" . ivy-next-line)
-   ("C-k" . ivy-previous-line)
-   :map ivy-switch-buffer-map
-   ("C-k" . ivy-previous-line)
-   ("C-l" . ivy-done)
-   ("C-d" . ivy-switch-buffer-kill)
-   :map ivy-reverse-i-search-map
-   ("C-k" . ivy-previous-line)
-   ("C-d" . ivy-reverse-i-search-kill))
-  :config
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-(use-package ivy-rich
-  :init
-  (ivy-rich-mode 1))
-#+END_SRC
-
 ** Yasnippet
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
@@ -333,30 +344,6 @@ TODO: Fix missing icon.
   :config
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
   (add-to-list 'company-backends 'company-yasnippet))
-#+END_SRC
-
-** Projectile
-#+BEGIN_SRC emacs-lisp
-(use-package projectile
-  :diminish projectile-mode
-  :config
-  (projectile-global-mode)
-  :custom
-  ((projectile-completion-system 'ivy))
-  :bind-keymap
-  ("C-c p" . projectile-command-map)
-  :init
-  (when (file-directory-p "~/GitHub")
-    (setq projectile-project-search-path '("~/GitHub")))
-  (setq projectile-switch-project-action #'projectile-dired))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-(use-package counsel-projectile
-  :after
-  projectile
-  :config
-  (counsel-projectile-mode))
 #+END_SRC
 
 ** Magit
@@ -394,35 +381,6 @@ TODO: Fix missing icon.
   (setq ispell-dictionary "british"))
 #+END_SRC
 
-** Dired
-#+BEGIN_SRC emacs-lisp
-(use-package dired
-  :straight (:type built-in)
-  :ensure nil
-  :commands (dired dired-jump)
-  :bind
-  (("C-x C-j" . dired-jump))
-  :custom
-  ((dired-listing-switches "-agho --group-directories-first")))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-(use-package dired-single
-  :commands (dired dired-jump))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-(defun jh/jupyter-refresh-kernelspecs ()
-  "Refresh Jupyter kernelspecs"
-  (interactive)
-  (jupyter-available-kernelspecs t))
-#+END_SRC
-
-** HTML Export
-#+BEGIN_SRC emacs-lisp
-(use-package htmlize)
-#+END_SRC
-
 * Terminals
 #+BEGIN_SRC emacs-lisp
 (use-package vterm
@@ -439,14 +397,9 @@ TODO: Fix missing icon.
   (setq lsp-keymap-prefix "C-c l")
   :hook
   ((python-mode . lsp)
-   (c-mode . lsp)
-   (c++-mode . lsp)
-   (cmake-mode . lsp)
    (ess-mode . lsp)
-   (fortran-mode . lsp)
    (haskell-mode . lsp)
    (LaTeX-mode . lsp)
-   (scad-mode . lsp)
    (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
 #+END_SRC
@@ -488,16 +441,14 @@ autoreconf -i
   :after (:all org python))
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp
+(defun jh/jupyter-refresh-kernelspecs ()
+  "Refresh Jupyter kernelspecs"
+  (interactive)
+  (jupyter-available-kernelspecs t))
+#+END_SRC
+
 * Language Specific
-#+BEGIN_SRC emacs-lisp
-(use-package docker
-  :bind ("C-c d" . docker))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-(use-package dockerfile-mode)
-#+END_SRC
-
 ** Elisp
 #+BEGIN_SRC emacs-lisp
 (with-eval-after-load 'emacs-lisp-mode
@@ -513,14 +464,6 @@ autoreconf -i
   (pyvenv-mode 1))
 
 (setenv "WORKON_HOME" "~/venvs")
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-(use-package transient
-  :ensure t)
-
-(use-package poetry
-  :ensure t)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -541,8 +484,7 @@ autoreconf -i
 #+BEGIN_SRC emacs-lisp
 (use-package ess
   :hook
-  ((ess-mode-hook . projectile-mode)
-   (ess-mode-hook . (lambda ()(ess-set-style 'DEFAULT)))))
+  ((ess-mode-hook . (lambda ()(ess-set-style 'DEFAULT)))))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
