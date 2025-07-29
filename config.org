@@ -177,10 +177,10 @@ TODO: Update this to regenerate from org
 ** Indent Highlighting
 #+BEGIN_SRC emacs-lisp
 (use-package highlight-indent-guides
-  :hook
-  (prog-mode . highlight-indent-guides-mode)
   :custom
-  (highlight-indent-guides-method 'character))
+  (highlight-indent-guides-method 'character)
+  :hook
+  (prog-mode . highlight-indent-guides-mode))
 #+END_SRC
 
 ** Fancy Modeline
