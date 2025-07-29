@@ -33,9 +33,10 @@ clashes when =org= is installed with Straight (as a dep) later in the config.
 ** Mac Specific Env Setup
 #+BEGIN_SRC emacs-lisp
 (use-package exec-path-from-shell
+  :if (memq window-system '(mac ns x))
   :config
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
+  (exec-path-from-shell-initialize))
+
 #+END_SRC
 
 * General Setup
