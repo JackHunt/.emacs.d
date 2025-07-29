@@ -25,9 +25,9 @@ clashes when =org= is installed with Straight (as a dep) later in the config.
   (auto-package-update-interval 7)
   (auto-package-update-prompt-before-update t)
   (auto-package-update-hide-results t)
+  (auto-package-update-at-time "11:00")
   :config
-  (auto-package-update-maybe)
-  (auto-package-update-at-time "11:00"))
+  (auto-package-update-maybe))
 #+END_SRC
 
 ** Mac Specific Env Setup
