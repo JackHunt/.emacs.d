@@ -4,12 +4,11 @@
 # --
 @property
 def ${1:property_name}(self):
-    return self._${1:property_name}
+    if not hasattr(self, "_${1}"):
+        raise AttributeError("${1} has not been set.")
+    return self._${1}
 
-@${1:property_name}.setter
-def ${1:property_name}(self, value):
-    if not hasattr(self, "_${1:property_name}"):
-        raise ValueError("${1:property_name} has not been set.")
-
-    self._${1:property_name} = value
+@${1}.setter
+def ${1}(self, value):
+    self._${1} = value
 $0
