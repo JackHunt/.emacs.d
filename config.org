@@ -552,6 +552,13 @@ autoreconf -i
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 #+END_SRC
 
+** Olivetti Mode
+#+BEGIN_SRC emacs-lisp
+(use-package olivetti
+  :hook
+  ((org-mode . olivetti-mode)))
+#+END_SRC
+
 ** Utility Functions
 *** Theme to CSS
 TODO: Verify this still works
