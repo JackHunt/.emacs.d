@@ -4,7 +4,10 @@
 # --
 class ${1:ContextManager}:
     def __enter__(self):
-        pass $0
+        $0
+        # Setup code here
+        # return resource if needed
 
     def __exit__(self, exc_type, exc_value, traceback):
-    	pass
+        # Cleanup code here
+        pass
