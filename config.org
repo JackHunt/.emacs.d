@@ -147,6 +147,13 @@ TODO: Update this to regenerate from org
 (with-eval-after-load 'tramp
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
 
+(use-package tramp
+  :ensure nil  ;; built-in
+  :custom
+  (tramp-login-shell "/bin/bash")
+  (tramp-login-args '("-l"))
+  :config
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
 #+END_SRC
 
 * Prettifying
