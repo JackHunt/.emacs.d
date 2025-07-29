@@ -430,7 +430,7 @@ Note that for these to render properly, =nerd-icons-install-fonts= must be run.
   ((python-mode . lsp)
    (ess-mode . lsp)
    (haskell-mode . lsp)
-   (LaTeX-mode . lsp)
+   (latex-mode . lsp)
    (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
 #+END_SRC
