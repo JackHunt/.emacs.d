@@ -1,8 +1,8 @@
-#+TITLE: My Emacs Configuration
+#+TITLE: Emacs Configuration
 #+AUTHOR: Jack Hunt
 #+OPTIONS: toc:3
 
-* Straight Setup
+* Straight
 Really, it would make more sense intuitively for this to be further down,
 but it's easier to just make sure the package management stuff is dealt
 with up front before proceeding when this is tangled out and executed.
@@ -39,8 +39,40 @@ clashes when =org= is installed with Straight (as a dep) later in the config.
 
 #+END_SRC
 
-* General Setup
-** UI Behaviour
+* General Emacs
+** Commands
+| Task                               | Cmd            | Alt Cmd              | Notes                   |
+|------------------------------------+----------------+----------------------+-------------------------|
+| Get help                           | =C-h=          |                      | =C-h t= to run tutorial |
+| Find file                          | =C-x C-f=      |                      |                         |
+| Save buffer                        | =C-x C-s=      |                      |                         |
+| Write to file                      | =C-x C-w=      |                      |                         |
+| Move to begin/end of line          | =C-a= or =C-e= |                      |                         |
+| Move forward/backward a character  | =C-f= or =C-b= |                      |                         |
+| Move to next/previous line         | =C-n= or =C-p= |                      |                         |
+| Move forward/backward a screenfull | =C-v= or =M-v= | =ESC-v= for backward |                         |
+| Move to begin/end of buffer        | =M-<= or =M->= | =ESC-<= or =ESC->=   |                         |
+| Move forward/backward one word     | =M-f= or =M-b= | =ESC-f= or =ESC-b=   |                         |
+| Delete character                   | =C-d=          |                      |                         |
+| Delete word                        | =M-d=          | =ESC-d=              |                         |
+| Kill rest of line                  | =C-k=          |                      |                         |
+| Set marker                         | =C-SPC=        | =C-@=                |                         |
+| Kill region                        | =C-w=          |                      |                         |
+| Yank                               | =C-y=          |                      |                         |
+| Copy region as kill                | =M-w=          | =ESC-w=              |                         |
+| Search forward/backward            | =C-s= or =C-r= |                      |                         |
+| Query and replace                  | =M-%=          | =ESC-%=              |                         |
+| Delete (zero) current window       | =C-x 0=        |                      |                         |
+| Double window                      | =C-x 2=        |                      |                         |
+| Switch to buffer                   | =C-x b=        |                      |                         |
+| Move to other window               | =C-x o=        |                      |                         |
+| List buffers                       | =C-x C-b=      |                      |                         |
+| Keyboard quit (cancel command)     | =C-g=          |                      |                         |
+| Repeat command                     | =C-u=          |                      |                         |
+| Undo                               | =C-x u=        |                      |                         |
+| Execute extended command           | =M-x=          | =ESC-x=              |                         |
+** Setup
+*** UI Behaviour
 #+BEGIN_SRC emacs-lisp
 (defun jh/setup-ui ()
   "Configure UI elements for graphical display."
@@ -56,19 +88,25 @@ clashes when =org= is installed with Straight (as a dep) later in the config.
   (jh/setup-ui))
 #+END_SRC
 
-** Font
+*** Font
 #+BEGIN_SRC emacs-lisp
 (set-face-attribute 'default nil :font "Fira Code Retina" :height 110)
 #+END_SRC
 
-** Unmap =C-[=
+*** Unmap Annoying Keys
 =C-[= maps to =ESC=, which is annoyingly close to =C-p=, meaning it's easy
 to accidentally close all windows.
 #+BEGIN_SRC emacs-lisp
 (global-unset-key (kbd "ESC ESC ESC"))
 #+END_SRC
 
-** General Editor Setup
+Unmap the =C-<mousewheel>= keys for zooming.
+#+BEGIN_SRC emacs-lisp
+(global-unset-key (kbd "<C-wheel-up>"))
+(global-unset-key (kbd "<C-wheel-down>"))
+#+END_SRC
+
+*** General Editor Setup
 Match parens, quotations etc.
 #+BEGIN_SRC emacs-lisp
 (use-package elec-pair
@@ -114,7 +152,7 @@ Line & column numbers. Disabled for org & term.
   (add-hook hook (lambda () (display-line-numbers-mode 0))))
 #+END_SRC
 
-** Mac Specific
+*** Mac Specific
 #+BEGIN_SRC emacs-lisp
 (when (eq system-type 'darwin)
   (defun jh/insert-sharp ()
@@ -126,7 +164,7 @@ Line & column numbers. Disabled for org & term.
 
 #+END_SRC
 
-** Helper Functions
+*** Helper Functions
 TODO: Update this to regenerate from org
 #+BEGIN_SRC emacs-lisp
 (defun jh/reload-config ()
@@ -355,6 +393,13 @@ Then =ivy-rich=.
 #+END_SRC
 
 ** Company
+*** Commands
+| Task                       | Cmd                    | Alt Cmd | Notes |
+|----------------------------+------------------------+---------+-------|
+| Select the n'th suggestion | =M-(n)=                |         |       |
+| Search through completions | =C-s= / =C-r= / =C-o=  |         |       |
+| Manual completion          | =M-x company-complete= |         |       |
+*** Setup
 #+BEGIN_SRC emacs-lisp
 (use-package company
   :after
@@ -379,6 +424,15 @@ Then =ivy-rich=.
 #+END_SRC
 
 ** Yasnippet
+*** Commands
+| Task               | Cmd                           | Alt Cmd     | Notes                  |
+|--------------------+-------------------------------+-------------+------------------------|
+| New snippet        | =M-x yas-new-snippet=         | =C-c / C-n= |                        |
+| Goto snippet       | =M-x yas-visit-snippet-file=  | =C-c / C-v= |                        |
+| Snippet major mode | =M-x snippet-mode=            |             | For editing snippets   |
+| Load snippet       | =M-x yas-load-snippet-buffer= | =C-c C-l=   | When in =snippet-mode= |
+| Try snippet        | =M-x yas-tryout-snippet=      | =C-c C-t=   | When in =snippet-mode= |
+*** Setup
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
   :after company
@@ -391,10 +445,16 @@ Then =ivy-rich=.
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
   (with-eval-after-load 'company
     (add-to-list 'company-backends 'company-yasnippet)))
-
 #+END_SRC
 
 ** Magit
+*** Commands
+| Task                | Cmd       | Alt Cmd               | Notes                 |
+|---------------------+-----------+-----------------------+-----------------------|
+| Magit status        | =C-x g=   | =magit-status=        | Git status            |
+| Magit dispatch      | =C-x M-g= | =magit-dispatch=      | Git commands          |
+| Magit file dispatch | =C-c M-g= | =magit-file-dispatch= | Git commands for file |
+*** Setup
 #+BEGIN_SRC emacs-lisp
 (use-package magit
   :bind
@@ -414,6 +474,19 @@ TODO: Check out the other buffers.
 #+END_SRC
 
 ** Flycheck
+*** Commands
+| Task                     | Cmd                                | Alt Cmd     | Notes |
+|--------------------------+------------------------------------+-------------+-------|
+| Maually check buffer     | =M-x flycheck-buffer=              | =C-c ! c=   |       |
+| Verify setup             | =M-x flycheck-verify-setup=        | =C-c ! v=   |       |
+| Select checker           | =M-x flycheck-select-checker=      | =C-c ! s=   |       |
+| Disable checker          | =M-x flycheck-disable-checker=     | =C-c ! x=   |       |
+| Goto next error          | =M-x flycheck-next-error=          | =C-c ! n=   |       |
+| Goto previous error      | =M-x flycheck-previous-error=      | =C-c ! p=   |       |
+| Goto first error         | =M-x flycheck-first-error=         |             |       |
+| Put error into kill ring | =M-x flycheck-copy-errors-as-kill= | =C-c ! C-w= |       |
+| List errors              | =M-x flycheck-list-errors=         | =C-c ! l=   |       |
+*** Setup
 #+BEGIN_SRC emacs-lisp
 (use-package flycheck
   :init
@@ -421,6 +494,15 @@ TODO: Check out the other buffers.
 #+END_SRC
 
 ** Flyspell
+*** Commands
+| Task                        | Cmd                              | Alt Cmd | Notes              |
+|-----------------------------+----------------------------------+---------+--------------------|
+| Check current word spelling | =M-x ispell-word=                | =M-$=   |                    |
+| Spell check current buffer  | =M-x flyspell-buffer=            |         |                    |
+| Enable =flyspell-mode=      | =M-x flyspell-mode=              |         |                    |
+| Goto next error             | =M-x flyspell-goto-next-error=   | =C-,=   | In =flyspell-mode= |
+| Correct an error            | =M-x flyspell-auto-correct-word= | =C-.=   | In =flyspell-mode= |
+*** Setup
 #+BEGIN_SRC emacs-lisp
 (use-package flyspell
   :hook (text-mode . flyspell-mode)
@@ -438,6 +520,27 @@ TODO: Check out the other buffers.
 #+END_SRC
 
 * LSP
+** Commands
+| Task                       | Cmd       | Alt Cmd | Notes |
+|----------------------------+-----------+---------+-------|
+| Format document            | =s-l = == |         |       |
+| Format region              | =s-l = r= |         |       |
+| Toggle code lens           | =s-l T l= |         |       |
+| Toggle symbol highlighting | =s-l T h= |         |       |
+| Line info minor mode       | =s-l T S= |         |       |
+| Find definitions           | =s-l g g= |         |       |
+| Find references            | =s-l g r= |         |       |
+| Find implementations       | =s-l g i= |         |       |
+| Find type definitions      | =s-l g t= |         |       |
+| Symbol declarations        | =s-l g d= |         |       |
+| Find symbol                | =s-l g a= |         |       |
+| Show signature & docs      | =s-l h h= |         |       |
+| Rename symbol & references | =s-l r r= |         |       |
+| Peek definition            | =s-l G g= |         |       |
+| Peek references            | =s-l G r= |         |       |
+| Peek implementation        | =s-l G i= |         |       |
+| Peek symbols               | =s-l G s= |         |       |
+** Setup
 First setup =lsp-mode=.
 #+BEGIN_SRC emacs-lisp
 (use-package lsp-mode
@@ -595,7 +698,19 @@ autoreconf -i
 #+END_SRC
 
 * Org Mode
-** Fancy Bullets
+** Commands
+| Task                          | Cmd                   | Alt Cmd | Notes |
+|-------------------------------+-----------------------+---------+-------|
+| Move heading up/down          | =M-up= / =M-down=     |         |       |
+| Promote/demote heading        | =M-left= / =M-right=  |         |       |
+| Scroll TODO state             | =M-left= / =M-right=  |         |       |
+| Agenda                        | =C-c a=               |         |       |
+| Add/remove document in agenda | =C-c [= / =C-c ]=     |         |       |
+| Add date or time/date         | =C-c .= / =C-u C-c .= |         |       |
+| Add tag                       | =C-c C-c=             |         |       |
+| Export                        | =C-c C-e=             |         |       |
+** Setup
+*** Fancy Bullets
 #+BEGIN_SRC emacs-lisp
 (use-package org-bullets
   :custom
@@ -604,7 +719,7 @@ autoreconf -i
   (org-mode . org-bullets-mode))
 #+END_SRC
 
-** Olivetti Mode
+*** Olivetti Mode
 #+BEGIN_SRC emacs-lisp
 (use-package olivetti
   :config
@@ -613,8 +728,8 @@ autoreconf -i
   ((org-mode . olivetti-mode)))
 #+END_SRC
 
-** Utility Functions
-*** Theme to CSS
+*** Utility Functions
+**** Theme to CSS
 TODO: Verify this still works
 #+BEGIN_SRC emacs-lisp
 (defun jh/theme-to-css (filename)
@@ -642,7 +757,7 @@ TODO: Verify this still works
     ))
 #+END_SRC
 
-*** Export to Jupyter
+**** Export to Jupyter
 #+BEGIN_SRC emacs-lisp
 (defun jh/org-to-ipynb-with-pandoc ()
   "Convert the current Org mode buffer to a Jupyter Notebook using Pandoc."
@@ -660,14 +775,14 @@ TODO: Verify this still works
       (message "Converted '%s' to '%s'" org-file ipynb-file))))
 #+END_SRC
 
-*** Archive Done Tasks
+**** Archive Done Tasks
 #+BEGIN_SRC emacs-lisp
 (defun jh/org-archive-done-kill-tasks ()
   (interactive)
   (org-map-entries 'org-archive-subtree "1/DONE|1/KILL" 'file))
 #+END_SRC
 
-*** Update Last Modified Timestamp
+**** Update Last Modified Timestamp
 #+BEGIN_SRC emacs-lisp
 (defun jh/org-last-modified-update ()
   "Update '#+last_modified:' if it exists in an org buffer."
@@ -677,7 +792,7 @@ TODO: Verify this still works
       (replace-match (concat "#+last_modified: " (format-time-string "[%Y-%m-%d %a %H:%M]"))))))
 #+END_SRC
 
-*** New Capture via Alfred
+**** New Capture via Alfred
 #+BEGIN_SRC emacs-lisp
 ;; https://github.com/jjasghar/alfred-org-capture/blob/master/el/alfred-org-capture.el
 (defun make-orgcapture-frame ()
@@ -690,7 +805,7 @@ TODO: Verify this still works
   (org-capture))
 #+END_SRC
 
-** Setup
+*** Setup
 #+BEGIN_SRC emacs-lisp
 (defun jh/display-ansi-colours ()
   "Fixes kernel output in emacs-jupyter"
