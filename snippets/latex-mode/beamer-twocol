@@ -9,6 +9,6 @@
       $0
 
     \column{0.5\textwidth}
-      %%
+      ${2:%%}
   \end{columns}
 \end{frame}
