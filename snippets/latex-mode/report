@@ -6,19 +6,26 @@
 
 \begin{document}
 
-\title{${1:Report Title}} \author{${2:Author}} \date{\today}
+\title{${1:Report Title}}
+\author{${2:Author}}
+\date{\today}
 
 \maketitle
 
 \tableofcontents
 
-\chapter{Introduction} ${3:}
+\chapter{Introduction}
+${3:}
+
 $0
 
-\chapter{Methodology} ${4:}
+\chapter{Methodology}
+${4:}
 
-\chapter{Results} ${5:}
+\chapter{Results}
+${5:}
 
-\chapter{Conclusion} ${6:}
+\chapter{Conclusion}
+${6:}
 
 \end{document}
