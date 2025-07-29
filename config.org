@@ -349,7 +349,7 @@ Note that for these to render properly, =nerd-icons-install-fonts= must be run.
   :bind
   (:map company-active-map
         ("<tab>" . company-complete-selection)
-        ("<tab>" . company-indent-or-complete-common))
+        ("C-<tab>" . company-indent-or-complete-common))
   :custom
   (company-minimum-prefix-length 2)
   (company-idle-delay 0.0))
