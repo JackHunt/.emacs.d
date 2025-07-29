@@ -4,7 +4,9 @@
 # --
 try:
     $0
-except ${2:ExceptionType} as ${3:exception}:
-    raise ${3:exception}
-finally:
-    pass
+except ${2:Exception} as ${3:e}:
+    # Handle exception here
+    raise ${3}
+${4:finally:
+    # Cleanup code here
+    pass}
