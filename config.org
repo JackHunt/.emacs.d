@@ -81,9 +81,10 @@ to accidentally close all windows.
 (add-hook 'before-save-hook (lambda () (delete-trailing-whitespace)))
 
 ;; Tabs are evil.
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
-(setq indent-line-function #'insert-tab)
+(setq-default
+  indent-tabs-mode nil
+  tab-width 4
+  indent-line-function #'insert-tab)
 
 ;; Don't store backup files with sources - it's a pain with git.
 (setq backup-directory-alist
