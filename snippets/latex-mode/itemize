@@ -3,5 +3,6 @@
 # key: itemize
 # --
 \begin{itemize}
-  \item $0
+  \item ${1:First item}
+  ${2:\item }
 \end{itemize}
