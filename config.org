@@ -586,10 +586,10 @@ autoreconf -i
 ** Olivetti Mode
 #+BEGIN_SRC emacs-lisp
 (use-package olivetti
-  :hook
-  ((org-mode . olivetti-mode))
   :config
-  (setq olivetti-body-width 100))
+  (setq olivetti-body-width 100)
+  :hook
+  ((org-mode . olivetti-mode)))
 #+END_SRC
 
 ** Utility Functions
