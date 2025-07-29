@@ -3,4 +3,7 @@
 # key: pgenerator
 # --
 def ${1:generator_name}(${2:args}):
-    ${3:yield ${4:value}}
+    """Generator that yields ${4:value}.
+    """
+    yield ${4:value}
+    $0
