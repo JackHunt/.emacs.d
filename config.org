@@ -539,22 +539,25 @@ autoreconf -i
 
 ** LaTeX
 #+BEGIN_SRC emacs-lisp
-(when (version< "28.0" emacs-version)
-  (use-package auctex
-    :defer t
-    :hook
-    ((LaTeX-mode-hook . visual-line-mode)
-     (LaTeX-mode-hook . flyspell-mode)
-     (LaTeX-mode-hook . flycheck-mode)
-     (LaTeX-mode-hook . LaTeX-math-mode))
-    :config
-    (setq TeX-auto-save t)
-    (setq TeX-parse-self t)
-    (setq reftex-plug-into-AUCTeX t)
-    (setq TeX-PDF-mode t)
-    (setq LaTeX-indent-level 2)
-    (setq LaTeX-item-indent 2)
-    (setq TeX-brace-indent-level 2)))
+(use-package auctex
+  :if (version< "28.0" emacs-version)
+  :defer t
+  :hook
+  (LaTeX-mode
+   . (lambda ()
+       (visual-line-mode 1)
+       (flyspell-mode 1)
+       (flycheck-mode 1)
+       (LaTeX-math-mode 1)))
+  :config
+  (setq TeX-auto-save t
+        TeX-parse-self t
+        reftex-plug-into-AUCTeX t
+        TeX-PDF-mode t
+        LaTeX-indent-level 2
+        LaTeX-item-indent 2
+        TeX-brace-indent-level 2))
+
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
