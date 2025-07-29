@@ -668,6 +668,9 @@ TODO: Verify this still works
         org-src-preserve-indentation t
         org-src-fontify-natively t)
 
+  ;; Make LaTeX previews a bit bigger.
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+
   ;; (setq org-src-window-setup 'current-window)
   (setq org-ellipsis "⤵")
 
