@@ -142,12 +142,6 @@ TODO: Update this to regenerate from org
 
 ** TRAMP
 #+BEGIN_SRC emacs-lisp
-(setq tramp-login-shell "/bin/bash")
-(setq tramp-login-args '(("-l")))
-
-(with-eval-after-load 'tramp
-  (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
-
 (use-package tramp
   :ensure nil  ;; built-in
   :straight nil  ;; built-in
