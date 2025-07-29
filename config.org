@@ -72,7 +72,8 @@ to accidentally close all windows.
 #+BEGIN_SRC emacs-lisp
 ;; Match parens, quotations etc.
 (use-package elec-pair
-  :ensure nil ; built-in
+  :ensure nil  ;; built-in
+  :straight nil  ;; built-in
   :config
   (electric-pair-mode 1))
 
@@ -149,6 +150,7 @@ TODO: Update this to regenerate from org
 
 (use-package tramp
   :ensure nil  ;; built-in
+  :straight nil  ;; built-in
   :custom
   (tramp-login-shell "/bin/bash")
   (tramp-login-args '("-l"))
