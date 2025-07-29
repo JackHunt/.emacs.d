@@ -71,7 +71,11 @@ to accidentally close all windows.
 ** General Editor Setup
 #+BEGIN_SRC emacs-lisp
 ;; Match parens, quotations etc.
-(electric-pair-mode 1)
+(use-package elec-pair
+  :ensure nil ; built-in
+  :config
+  (electric-pair-mode 1))
+
 
 ;; Nuke trailing whitespace on save.
 (add-hook 'before-save-hook (lambda () (delete-trailing-whitespace)))
