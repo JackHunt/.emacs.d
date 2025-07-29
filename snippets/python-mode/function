@@ -2,7 +2,13 @@
 # name: Function
 # key: def
 # --
-def ${1:function_name}(${2:arguments}) -> ${3:return_type}:
-    """${4:Description}
+def ${1:function_name}(${2:args}) -> ${3:None}:
+    """${4:Summary.}
+
+    Args:
+        ${2} (${5:type}): ${6:Description}
+
+    Returns:
+        ${3}: ${7:Return description}
     """
     $0
