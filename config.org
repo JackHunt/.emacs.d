@@ -557,7 +557,6 @@ autoreconf -i
         LaTeX-indent-level 2
         LaTeX-item-indent 2
         TeX-brace-indent-level 2))
-
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
