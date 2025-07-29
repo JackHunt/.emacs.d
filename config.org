@@ -311,9 +311,11 @@ Note that for these to render properly, =nerd-icons-install-fonts= must be run.
    :map ivy-reverse-i-search-map
    ("C-k" . ivy-previous-line)
    ("C-d" . ivy-reverse-i-search-kill))
+  :custom
+  (ivy-use-virtual-buffers t)
   :config
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t))
+  (ivy-mode 1))
+
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
