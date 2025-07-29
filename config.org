@@ -560,14 +560,12 @@ autoreconf -i
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-(when (version< "28.0" emacs-version)
-  (use-package reftex
-    :after
-    auctex
-    :hook
-    (LaTeX-mode-hook . turn-on-reftex)
-    :config
-    (setq reftex-plug-into-AUCTeX t)))
+(use-package reftex
+  :if (version< "28.0" emacs-version)
+  :after auctex
+  :hook (LaTeX-mode . turn-on-reftex)
+  :config
+  (setq reftex-plug-into-AUCTeX t))
 #+END_SRC
 
 ** YAML
