@@ -364,16 +364,17 @@ Note that for these to render properly, =nerd-icons-install-fonts= must be run.
 ** Yasnippet
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
-  :after
-  company-mode
+  :after company
   :init
-  (yas-global-mode)
+  (yas-global-mode 1)
   :bind
-  ("C-c y s" . yas-insert-snippet)
-  ("C-c y v" . yas-visit-snippet-file)
+  (("C-c y s" . yas-insert-snippet)
+   ("C-c y v" . yas-visit-snippet-file))
   :config
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
-  (add-to-list 'company-backends 'company-yasnippet))
+  (with-eval-after-load 'company
+    (add-to-list 'company-backends 'company-yasnippet)))
+
 #+END_SRC
 
 ** Magit
