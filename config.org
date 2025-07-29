@@ -106,8 +106,14 @@ to accidentally close all windows.
 
 ** Mac Specific
 #+BEGIN_SRC emacs-lisp
-(if (eq system-type 'darwin)
-    (global-set-key (kbd "M-3") #'(lambda () (interactive) (insert "#"))))
+(when (eq system-type 'darwin)
+  (defun jh/insert-sharp ()
+    "Insert a sharp (#) character."
+    (interactive)
+    (insert "#"))
+
+  (global-set-key (kbd "M-3") #'jh/insert-sharp))
+
 #+END_SRC
 
 ** Helper Functions
