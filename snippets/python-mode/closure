@@ -2,8 +2,8 @@
 # name: Closure
 # key: pclosure
 # --
-def ${1:outerfunction}(${2:outerarg}):
-    def ${3:innerfunction}(${4:innerarg}):
-         $0
+def ${1:outer_function}(${2:outer_arg}):
+    def ${3:inner_function}(${4:inner_arg}):
+        $0
 
-    return ${3:inner_function}
+    return ${3}
