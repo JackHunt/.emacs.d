@@ -391,8 +391,10 @@ Note that for these to render properly, =nerd-icons-install-fonts= must be run.
 ;; https://magit.vc/manual/magit/Switching-Buffers.html
 (use-package diff-hl
   :hook
-  ((magit-pre-refresh-hook . diff-hl-magit-pre-refresh)
-   (magit-post-refresh-hook . diff-hl-magit-post-refresh)))
+  (prog-mode . diff-hl-mode)
+  (magit-pre-refresh-hook . diff-hl-magit-pre-refresh)
+  (magit-post-refresh-hook . diff-hl-magit-post-refresh))
+
 #+END_SRC
 
 ** Flycheck
