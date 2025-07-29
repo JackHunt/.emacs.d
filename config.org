@@ -504,11 +504,11 @@ autoreconf -i
 
 #+BEGIN_SRC emacs-lisp
 (use-package sphinx-doc
+  :after python
   :config
   (setq sphinx-doc-include-types t)
   :hook
-  (python-mode . sphinx-doc-mode)
-  :after python)
+  (python-mode . sphinx-doc-mode))
 #+END_SRC
 
 ** R & STAN
