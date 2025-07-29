@@ -407,11 +407,9 @@ Note that for these to render properly, =nerd-icons-install-fonts= must be run.
 ** Flyspell
 #+BEGIN_SRC emacs-lisp
 (use-package flyspell
-  :init
-  (dolist (hook '(text-mode-hook))
-    (add-hook hook (lambda () (flyspell-mode 1))))
-  :config
-  (setq ispell-dictionary "british"))
+  :hook (text-mode . flyspell-mode)
+  :custom
+  (ispell-dictionary "british"))
 #+END_SRC
 
 * Terminals
