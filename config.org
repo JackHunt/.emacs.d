@@ -120,9 +120,13 @@ to accidentally close all windows.
 TODO: Update this to regenerate from org
 #+BEGIN_SRC emacs-lisp
 (defun jh/reload-config ()
-  "Reload .emacs.d/init.el"
+  "Reload the Emacs configuration file."
   (interactive)
-  (load-file "~/.emacs.d/init.el"))
+  (condition-case err
+      (progn
+        (load-file (expand-file-name "init.el" user-emacs-directory))
+        (message "Emacs config reloaded successfully."))
+    (error (message "Error reloading config: %s" err))))
 #+END_SRC
 
 * Environment Setup
