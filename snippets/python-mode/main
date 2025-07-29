@@ -4,12 +4,13 @@
 # --
 import argparse
 
-def main(**kwargs):
+def main(args):
     pass
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='${1:Program description}')
-    parser.add_argument($0)
+    parser.add_argument('${2:--option}', help='${3:Option description}')
+    # Add more parser.add_argument(...) calls here
 
     args = parser.parse_args()
-    main(**args)
+    main(args)
