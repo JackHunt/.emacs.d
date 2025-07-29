@@ -69,32 +69,41 @@ to accidentally close all windows.
 #+END_SRC
 
 ** General Editor Setup
+Match parens, quotations etc.
 #+BEGIN_SRC emacs-lisp
-;; Match parens, quotations etc.
 (use-package elec-pair
   :ensure nil  ;; built-in
   :straight nil  ;; built-in
   :config
   (electric-pair-mode 1))
+#+END_SRC
 
-
-;; Nuke trailing whitespace on save.
+Nuke trailing whitespace on save.
+#+BEGIN_SRC emacs-lisp
 (add-hook 'before-save-hook (lambda () (delete-trailing-whitespace)))
+#+END_SRC
 
-;; Tabs are evil.
+Tabs are evil.
+#+BEGIN_SRC emacs-lisp
 (setq-default
   indent-tabs-mode nil
   tab-width 4
   indent-line-function #'insert-tab)
+#+END_SRC
 
-;; Don't store backup files with sources - it's a pain with git.
+Don't store backup files with sources - it's a pain with git.
+#+BEGIN_SRC emacs-lisp
 (setq backup-directory-alist
       `(("." . , (expand-file-name "backups" temporary-file-directory))))
+#+END_SRC
 
-;; Ditto for autosaves.
+Ditto for autosaves.
+#+BEGIN_SRC emacs-lisp
 (setq auto-save-file-name-transforms `((".*" , temporary-file-directory t)))
+#+END_SRC
 
-;; Line & column numbers. Disabled for org & term.
+Line & column numbers. Disabled for org & term.
+#+BEGIN_SRC emacs-lisp
 (column-number-mode 1)
 (global-display-line-numbers-mode t)
 
@@ -233,8 +242,8 @@ Note that for these to render properly, =nerd-icons-install-fonts= must be run.
 #+END_SRC
 
 ** Ligatures
+Note, Emacs 27.x has issues with ligatures
 #+BEGIN_SRC emacs-lisp
-;; Emacs 27.x has issues with ligatures
 (use-package ligature
   :if (version<= "28.0" emacs-version)
   :config
@@ -269,9 +278,13 @@ Note that for these to render properly, =nerd-icons-install-fonts= must be run.
 ** Learning and Typing
 #+BEGIN_SRC emacs-lisp
 (use-package speed-type)
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp
 (use-package key-quiz)
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp
 (use-package which-key
   :diminish
   which-key-mode
@@ -279,7 +292,6 @@ Note that for these to render properly, =nerd-icons-install-fonts= must be run.
   (which-key-mode)
   :custom
   (which-key-idle-delay 1))
-
 #+END_SRC
 
 ** Better Docs for =C-h v= etc
@@ -294,6 +306,7 @@ Note that for these to render properly, =nerd-icons-install-fonts= must be run.
 
 * General Modes
 ** Ivy & Counsel
+First, setup =ivy=.
 #+BEGIN_SRC emacs-lisp
 (use-package ivy
   :diminish
@@ -317,6 +330,7 @@ Note that for these to render properly, =nerd-icons-install-fonts= must be run.
   (ivy-mode 1))
 #+END_SRC
 
+Then =counsel=.
 #+BEGIN_SRC emacs-lisp
 (use-package counsel
   :after helpful
@@ -333,6 +347,7 @@ Note that for these to render properly, =nerd-icons-install-fonts= must be run.
   (counsel-mode 1))
 #+END_SRC
 
+Then =ivy-rich=.
 #+BEGIN_SRC emacs-lisp
 (use-package ivy-rich
   :init
@@ -353,7 +368,9 @@ Note that for these to render properly, =nerd-icons-install-fonts= must be run.
   :custom
   (company-minimum-prefix-length 2)
   (company-idle-delay 0.0))
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp
 (use-package company-box
   :after
   company
@@ -386,15 +403,14 @@ Note that for these to render properly, =nerd-icons-install-fonts= must be run.
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 #+END_SRC
 
+TODO: Check out the other buffers.
+[[https://magit.vc/manual/magit/Switching-Buffers.html]]
 #+BEGIN_SRC emacs-lisp
-;; TODO: Check out the other buffers.
-;; https://magit.vc/manual/magit/Switching-Buffers.html
 (use-package diff-hl
   :hook
   (prog-mode . diff-hl-mode)
   (magit-pre-refresh-hook . diff-hl-magit-pre-refresh)
   (magit-post-refresh-hook . diff-hl-magit-post-refresh))
-
 #+END_SRC
 
 ** Flycheck
@@ -422,6 +438,7 @@ Note that for these to render properly, =nerd-icons-install-fonts= must be run.
 #+END_SRC
 
 * LSP
+First setup =lsp-mode=.
 #+BEGIN_SRC emacs-lisp
 (use-package lsp-mode
   :init
@@ -435,6 +452,7 @@ Note that for these to render properly, =nerd-icons-install-fonts= must be run.
   :commands lsp)
 #+END_SRC
 
+Then =lsp-ui=.
 #+BEGIN_SRC emacs-lisp
 (use-package lsp-ui
   :after
@@ -443,7 +461,10 @@ Note that for these to render properly, =nerd-icons-install-fonts= must be run.
   lsp-ui-mode
   :hook
   (lsp-mode . lsp-ui-mode))
+#+END_SRC
 
+Finally, =ivy= integration with =lsp-ivy=.
+#+BEGIN_SRC emacs-lisp
 (use-package lsp-ivy
   :after
   lsp-mode
@@ -451,6 +472,7 @@ Note that for these to render properly, =nerd-icons-install-fonts= must be run.
   lsp-ivy-workspace-symbol)
 #+END_SRC
 
+* DAP
 #+BEGIN_SRC emacs-lisp
 (use-package dap-mode
   :after lsp-mode)
@@ -488,13 +510,12 @@ autoreconf -i
 
 ** Python
 #+BEGIN_SRC emacs-lisp
+(setenv "WORKON_HOME" (expand-file-name "~/venvs"))
+
 (use-package pyvenv
-  :after
-  python-mode
+  :after python
   :config
   (pyvenv-mode 1))
-
-(setenv "WORKON_HOME" "~/venvs")
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -674,7 +695,9 @@ TODO: Verify this still works
 (defun jh/display-ansi-colours ()
   "Fixes kernel output in emacs-jupyter"
   (ansi-color-apply-on-region (point-min) (point-max)))
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp
 (defun jh/org-mode-setup ()
   ;; Update roam timestamps.
   (add-hook 'before-save-hook 'jh/org-last-modified-update nil 'local)
