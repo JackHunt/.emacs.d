@@ -315,7 +315,6 @@ Note that for these to render properly, =nerd-icons-install-fonts= must be run.
   (ivy-use-virtual-buffers t)
   :config
   (ivy-mode 1))
-
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
