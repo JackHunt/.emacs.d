@@ -2,7 +2,6 @@
 # name: Block
 # key: blk
 # --
-\begin{block}
-  {${1:Block Title}}
+\begin{block}{${1:Block Title}}
   $0
 \end{block}
