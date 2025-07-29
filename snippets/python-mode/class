@@ -4,19 +4,20 @@
 # --
 class ${1:ClassName}:
     def __init__(self):
-    	pass
+        pass
 
     def __str__(self) -> str:
-    	${5:return "${1:ClassName}"}
+        return "${1}"
 
-    def __repr__(self) -> ${1:ClassName}:
-        ${6:return "${1:ClassName}()"}
+    def __repr__(self) -> str:
+        return "${1}()"
 
     def __eq__(self, other) -> bool:
-    	pass
+        pass
 
-    def __lt__(self, other) - bool:
-    	pass
+    def __lt__(self, other) -> bool:
+        pass
 
     def __gt__(self, other) -> bool:
-    	pass
+        pass
+$0
