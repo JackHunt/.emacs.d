@@ -94,7 +94,7 @@ to accidentally close all windows.
 (setq auto-save-file-name-transforms `((".*" , temporary-file-directory t)))
 
 ;; Line & column numbers. Disabled for org & term.
-(column-number-mode)
+(column-number-mode 1)
 (global-display-line-numbers-mode t)
 
 (dolist (mode '(org-mode-hook
