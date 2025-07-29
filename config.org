@@ -401,7 +401,7 @@ Note that for these to render properly, =nerd-icons-install-fonts= must be run.
 #+BEGIN_SRC emacs-lisp
 (use-package flycheck
   :init
-  (global-flycheck-mode))
+  (global-flycheck-mode 1))
 #+END_SRC
 
 ** Flyspell
