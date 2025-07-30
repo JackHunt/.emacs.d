@@ -73,6 +73,7 @@ clashes when =org= is installed with Straight (as a dep) later in the config.
 | Execute extended command           | =M-x=          | =ESC-x=              |                         |
 | View Info (books etc)              | =C-h i=        |                      |                         |
 | Un-narrow a buffer                 | =C-x n w=      |                      | Useful for info         |
+| Bookmarks                          | =C-x r=        |                      |                         |
 ** Setup
 *** UI Behaviour
 #+BEGIN_SRC emacs-lisp
