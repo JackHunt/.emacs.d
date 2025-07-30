@@ -429,6 +429,30 @@ Then =ivy-rich=.
   (company-mode . company-box-mode))
 #+END_SRC
 
+** Projectile
+#+BEGIN_SRC emacs-lisp
+(use-package projectile
+  :diminish projectile-mode
+  :config
+  (projectile-global-mode)
+  :custom
+  ((projectile-completion-system 'ivy))
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :init
+  (when (file-directory-p "~/repos")
+    (setq projectile-project-search-path '("~/repos")))
+  (setq projectile-switch-project-action #'projectile-dired))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package counsel-projectile
+  :after
+  projectile
+  :config
+  (counsel-projectile-mode))
+#+END_SRC
+
 ** Yasnippet
 *** Commands
 | Task               | Cmd                           | Alt Cmd     | Notes                  |
