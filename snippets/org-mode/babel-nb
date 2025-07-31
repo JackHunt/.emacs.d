@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: Org Babel Notebook
+# key: babel-nb
+# --
+
+#+TITLE: ${1:title}
+#+AUTHOR: Jack Hunt
+#+OPTIONS: toc:nil num:nil
+#+PROPERTY: header-args :results output :exports both
+#+PROPERTY: header-args:python :session ${2:sess_name}_py
+#+PROPERTY: header-args:R :session ${2}_R
+#+STARTUP: inlineimages
+
+* Setup
+#+BEGIN_SRC ${3:lang}
+$0
+#+END_SRC
