@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: Code Block for Plots (Python)
+# key: src-plot-py
+# --
+#+BEGIN_SRC python :results graphics file :file ${1:fname}.png :dpi 300
+plt.figure()
+
+$0
+
+plt.savefig("${1}.png")
+"${1}.png"
+#+END_SRC
