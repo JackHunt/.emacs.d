@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Code Block for Plots (R, GnuPlot)
+# key: src-plot
+# --
+#+BEGIN_SRC ${1:language} :results graphics file :file ${2:fname}.png :dpi 300
+$0
+#+END_SRC
